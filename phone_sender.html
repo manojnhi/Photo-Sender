@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Photo bhejein</title>
+<style>
+:root{--bg:#f3f5f9;--ink:#0f172a;--mut:#56667e;--line:#cfd8e6;--acc:#2269e8;--acc-d:#1a54bd;--ok:#15803d;--err:#b91c1c;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;padding:max(20px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom));display:flex;justify-content:center;-webkit-text-size-adjust:100%}
+main{width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px}
+h1{margin:4px 0 0;font-size:27px;line-height:1.12;letter-spacing:-.015em}
+.sub{margin:0;color:var(--mut);font-size:14.5px}
+
+/* passport-sized frame with cutting-guide corners (same motif as the studio tool) */
+.frame{position:relative;align-self:center;width:min(100%,calc(46vh*35/45));aspect-ratio:35/45;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;display:none}
+.frame.has img{display:block}
+.frame .hint{padding:0 22px;text-align:center;color:var(--mut);font-size:14.5px}
+.frame.has .hint{display:none}
+.frame i{position:absolute;width:22px;height:22px;border:0 solid var(--ink);z-index:2;pointer-events:none}
+.frame i:nth-of-type(1){left:8px;top:8px;border-left-width:3px;border-top-width:3px}
+.frame i:nth-of-type(2){right:8px;top:8px;border-right-width:3px;border-top-width:3px}
+.frame i:nth-of-type(3){left:8px;bottom:8px;border-left-width:3px;border-bottom-width:3px}
+.frame i:nth-of-type(4){right:8px;bottom:8px;border-right-width:3px;border-bottom-width:3px}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;font-weight:700;border-radius:12px;min-height:54px;padding:10px 12px;cursor:pointer;border:1.5px solid var(--ink);background:#fff;color:var(--ink);-webkit-tap-highlight-color:transparent}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:3px solid #8ab4ff;outline-offset:2px}
+button.pri{background:var(--acc);border-color:var(--acc);color:#fff;font-size:17px;min-height:58px}
+button.pri:active{background:var(--acc-d)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+.bar{height:8px;border-radius:99px;background:#dfe6f1;overflow:hidden;display:none}
+.bar.on{display:block}
+.bar b{display:block;height:100%;width:0;background:var(--acc);transition:width .15s linear}
+#msg{min-height:22px;margin:0;font-size:15px;font-weight:600;color:var(--mut)}
+#msg.ok{color:var(--ok)}
+#msg.err{color:var(--err)}
+.note{margin:2px 0 0;font-size:12.5px;color:var(--mut)}
+#again{display:none}
+@media (prefers-reduced-motion:reduce){.bar b{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Photo bhejein</h1>
+    <p class="sub">Aapki photo seedha shop ke computer par pahunchegi.</p>
+  </header>
+
+  <div class="frame" id="frame" aria-label="Photo preview">
+    <i></i><i></i><i></i><i></i>
+    <img id="prev" alt="Chuni hui photo">
+    <div class="hint">Photo chunne ke baad yahan dikhegi.<br>Chehra seedha aur saaf ho.</div>
+  </div>
+
+  <div class="row">
+    <button type="button" id="cam">Camera se lein</button>
+    <button type="button" id="gal">Gallery se chunein</button>
+  </div>
+  <input type="file" id="fcam" accept="image/*" capture="environment" aria-label="Camera">
+  <input type="file" id="fgal" accept="image/*" aria-label="Gallery">
+
+  <button type="button" class="pri" id="send" disabled>PC par bhejein</button>
+  <div class="bar" id="barwrap"><b id="bar"></b></div>
+  <p id="msg" role="status" aria-live="polite"></p>
+  <button type="button" id="again">Ek aur photo bhejein</button>
+
+  <p class="note">Photo phone par hi lock (encrypt) hoti hai, isliye sirf is shop ka computer ise khol sakta hai.</p>
+</main>
+
+<script>
+(function(){
+'use strict';
+var RELAY='https://ntfy.sh';   /* free public relay; photo is end-to-end encrypted before upload */
+var $=function(id){return document.getElementById(id)};
+var h=new URLSearchParams(location.hash.replace(/^#/,''));
+var T=h.get('t')||'',K=h.get('k')||'';
+var blob=null,busy=false,pcKey=null,prevUrl=null;
+
+function unb64u(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function say(cls,txt){var m=$('msg');m.className=cls||'';m.textContent=txt||''}
+function bar(p){$('bar').style.width=Math.round(Math.max(0,Math.min(1,p))*100)+'%'}
+
+try{
+  var raw=unb64u(K);
+  if(!/^[A-Za-z0-9_-]{8,64}$/.test(T)||raw.length!==65||raw[0]!==4)throw 0;
+  if(!(window.crypto&&crypto.subtle))throw 1;
+  pcKey=raw;
+}catch(e){
+  pcKey=null;
+  ['cam','gal'].forEach(function(id){$(id).disabled=true});
+  say('err',e===1?'Ye browser secure photo bhejne ko support nahi karta. Chrome ya Safari mein kholein.':'Ye QR link adhura hai. Shop se QR dobara scan karne ko kahein.');
+}
+
+function shrink(file){
+  return new Promise(function(res,rej){
+    var u=URL.createObjectURL(file),im=new Image();
+    im.onload=function(){
+      try{
+        var M=2400,w0=im.naturalWidth,h0=im.naturalHeight,s=Math.min(1,M/Math.max(w0,h0)),
+            w=Math.max(1,Math.round(w0*s)),hh=Math.max(1,Math.round(h0*s)),
+            c=document.createElement('canvas');
+        c.width=w;c.height=hh;
+        var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,hh);x.drawImage(im,0,0,w,hh);
+        URL.revokeObjectURL(u);
+        c.toBlob(function(b){b?res(b):rej(new Error('blob'))},'image/jpeg',.92);
+      }catch(e){rej(e)}
+    };
+    im.onerror=function(){URL.revokeObjectURL(u);rej(new Error('img'))};
+    im.src=u;
+  });
+}
+
+function show(b){
+  if(prevUrl)URL.revokeObjectURL(prevUrl);
+  prevUrl=URL.createObjectURL(b);
+  $('prev').src=prevUrl;$('frame').classList.add('has');
+}
+
+async function prepare(file){
+  if(busy)return;
+  $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);
+  say('','Photo taiyaar ho rahi hai...');
+  try{
+    blob=await shrink(file);
+    show(blob);
+    $('send').disabled=false;
+    say('','Photo theek lage to "PC par bhejein" dabayein.');
+  }catch(e){
+    blob=null;$('send').disabled=true;
+    say('err','Ye photo khul nahi payi. Koi dusri photo chunein.');
+  }
+}
+
+function pick(inp){var f=inp.files&&inp.files[0];inp.value='';if(f)prepare(f)}
+$('cam').onclick=function(){$('fcam').click()};
+$('gal').onclick=function(){$('fgal').click()};
+$('fcam').onchange=function(){pick(this)};
+$('fgal').onchange=function(){pick(this)};
+
+/* ECDH(P-256) + AES-GCM: only the shop computer's private key can open the photo */
+async function seal(bytes){
+  var curve={name:'ECDH',namedCurve:'P-256'};
+  var pcPub=await crypto.subtle.importKey('raw',pcKey,curve,false,[]);
+  var eph=await crypto.subtle.generateKey(curve,true,['deriveKey']);
+  var ephRaw=new Uint8Array(await crypto.subtle.exportKey('raw',eph.publicKey));
+  var key=await crypto.subtle.deriveKey({name:'ECDH',public:pcPub},eph.privateKey,{name:'AES-GCM',length:256},false,['encrypt']);
+  var iv=crypto.getRandomValues(new Uint8Array(12));
+  var ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv:iv,additionalData:ephRaw},key,bytes));
+  var out=new Uint8Array(1+65+12+ct.length);
+  out[0]=1;out.set(ephRaw,1);out.set(iv,66);out.set(ct,78);
+  return out;
+}
+
+function upload(body){
+  return new Promise(function(res,rej){
+    var x=new XMLHttpRequest();
+    x.open('PUT',RELAY+'/'+T);
+    x.timeout=180000;
+    x.upload.onprogress=function(e){if(e.lengthComputable)bar(e.loaded/e.total)};
+    x.onload=function(){if(x.status>=200&&x.status<300)res();else{var er=new Error('http');er.status=x.status;rej(er)}};
+    x.onerror=function(){rej(new Error('net'))};
+    x.ontimeout=function(){rej(new Error('timeout'))};
+    x.send(body);
+  });
+}
+
+$('send').onclick=async function(){
+  if(!blob||busy||!pcKey)return;
+  busy=true;$('send').disabled=true;$('cam').disabled=true;$('gal').disabled=true;
+  $('barwrap').classList.add('on');bar(0);say('','Photo lock ho rahi hai...');
+  try{
+    var body=await seal(new Uint8Array(await blob.arrayBuffer()));
+    say('','Bheji ja rahi hai...');
+    await upload(body);
+    bar(1);
+    say('ok','Photo bhej di gayi. Ab shop ke computer par dekhein.');
+    blob=null;$('again').style.display='block';
+  }catch(e){
+    $('send').disabled=false;
+    var s=e&&e.status;
+    say('err',s===413?'Photo bahut badi hai. Dusri photo chunein.':s===429?'Abhi bahut zyada requests hain. Thodi der baad dobara dabayein.':'Photo nahi ja payi. Internet check karke dobara dabayein.');
+  }finally{
+    busy=false;$('cam').disabled=!pcKey;$('gal').disabled=!pcKey;
+  }
+};
+
+$('again').onclick=function(){
+  $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);
+  $('frame').classList.remove('has');$('prev').removeAttribute('src');
+  if(prevUrl){URL.revokeObjectURL(prevUrl);prevUrl=null}
+  $('send').disabled=true;say('','');
+};
+})();
+</script>
+</body>
+</html>
