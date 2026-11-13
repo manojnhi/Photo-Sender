@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<title>Photo bhejein</title>
+<title>Photo / File bhejein</title>
 <style>
 :root{--bg:#f3f5f9;--ink:#0f172a;--mut:#56667e;--line:#cfd8e6;--acc:#2269e8;--acc-d:#1a54bd;--ok:#15803d;--err:#b91c1c;color-scheme:light}
 *{box-sizing:border-box}
@@ -15,17 +15,26 @@ main{width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px}
 h1{margin:4px 0 0;font-size:27px;line-height:1.12;letter-spacing:-.015em}
 .sub{margin:0;color:var(--mut);font-size:14.5px}
 
-/* passport-sized frame with cutting-guide corners (same motif as the studio tool) */
-.frame{position:relative;align-self:center;width:min(100%,calc(46vh*35/45));aspect-ratio:35/45;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;display:none}
-.frame.has img{display:block}
-.frame .hint{padding:0 22px;text-align:center;color:var(--mut);font-size:14.5px}
+/* file list with cutting-guide corners (same motif as the studio tool) */
+.frame{position:relative;width:100%;min-height:180px;background:#fff;border:1px solid var(--line);padding:14px 12px}
+.frame .hint{display:flex;align-items:center;justify-content:center;min-height:150px;padding:0 22px;text-align:center;color:var(--mut);font-size:14.5px}
 .frame.has .hint{display:none}
 .frame i{position:absolute;width:22px;height:22px;border:0 solid var(--ink);z-index:2;pointer-events:none}
 .frame i:nth-of-type(1){left:8px;top:8px;border-left-width:3px;border-top-width:3px}
 .frame i:nth-of-type(2){right:8px;top:8px;border-right-width:3px;border-top-width:3px}
 .frame i:nth-of-type(3){left:8px;bottom:8px;border-left-width:3px;border-bottom-width:3px}
 .frame i:nth-of-type(4){right:8px;bottom:8px;border-right-width:3px;border-bottom-width:3px}
+#list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:8px 6px}
+.it{position:relative;aspect-ratio:1;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.it img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.it .ext{font-weight:800;font-size:17px;color:var(--acc);text-transform:uppercase;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+.it .nm{font-size:10.5px;color:var(--mut);padding:0 5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it .sz{position:absolute;left:4px;bottom:4px;font-size:10px;font-weight:700;background:rgba(15,23,42,.72);color:#fff;border-radius:99px;padding:1px 7px;z-index:2}
+.it .st{position:absolute;right:4px;bottom:4px;z-index:2;font-size:12px;font-weight:800;border-radius:99px;padding:0 6px;background:#fff;color:var(--ok);display:none}
+.it.done .st{display:block}
+.it.bad{border-color:var(--err)}
+.it.bad .st{display:block;color:var(--err)}
+.it .rm{position:absolute;right:4px;top:4px;z-index:3;width:26px;height:26px;min-height:0;padding:0;border-radius:99px;font-size:14px;line-height:1;border:0;background:rgba(15,23,42,.78);color:#fff}
 
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 button{font:inherit;font-weight:700;border-radius:12px;min-height:54px;padding:10px 12px;cursor:pointer;border:1.5px solid var(--ink);background:#fff;color:var(--ink);-webkit-tap-highlight-color:transparent}
@@ -50,43 +59,48 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 <body>
 <main>
   <header>
-    <h1>Photo bhejein</h1>
-    <p class="sub">Aapki photo seedha shop ke computer par pahunchegi.</p>
+    <h1>Photo / File bhejein</h1>
+    <p class="sub">Kitni bhi photo ya file (kisi bhi format ki) seedha shop ke computer par pahunchegi.</p>
   </header>
 
-  <div class="frame" id="frame" aria-label="Photo preview">
+  <div class="frame" id="frame" aria-label="Chuni hui files">
     <i></i><i></i><i></i><i></i>
-    <img id="prev" alt="Chuni hui photo">
-    <div class="hint">Photo chunne ke baad yahan dikhegi.<br>Chehra seedha aur saaf ho.</div>
+    <div class="hint">Chuni hui photo / files yahan dikhengi.<br>ID card ke liye pehle Front, phir Back chunein.</div>
+    <div id="list"></div>
   </div>
 
   <div class="row">
     <button type="button" id="cam">Camera se lein</button>
-    <button type="button" id="gal">Gallery se chunein</button>
+    <button type="button" id="gal">Gallery / File chunein</button>
   </div>
   <input type="file" id="fcam" accept="image/*" capture="environment" aria-label="Camera">
-  <input type="file" id="fgal" accept="image/*" aria-label="Gallery">
+  <input type="file" id="fgal" accept="*/*" multiple aria-label="Gallery ya file">
 
   <button type="button" class="pri" id="send" disabled>PC par bhejein</button>
   <div class="bar" id="barwrap"><b id="bar"></b></div>
   <p id="msg" role="status" aria-live="polite"></p>
-  <button type="button" id="again">Ek aur photo bhejein</button>
+  <button type="button" id="again">Aur photo / file bhejein</button>
 
-  <p class="note">Photo phone par hi lock (encrypt) hoti hai, isliye sirf is shop ka computer ise khol sakta hai.</p>
+  <p class="note">Sab kuch phone par hi lock (encrypt) hota hai, isliye sirf is shop ka computer ise khol sakta hai. Ek file 14 MB tak, ek baar mein 40 files tak.</p>
 </main>
 
 <script>
 (function(){
 'use strict';
-var RELAY='https://ntfy.sh';   /* free public relay; photo is end-to-end encrypted before upload */
+var RELAY='https://ntfy.sh';   /* free public relay; every file is end-to-end encrypted before upload */
+var MAXFILE=14*1024*1024, MAXN=40;
 var $=function(id){return document.getElementById(id)};
 var h=new URLSearchParams(location.hash.replace(/^#/,''));
 var T=h.get('t')||'',K=h.get('k')||'';
-var blob=null,busy=false,pcKey=null,prevUrl=null;
+var items=[],busy=false,pcKey=null,uid=0;
 
 function unb64u(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
 function say(cls,txt){var m=$('msg');m.className=cls||'';m.textContent=txt||''}
 function bar(p){$('bar').style.width=Math.round(Math.max(0,Math.min(1,p))*100)+'%'}
+function fmt(n){return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
+function extOf(n){var m=/\.([A-Za-z0-9]{1,6})$/.exec(n||'');return m?m[1].toLowerCase():''}
+function isImg(f){return /^image\//i.test(f.type||'')||/^(jpe?g|png|webp|bmp|gif|avif|heic|heif)$/.test(extOf(f.name))}
+function rid(){var a=crypto.getRandomValues(new Uint8Array(8)),s='';for(var i=0;i<a.length;i++)s+=a[i].toString(16).padStart(2,'0');return s}
 
 try{
   var raw=unb64u(K);
@@ -98,6 +112,46 @@ try{
   ['cam','gal'].forEach(function(id){$(id).disabled=true});
   say('err',e===1?'Ye browser secure photo bhejne ko support nahi karta. Chrome ya Safari mein kholein.':'Ye QR link adhura hai. Shop se QR dobara scan karne ko kahein.');
 }
+
+function render(){
+  var L=$('list');
+  items.forEach(function(it){if(it.url&&it.dead){URL.revokeObjectURL(it.url);it.url=null}});
+  L.innerHTML='';
+  items.forEach(function(it){
+    var d=document.createElement('div');d.className='it'+(it.state==='ok'?' done':it.state==='bad'?' bad':'');
+    if(it.url){var im=document.createElement('img');im.src=it.url;im.alt='';im.onerror=function(){im.remove();addExt()};d.appendChild(im)}
+    else addExt();
+    function addExt(){if(d.querySelector('.ext'))return;var e=document.createElement('div');e.className='ext';e.textContent=extOf(it.file.name)||'FILE';var n=document.createElement('div');n.className='nm';n.textContent=it.file.name;d.append(e,n)}
+    var sz=document.createElement('span');sz.className='sz';sz.textContent=fmt(it.file.size);
+    var st=document.createElement('span');st.className='st';st.textContent=it.state==='ok'?'\u2713':'!';
+    d.append(sz,st);
+    if(!busy){var x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label','Hatayein');x.textContent='\u2715';
+      x.onclick=function(){if(it.url)URL.revokeObjectURL(it.url);items=items.filter(function(q){return q!==it});render()};d.appendChild(x)}
+    L.appendChild(d);
+  });
+  $('frame').classList.toggle('has',items.length>0);
+  var pend=items.filter(function(q){return q.state!=='ok'}).length;
+  $('send').textContent=pend?'PC par bhejein ('+pend+')':'PC par bhejein';
+  $('send').disabled=busy||!pcKey||!pend;
+}
+
+function addFiles(list){
+  var fs=Array.prototype.slice.call(list||[]),skipped=0,big=0;
+  fs.forEach(function(f){
+    if(items.length>=MAXN){skipped++;return}
+    if(!isImg(f)&&f.size>MAXFILE){big++;return}
+    items.push({id:++uid,file:f,state:'',url:isImg(f)&&!/hei[cf]$/.test(extOf(f.name))?URL.createObjectURL(f):null});
+  });
+  $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);
+  var m=[];if(skipped)m.push(skipped+' file zyada thi (max '+MAXN+')');if(big)m.push(big+' file 14 MB se badi thi');
+  say(m.length?'err':'',m.length?m.join('. ')+'.':(items.length?'Theek lage to "PC par bhejein" dabayein.':''));
+  render();
+}
+function pick(inp){var f=inp.files;var a=f?Array.prototype.slice.call(f):[];inp.value='';if(a.length)addFiles(a)}
+$('cam').onclick=function(){$('fcam').click()};
+$('gal').onclick=function(){$('fgal').click()};
+$('fcam').onchange=function(){pick(this)};
+$('fgal').onchange=function(){pick(this)};
 
 function shrink(file){
   return new Promise(function(res,rej){
@@ -118,53 +172,40 @@ function shrink(file){
   });
 }
 
-function show(b){
-  if(prevUrl)URL.revokeObjectURL(prevUrl);
-  prevUrl=URL.createObjectURL(b);
-  $('prev').src=prevUrl;$('frame').classList.add('has');
-}
-
-async function prepare(file){
-  if(busy)return;
-  $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);
-  say('','Photo taiyaar ho rahi hai...');
-  try{
-    blob=await shrink(file);
-    show(blob);
-    $('send').disabled=false;
-    say('','Photo theek lage to "PC par bhejein" dabayein.');
-  }catch(e){
-    blob=null;$('send').disabled=true;
-    say('err','Ye photo khul nahi payi. Koi dusri photo chunein.');
+/* image -> smaller JPEG (fast upload); anything else (PDF, HEIC the browser cannot read, docs...) -> sent as is */
+async function prepare(it){
+  var f=it.file,name=f.name||('file-'+it.id),type=f.type||'application/octet-stream',blob=f;
+  if(isImg(f)&&!/^image\/gif$/i.test(f.type||'')){
+    try{blob=await shrink(f);type='image/jpeg';name=name.replace(/\.[^.\/]+$/,'')+'.jpg'}catch(e){blob=f}
   }
+  if(blob.size>MAXFILE)throw new Error('big');
+  return{name:name,type:type,bytes:new Uint8Array(await blob.arrayBuffer())};
 }
 
-function pick(inp){var f=inp.files&&inp.files[0];inp.value='';if(f)prepare(f)}
-$('cam').onclick=function(){$('fcam').click()};
-$('gal').onclick=function(){$('fgal').click()};
-$('fcam').onchange=function(){pick(this)};
-$('fgal').onchange=function(){pick(this)};
-
-/* ECDH(P-256) + AES-GCM: only the shop computer's private key can open the photo */
-async function seal(bytes){
+/* ECDH(P-256) + AES-GCM: only the shop computer's private key can open it.
+   format v2: [2][eph pub 65][iv 12][ciphertext]; plaintext = [4-byte meta length][meta JSON][file bytes] */
+async function seal(meta,bytes){
   var curve={name:'ECDH',namedCurve:'P-256'};
   var pcPub=await crypto.subtle.importKey('raw',pcKey,curve,false,[]);
   var eph=await crypto.subtle.generateKey(curve,true,['deriveKey']);
   var ephRaw=new Uint8Array(await crypto.subtle.exportKey('raw',eph.publicKey));
   var key=await crypto.subtle.deriveKey({name:'ECDH',public:pcPub},eph.privateKey,{name:'AES-GCM',length:256},false,['encrypt']);
   var iv=crypto.getRandomValues(new Uint8Array(12));
-  var ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv:iv,additionalData:ephRaw},key,bytes));
+  var mj=new TextEncoder().encode(JSON.stringify(meta));
+  var pt=new Uint8Array(4+mj.length+bytes.length);
+  new DataView(pt.buffer).setUint32(0,mj.length);pt.set(mj,4);pt.set(bytes,4+mj.length);
+  var ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv:iv,additionalData:ephRaw},key,pt));
   var out=new Uint8Array(1+65+12+ct.length);
-  out[0]=1;out.set(ephRaw,1);out.set(iv,66);out.set(ct,78);
+  out[0]=2;out.set(ephRaw,1);out.set(iv,66);out.set(ct,78);
   return out;
 }
 
-function upload(body){
+function upload(body,onp){
   return new Promise(function(res,rej){
     var x=new XMLHttpRequest();
     x.open('PUT',RELAY+'/'+T);
-    x.timeout=180000;
-    x.upload.onprogress=function(e){if(e.lengthComputable)bar(e.loaded/e.total)};
+    x.timeout=240000;
+    x.upload.onprogress=function(e){if(e.lengthComputable)onp(e.loaded/e.total)};
     x.onload=function(){if(x.status>=200&&x.status<300)res();else{var er=new Error('http');er.status=x.status;rej(er)}};
     x.onerror=function(){rej(new Error('net'))};
     x.ontimeout=function(){rej(new Error('timeout'))};
@@ -173,30 +214,47 @@ function upload(body){
 }
 
 $('send').onclick=async function(){
-  if(!blob||busy||!pcKey)return;
-  busy=true;$('send').disabled=true;$('cam').disabled=true;$('gal').disabled=true;
-  $('barwrap').classList.add('on');bar(0);say('','Photo lock ho rahi hai...');
+  var todo=items.filter(function(q){return q.state!=='ok'});
+  if(!todo.length||busy||!pcKey)return;
+  busy=true;render();['cam','gal'].forEach(function(id){$(id).disabled=true});
+  $('barwrap').classList.add('on');bar(0);
+  var bad=0,sent=0,prepared=[];
   try{
-    var body=await seal(new Uint8Array(await blob.arrayBuffer()));
-    say('','Bheji ja rahi hai...');
-    await upload(body);
+    /* 1) sabko taiyaar karo, taaki PC ko pata ho ki is batch mein kitni files hain */
+    for(var i=0;i<todo.length;i++){
+      say('','Taiyaar ho rahi hain '+(i+1)+'/'+todo.length+'...');bar(i/todo.length*.3);
+      try{prepared.push({it:todo[i],p:await prepare(todo[i])})}catch(e){todo[i].state='bad';bad++}
+    }
+    render();
+    var n=prepared.length,b=rid(),lastErr=null;
+    /* 2) ek ek karke lock karke bhejo */
+    for(var k=0;k<n;k++){
+      var P=prepared[k];
+      say('','Bheji ja rahi hai '+(k+1)+'/'+n+'...');
+      try{
+        var body=await seal({v:2,b:b,i:k,n:n,name:P.p.name,type:P.p.type},P.p.bytes);
+        await upload(body,function(f){bar(.3+.7*((k+f)/n))});
+        P.it.state='ok';sent++;
+      }catch(e){P.it.state='bad';bad++;lastErr=e;if(e&&e.status===429)break}
+      P.p=null;render();
+    }
     bar(1);
-    say('ok','Photo bhej di gayi. Ab shop ke computer par dekhein.');
-    blob=null;$('again').style.display='block';
+    if(!bad){say('ok',sent+(sent>1?' files bhej di gayi. ':' file bhej di gayi. ')+'Ab shop ke computer par dekhein.');$('again').style.display='block';}
+    else{var s=lastErr&&lastErr.status;
+      say('err',(sent?sent+' bheji gayi, ':'')+bad+' nahi ja payi. '+(s===413?'File bahut badi hai.':s===429?'Abhi bahut requests hain, thodi der baad dobara dabayein.':'Internet check karke dobara dabayein.'));}
   }catch(e){
-    $('send').disabled=false;
-    var s=e&&e.status;
-    say('err',s===413?'Photo bahut badi hai. Dusri photo chunein.':s===429?'Abhi bahut zyada requests hain. Thodi der baad dobara dabayein.':'Photo nahi ja payi. Internet check karke dobara dabayein.');
+    say('err','Kuch gadbad hui. Dobara koshish karein.');
   }finally{
-    busy=false;$('cam').disabled=!pcKey;$('gal').disabled=!pcKey;
+    busy=false;['cam','gal'].forEach(function(id){$(id).disabled=!pcKey});
+    /* bhej chuki files list se hata do, bachi hui (fail) wahin rahengi */
+    items=items.filter(function(q){if(q.state==='ok'){if(q.url)URL.revokeObjectURL(q.url);return false}return true});
+    items.forEach(function(q){if(q.state==='bad')q.state=''});
+    render();
   }
 };
 
 $('again').onclick=function(){
-  $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);
-  $('frame').classList.remove('has');$('prev').removeAttribute('src');
-  if(prevUrl){URL.revokeObjectURL(prevUrl);prevUrl=null}
-  $('send').disabled=true;say('','');
+  $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);say('','');render();
 };
 })();
 </script>
