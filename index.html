@@ -1,26 +1,30 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
-<title>Photo / Document bhejein</title>
+<title>Send Photo / Document</title>
 <style>
 :root{--bg:#f3f5f9;--ink:#0f172a;--mut:#56667e;--line:#cfd8e6;--acc:#2269e8;--acc-d:#1a54bd;--ok:#15803d;--err:#b91c1c;color-scheme:light}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;padding:max(20px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom));display:flex;justify-content:center;-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Bengali","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Gujarati","Noto Sans Kannada","Noto Sans Malayalam","Noto Sans Gurmukhi","Noto Sans Oriya",sans-serif;padding:max(20px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom));display:flex;justify-content:center;-webkit-text-size-adjust:100%}
 main{width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px}
-h1{margin:4px 0 0;font-size:27px;line-height:1.12;letter-spacing:-.015em}
-.sub{margin:0;color:var(--mut);font-size:14.5px}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.top h1{min-width:0;flex:1}
+h1{margin:4px 0 0;font-size:26px;line-height:1.15;letter-spacing:-.015em;overflow-wrap:anywhere}
+.sub{margin:6px 0 0;color:var(--mut);font-size:14.5px}
+.langwrap{flex:none;position:relative}
+#lang{appearance:none;-webkit-appearance:none;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;border:1.5px solid var(--ink);border-radius:10px;min-height:40px;max-width:130px;padding:6px 30px 6px 10px;cursor:pointer}
+#lang:focus-visible{outline:3px solid #8ab4ff;outline-offset:2px}
 
-/* two partitions: Photo (Passport tool) / Documents (WhatsApp Print tool) */
+/* two partitions: Photo (Passport Photo tool) / Document (WhatsApp Print tool) */
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#e3e9f3;border-radius:14px;padding:5px}
-.tab{min-height:50px;border:0;border-radius:10px;background:transparent;color:var(--mut);font-size:15.5px;line-height:1.15;padding:6px 8px}
-.tab small{display:block;font-weight:600;font-size:11px;margin-top:2px;opacity:.9}
+.tab{min-height:50px;border:0;border-radius:10px;background:transparent;color:var(--mut);font-size:16px;line-height:1.15;padding:6px 8px}
 .tab[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(15,23,42,.18)}
-.tab .dot{display:inline-block;width:8px;height:8px;border-radius:99px;background:#c3cddd;margin-right:6px;vertical-align:middle}
+.tab .dot{display:inline-block;width:8px;height:8px;border-radius:99px;background:#c3cddd;margin-right:7px;vertical-align:middle}
 .tab.ready .dot{background:var(--ok)}
 .sec{display:none;flex-direction:column;gap:14px}
 .sec.on{display:flex}
@@ -34,6 +38,7 @@ h1{margin:4px 0 0;font-size:27px;line-height:1.12;letter-spacing:-.015em}
 .frame i:nth-of-type(2){right:8px;top:8px;border-right-width:3px;border-top-width:3px}
 .frame i:nth-of-type(3){left:8px;bottom:8px;border-left-width:3px;border-bottom-width:3px}
 .frame i:nth-of-type(4){right:8px;bottom:8px;border-right-width:3px;border-bottom-width:3px}
+.hint{white-space:pre-line}
 .pframe{align-self:center;width:min(100%,calc(46vh*35/45));aspect-ratio:35/45;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pframe img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;display:none}
 .pframe.has img{display:block}
@@ -72,11 +77,11 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 .note{margin:2px 0 0;font-size:12.5px;color:var(--mut)}
 .again{display:none}
 
-/* "which tool is this QR for?" chooser (only if the QR link has no tool tag) */
+/* "Photo or Document?" popup (only if the scanned QR link has no tool tag) */
 #pick{position:fixed;inset:0;z-index:50;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px}
 #pick.on{display:flex}
 #pick .box{background:#fff;border-radius:16px;padding:20px 18px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px}
-#pick h2{margin:0;font-size:19px}
+#pick h2{margin:0;font-size:20px;line-height:1.25}
 #pick p{margin:0 0 4px;color:var(--mut);font-size:14px}
 @media (prefers-reduced-motion:reduce){.bar b{transition:none}}
 </style>
@@ -84,90 +89,280 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 <body>
 <main>
   <header>
-    <h1>Photo / Document bhejein</h1>
-    <p class="sub">Aapki photo ya file seedha shop ke computer par pahunchegi.</p>
+    <div class="top">
+      <h1 data-i18n="title">Send Photo / Document</h1>
+      <div class="langwrap">
+        <select id="lang" aria-label="Language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bn">বাংলা</option>
+          <option value="mr">मराठी</option>
+          <option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option>
+          <option value="gu">ગુજરાતી</option>
+          <option value="kn">ಕನ್ನಡ</option>
+          <option value="ml">മലയാളം</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+          <option value="or">ଓଡ଼ିଆ</option>
+        </select>
+      </div>
+    </div>
+    <p class="sub" data-i18n="sub">Your photo or file will go straight to the shop's computer.</p>
   </header>
 
-  <div class="tabs" role="tablist" aria-label="Kya bhejna hai">
-    <button type="button" class="tab" id="tabP" role="tab" aria-selected="true" aria-controls="secP"><span class="dot"></span>Photo<small>Passport Photo</small></button>
-    <button type="button" class="tab" id="tabD" role="tab" aria-selected="false" aria-controls="secD"><span class="dot"></span>Documents<small>WhatsApp Print</small></button>
+  <div class="tabs" role="tablist" id="tabs">
+    <button type="button" class="tab" id="tabP" role="tab" aria-selected="true" aria-controls="secP"><span class="dot"></span><span data-i18n="tabP">Photo</span></button>
+    <button type="button" class="tab" id="tabD" role="tab" aria-selected="false" aria-controls="secD"><span class="dot"></span><span data-i18n="tabD">Document</span></button>
   </div>
 
   <!-- ============ PARTITION 1: PHOTO -> Passport Photo tool ============ -->
   <section class="sec on" id="secP" role="tabpanel" aria-labelledby="tabP">
-    <p class="need" id="needP">Passport Photo ke liye shop ka <b>Photo wala QR</b> scan karein, tabhi ye section chalega.</p>
-    <div class="frame pframe" id="pframe" aria-label="Photo preview">
+    <p class="need" id="needP" data-i18n="needP"></p>
+    <div class="frame pframe" id="pframe">
       <i></i><i></i><i></i><i></i>
-      <img id="pprev" alt="Chuni hui photo">
-      <div class="hint">Photo chunne ke baad yahan dikhegi.<br>Chehra seedha aur saaf ho.</div>
+      <img id="pprev" alt="">
+      <div class="hint" data-i18n="hintP"></div>
     </div>
     <div class="row">
-      <button type="button" id="pcam">Camera se lein</button>
-      <button type="button" id="pgal">Gallery se chunein</button>
+      <button type="button" id="pcam" data-i18n="cam"></button>
+      <button type="button" id="pgal" data-i18n="galP"></button>
     </div>
     <input type="file" id="pfcam" accept="image/*" capture="environment" aria-label="Camera">
     <input type="file" id="pfgal" accept="image/*" aria-label="Gallery">
-    <button type="button" class="pri" id="psend" disabled>PC par bhejein</button>
+    <button type="button" class="pri" id="psend" disabled data-i18n="send"></button>
     <div class="bar" id="pbarwrap"><b id="pbar"></b></div>
     <p class="msg" id="pmsg" role="status" aria-live="polite"></p>
-    <button type="button" class="again" id="pagain">Ek aur photo bhejein</button>
-    <p class="note">Photo phone par hi lock (encrypt) hoti hai, isliye sirf is shop ka computer ise khol sakta hai.</p>
+    <button type="button" class="again" id="pagain" data-i18n="againP"></button>
+    <p class="note" data-i18n="noteP"></p>
   </section>
 
-  <!-- ============ PARTITION 2: DOCUMENTS -> WhatsApp Print tool ============ -->
+  <!-- ============ PARTITION 2: DOCUMENT -> WhatsApp Print tool ============ -->
   <section class="sec" id="secD" role="tabpanel" aria-labelledby="tabD">
-    <p class="need" id="needD">Documents ke liye shop ka <b>WhatsApp Print wala QR</b> scan karein, tabhi ye section chalega.</p>
-    <div class="frame dframe" id="dframe" aria-label="Chuni hui files">
+    <p class="need" id="needD" data-i18n="needD"></p>
+    <div class="frame dframe" id="dframe">
       <i></i><i></i><i></i><i></i>
-      <div class="hint">Chuni hui photo / files yahan dikhengi.<br>ID card ke liye pehle Front, phir Back chunein.</div>
+      <div class="hint" data-i18n="hintD"></div>
       <div id="dlist"></div>
     </div>
     <div class="row">
-      <button type="button" id="dcam">Camera se lein</button>
-      <button type="button" id="dgal">Gallery / File chunein</button>
+      <button type="button" id="dcam" data-i18n="cam"></button>
+      <button type="button" id="dgal" data-i18n="galD"></button>
     </div>
     <input type="file" id="dfcam" accept="image/*" capture="environment" aria-label="Camera">
-    <input type="file" id="dfgal" accept="*/*" multiple aria-label="Gallery ya file">
-    <button type="button" class="pri" id="dsend" disabled>PC par bhejein</button>
+    <input type="file" id="dfgal" accept="*/*" multiple aria-label="Gallery / File">
+    <button type="button" class="pri" id="dsend" disabled></button>
     <div class="bar" id="dbarwrap"><b id="dbar"></b></div>
     <p class="msg" id="dmsg" role="status" aria-live="polite"></p>
-    <button type="button" class="again" id="dagain">Aur photo / file bhejein</button>
-    <p class="note">Sab kuch phone par hi lock (encrypt) hota hai, isliye sirf is shop ka computer ise khol sakta hai. Ek file 14 MB tak, ek baar mein 40 files tak.</p>
+    <button type="button" class="again" id="dagain" data-i18n="againD"></button>
+    <p class="note" data-i18n="noteD"></p>
   </section>
 </main>
 
 <div id="pick" role="dialog" aria-modal="true" aria-labelledby="pickT">
   <div class="box">
-    <h2 id="pickT">Ye QR kis ke liye hai?</h2>
-    <p>Is QR mein tool ka naam nahi hai. Jis computer tool se QR bana hai, wo chunein.</p>
-    <button type="button" class="pri" id="pickP">Passport Photo (Photo)</button>
-    <button type="button" class="pri" id="pickD">WhatsApp Print (Documents)</button>
+    <h2 id="pickT" data-i18n="pickT"></h2>
+    <p data-i18n="pickSub"></p>
+    <button type="button" class="pri" id="pickP" data-i18n="pickP"></button>
+    <button type="button" class="pri" id="pickD" data-i18n="pickD"></button>
   </div>
 </div>
-
 <script>
 (function(){
 'use strict';
+var L={
+en:{title:"Send Photo / Document",sub:"Your photo or file will go straight to the shop's computer.",tabP:"Photo",tabD:"Document",tabsAria:"What do you want to send?",
+needP:"To use this section, scan the shop's Photo QR code.",needD:"To use this section, scan the shop's Document QR code.",
+hintP:"Your photo will appear here after you choose it.\nKeep your face straight and clear.",hintD:"Your selected photos / files will appear here.\nFor an ID card, choose Front first, then Back.",
+cam:"Take with Camera",galP:"Choose from Gallery",galD:"Choose Gallery / File",send:"Send to Shop",sendN:"Send to Shop ({n})",againP:"Send another photo",againD:"Send more photos / files",
+noteP:"Your photo is locked (encrypted) on your phone, so only the shop's computer can open it.",
+noteD:"Everything is locked (encrypted) on your phone, so only the shop's computer can open it. Up to 14 MB per file, 40 files at a time.",
+pickT:"Is this QR for Photo or Document?",pickSub:"This QR code doesn't say what it is for. Choose what you want to send.",pickP:"Photo",pickD:"Document",
+badLink:"This QR link is incomplete. Ask the shop to show the QR again and scan it.",noCrypto:"This browser can't send securely. Please open this page in Chrome or Safari.",
+prepP:"Preparing photo...",readyP:"If the photo looks fine, tap “Send to Shop”.",failP:"This photo could not be opened. Please choose another one.",lockP:"Locking photo...",sending:"Sending...",
+sentP:"Photo sent. Now check the shop's computer.",tooBigP:"The photo is too large. Choose another photo.",rate:"Too many requests right now. Please try again in a little while.",net:"Could not send. Check your internet and try again.",
+skipN:"{n} too many files (max {m})",bigN:"{n} file(s) larger than 14 MB",prepD:"Preparing {i}/{n}...",sendingD:"Sending {i}/{n}...",
+sentOne:"{n} file sent. Now check the shop's computer.",sentMany:"{n} files sent. Now check the shop's computer.",failAll:"{b} could not be sent.",failMix:"{s} sent, {b} could not be sent.",
+tooBigD:"The file is too large.",errD:"Something went wrong. Please try again.",remove:"Remove",langAria:"Language"},
+hi:{title:"Photo / Document भेजें",sub:"आपकी फ़ोटो या फ़ाइल सीधे दुकान के कंप्यूटर पर पहुँचेगी।",tabP:"फ़ोटो",tabD:"डॉक्यूमेंट",tabsAria:"क्या भेजना है?",
+needP:"इस सेक्शन के लिए दुकान का फ़ोटो वाला QR स्कैन करें।",needD:"इस सेक्शन के लिए दुकान का डॉक्यूमेंट वाला QR स्कैन करें।",
+hintP:"फ़ोटो चुनने के बाद यहाँ दिखेगी।\nचेहरा सीधा और साफ़ हो।",hintD:"चुनी हुई फ़ोटो / फ़ाइलें यहाँ दिखेंगी।\nID कार्ड के लिए पहले Front, फिर Back चुनें।",
+cam:"कैमरे से लें",galP:"गैलरी से चुनें",galD:"गैलरी / फ़ाइल चुनें",send:"दुकान पर भेजें",sendN:"दुकान पर भेजें ({n})",againP:"एक और फ़ोटो भेजें",againD:"और फ़ोटो / फ़ाइलें भेजें",
+noteP:"फ़ोटो फ़ोन पर ही लॉक (एन्क्रिप्ट) होती है, इसलिए सिर्फ़ दुकान का कंप्यूटर ही इसे खोल सकता है।",
+noteD:"सब कुछ फ़ोन पर ही लॉक (एन्क्रिप्ट) होता है, इसलिए सिर्फ़ दुकान का कंप्यूटर ही इसे खोल सकता है। एक फ़ाइल 14 MB तक, एक बार में 40 फ़ाइलें तक।",
+pickT:"यह QR फ़ोटो के लिए है या डॉक्यूमेंट के लिए?",pickSub:"इस QR में नहीं लिखा कि यह किसके लिए है। जो भेजना है वह चुनें।",pickP:"फ़ोटो",pickD:"डॉक्यूमेंट",
+badLink:"यह QR लिंक अधूरा है। दुकान से QR दोबारा स्कैन करने को कहें।",noCrypto:"यह ब्राउज़र सुरक्षित रूप से नहीं भेज सकता। Chrome या Safari में खोलें।",
+prepP:"फ़ोटो तैयार हो रही है...",readyP:"फ़ोटो ठीक लगे तो “दुकान पर भेजें” दबाएँ।",failP:"यह फ़ोटो खुल नहीं पाई। कोई दूसरी फ़ोटो चुनें।",lockP:"फ़ोटो लॉक हो रही है...",sending:"भेजा जा रहा है...",
+sentP:"फ़ोटो भेज दी गई। अब दुकान के कंप्यूटर पर देखें।",tooBigP:"फ़ोटो बहुत बड़ी है। दूसरी फ़ोटो चुनें।",rate:"अभी बहुत ज़्यादा रिक्वेस्ट हैं। थोड़ी देर बाद फिर दबाएँ।",net:"भेजी नहीं जा सकी। इंटरनेट जाँचकर फिर दबाएँ।",
+skipN:"{n} फ़ाइलें ज़्यादा थीं (अधिकतम {m})",bigN:"{n} फ़ाइलें 14 MB से बड़ी थीं",prepD:"तैयार हो रही हैं {i}/{n}...",sendingD:"भेजी जा रही हैं {i}/{n}...",
+sentOne:"{n} फ़ाइल भेज दी गई। अब दुकान के कंप्यूटर पर देखें।",sentMany:"{n} फ़ाइलें भेज दी गईं। अब दुकान के कंप्यूटर पर देखें।",failAll:"{b} नहीं जा पाईं।",failMix:"{s} भेजी गईं, {b} नहीं जा पाईं।",
+tooBigD:"फ़ाइल बहुत बड़ी है।",errD:"कुछ गड़बड़ हुई। फिर से कोशिश करें।",remove:"हटाएँ",langAria:"भाषा"},
+bn:{title:"ফটো / ডকুমেন্ট পাঠান",sub:"আপনার ফটো বা ফাইল সরাসরি দোকানের কম্পিউটারে পৌঁছাবে।",tabP:"ফটো",tabD:"ডকুমেন্ট",tabsAria:"কী পাঠাতে চান?",
+needP:"এই অংশের জন্য দোকানের ফটো QR স্ক্যান করুন।",needD:"এই অংশের জন্য দোকানের ডকুমেন্ট QR স্ক্যান করুন।",
+hintP:"ফটো বাছার পর এখানে দেখা যাবে।\nমুখ সোজা ও পরিষ্কার রাখুন।",hintD:"বাছাই করা ফটো / ফাইল এখানে দেখা যাবে।\nআইডি কার্ডের জন্য আগে Front, তারপর Back বেছে নিন।",
+cam:"ক্যামেরা দিয়ে তুলুন",galP:"গ্যালারি থেকে বাছুন",galD:"গ্যালারি / ফাইল বাছুন",send:"দোকানে পাঠান",sendN:"দোকানে পাঠান ({n})",againP:"আরেকটি ফটো পাঠান",againD:"আরও ফটো / ফাইল পাঠান",
+noteP:"ফটো ফোনেই লক (এনক্রিপ্ট) হয়, তাই শুধু দোকানের কম্পিউটারই এটি খুলতে পারে।",
+noteD:"সবকিছু ফোনেই লক (এনক্রিপ্ট) হয়, তাই শুধু দোকানের কম্পিউটারই খুলতে পারে। প্রতিটি ফাইল 14 MB পর্যন্ত, একবারে 40টি ফাইল পর্যন্ত।",
+pickT:"এই QR কি ফটোর জন্য নাকি ডকুমেন্টের?",pickSub:"এই QR-এ লেখা নেই এটি কীসের জন্য। যা পাঠাতে চান সেটি বেছে নিন।",pickP:"ফটো",pickD:"ডকুমেন্ট",
+badLink:"এই QR লিংকটি অসম্পূর্ণ। দোকানকে আবার QR স্ক্যান করতে বলুন।",noCrypto:"এই ব্রাউজার নিরাপদে পাঠাতে পারে না। Chrome বা Safari-তে খুলুন।",
+prepP:"ফটো তৈরি হচ্ছে...",readyP:"ফটো ঠিক মনে হলে “দোকানে পাঠান” চাপুন।",failP:"এই ফটোটি খোলা যায়নি। অন্য ফটো বাছুন।",lockP:"ফটো লক হচ্ছে...",sending:"পাঠানো হচ্ছে...",
+sentP:"ফটো পাঠানো হয়েছে। এবার দোকানের কম্পিউটারে দেখুন।",tooBigP:"ফটোটি খুব বড়। অন্য ফটো বাছুন।",rate:"এখন অনেক বেশি অনুরোধ। একটু পরে আবার চাপুন।",net:"পাঠানো যায়নি। ইন্টারনেট দেখে আবার চাপুন।",
+skipN:"{n}টি ফাইল বেশি ছিল (সর্বোচ্চ {m})",bigN:"{n}টি ফাইল 14 MB-এর বেশি ছিল",prepD:"তৈরি হচ্ছে {i}/{n}...",sendingD:"পাঠানো হচ্ছে {i}/{n}...",
+sentOne:"{n}টি ফাইল পাঠানো হয়েছে। এবার দোকানের কম্পিউটারে দেখুন।",sentMany:"{n}টি ফাইল পাঠানো হয়েছে। এবার দোকানের কম্পিউটারে দেখুন।",failAll:"{b}টি পাঠানো যায়নি।",failMix:"{s}টি পাঠানো হয়েছে, {b}টি যায়নি।",
+tooBigD:"ফাইলটি খুব বড়।",errD:"কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।",remove:"সরান",langAria:"ভাষা"},
+mr:{title:"फोटो / डॉक्युमेंट पाठवा",sub:"तुमचा फोटो किंवा फाइल थेट दुकानाच्या कॉम्प्युटरवर पोहोचेल.",tabP:"फोटो",tabD:"डॉक्युमेंट",tabsAria:"काय पाठवायचे आहे?",
+needP:"या विभागासाठी दुकानाचा फोटो QR स्कॅन करा.",needD:"या विभागासाठी दुकानाचा डॉक्युमेंट QR स्कॅन करा.",
+hintP:"फोटो निवडल्यावर इथे दिसेल.\nचेहरा सरळ आणि स्पष्ट ठेवा.",hintD:"निवडलेले फोटो / फाइल्स इथे दिसतील.\nID कार्डसाठी आधी Front, मग Back निवडा.",
+cam:"कॅमेऱ्याने घ्या",galP:"गॅलरीतून निवडा",galD:"गॅलरी / फाइल निवडा",send:"दुकानात पाठवा",sendN:"दुकानात पाठवा ({n})",againP:"आणखी एक फोटो पाठवा",againD:"आणखी फोटो / फाइल्स पाठवा",
+noteP:"फोटो फोनवरच लॉक (एन्क्रिप्ट) होतो, त्यामुळे फक्त दुकानाचा कॉम्प्युटरच तो उघडू शकतो.",
+noteD:"सर्व काही फोनवरच लॉक (एन्क्रिप्ट) होते, त्यामुळे फक्त दुकानाचा कॉम्प्युटरच उघडू शकतो. एका फाइलची मर्यादा 14 MB, एका वेळी 40 फाइल्स.",
+pickT:"हा QR फोटोसाठी आहे की डॉक्युमेंटसाठी?",pickSub:"या QR मध्ये तो कशासाठी आहे ते लिहिलेले नाही. जे पाठवायचे ते निवडा.",pickP:"फोटो",pickD:"डॉक्युमेंट",
+badLink:"ही QR लिंक अपूर्ण आहे. दुकानदाराला QR पुन्हा स्कॅन करायला सांगा.",noCrypto:"हा ब्राउझर सुरक्षितपणे पाठवू शकत नाही. Chrome किंवा Safari मध्ये उघडा.",
+prepP:"फोटो तयार होत आहे...",readyP:"फोटो ठीक वाटला तर “दुकानात पाठवा” दाबा.",failP:"हा फोटो उघडला नाही. दुसरा फोटो निवडा.",lockP:"फोटो लॉक होत आहे...",sending:"पाठवले जात आहे...",
+sentP:"फोटो पाठवला गेला. आता दुकानाच्या कॉम्प्युटरवर पहा.",tooBigP:"फोटो खूप मोठा आहे. दुसरा फोटो निवडा.",rate:"सध्या खूप विनंत्या आहेत. थोड्या वेळाने पुन्हा दाबा.",net:"पाठवता आले नाही. इंटरनेट तपासून पुन्हा दाबा.",
+skipN:"{n} फाइल्स जास्त होत्या (कमाल {m})",bigN:"{n} फाइल्स 14 MB पेक्षा मोठ्या होत्या",prepD:"तयार होत आहेत {i}/{n}...",sendingD:"पाठवले जात आहे {i}/{n}...",
+sentOne:"{n} फाइल पाठवली गेली. आता दुकानाच्या कॉम्प्युटरवर पहा.",sentMany:"{n} फाइल्स पाठवल्या गेल्या. आता दुकानाच्या कॉम्प्युटरवर पहा.",failAll:"{b} पाठवता आल्या नाहीत.",failMix:"{s} पाठवल्या गेल्या, {b} जाऊ शकल्या नाहीत.",
+tooBigD:"फाइल खूप मोठी आहे.",errD:"काहीतरी चुकले. पुन्हा प्रयत्न करा.",remove:"काढा",langAria:"भाषा"},
+ta:{title:"புகைப்படம் / ஆவணம் அனுப்பவும்",sub:"உங்கள் புகைப்படம் அல்லது கோப்பு நேரடியாக கடையின் கணினிக்குச் செல்லும்.",tabP:"புகைப்படம்",tabD:"ஆவணம்",tabsAria:"எதை அனுப்ப வேண்டும்?",
+needP:"இந்தப் பகுதிக்கு கடையின் புகைப்பட QR-ஐ ஸ்கேன் செய்யவும்.",needD:"இந்தப் பகுதிக்கு கடையின் ஆவண QR-ஐ ஸ்கேன் செய்யவும்.",
+hintP:"புகைப்படத்தைத் தேர்ந்தெடுத்த பின் இங்கே தெரியும்.\nமுகம் நேராகவும் தெளிவாகவும் இருக்கட்டும்.",hintD:"தேர்ந்தெடுத்த புகைப்படங்கள் / கோப்புகள் இங்கே தெரியும்.\nID கார்டுக்கு முதலில் Front, பிறகு Back தேர்ந்தெடுக்கவும்.",
+cam:"கேமராவில் எடுக்கவும்",galP:"கேலரியில் தேர்ந்தெடுக்கவும்",galD:"கேலரி / கோப்பைத் தேர்ந்தெடுக்கவும்",send:"கடைக்கு அனுப்பு",sendN:"கடைக்கு அனுப்பு ({n})",againP:"இன்னொரு புகைப்படம் அனுப்பவும்",againD:"மேலும் புகைப்படங்கள் / கோப்புகள் அனுப்பவும்",
+noteP:"புகைப்படம் உங்கள் தொலைபேசியிலேயே பூட்டப்படுகிறது (என்க்ரிப்ட்), அதனால் கடையின் கணினியால் மட்டுமே திறக்க முடியும்.",
+noteD:"எல்லாம் தொலைபேசியிலேயே பூட்டப்படுகிறது (என்க்ரிப்ட்), அதனால் கடையின் கணினியால் மட்டுமே திறக்க முடியும். ஒரு கோப்பு 14 MB வரை, ஒரே நேரத்தில் 40 கோப்புகள் வரை.",
+pickT:"இந்த QR புகைப்படத்திற்கா ஆவணத்திற்கா?",pickSub:"இந்த QR எதற்கானது என்று குறிப்பிடப்படவில்லை. அனுப்ப விரும்புவதைத் தேர்ந்தெடுக்கவும்.",pickP:"புகைப்படம்",pickD:"ஆவணம்",
+badLink:"இந்த QR இணைப்பு முழுமையடையவில்லை. கடையில் QR-ஐ மீண்டும் ஸ்கேன் செய்யச் சொல்லவும்.",noCrypto:"இந்த உலாவி பாதுகாப்பாக அனுப்ப முடியாது. Chrome அல்லது Safari-யில் திறக்கவும்.",
+prepP:"புகைப்படம் தயாராகிறது...",readyP:"புகைப்படம் சரியாக இருந்தால் “கடைக்கு அனுப்பு” அழுத்தவும்.",failP:"இந்தப் புகைப்படத்தைத் திறக்க முடியவில்லை. வேறு புகைப்படத்தைத் தேர்ந்தெடுக்கவும்.",lockP:"புகைப்படம் பூட்டப்படுகிறது...",sending:"அனுப்பப்படுகிறது...",
+sentP:"புகைப்படம் அனுப்பப்பட்டது. இப்போது கடையின் கணினியில் பார்க்கவும்.",tooBigP:"புகைப்படம் மிகப் பெரியது. வேறு புகைப்படத்தைத் தேர்ந்தெடுக்கவும்.",rate:"இப்போது அதிக கோரிக்கைகள் உள்ளன. சிறிது நேரம் கழித்து மீண்டும் அழுத்தவும்.",net:"அனுப்ப முடியவில்லை. இணையத்தைச் சரிபார்த்து மீண்டும் அழுத்தவும்.",
+skipN:"{n} கோப்புகள் அதிகம் (அதிகபட்சம் {m})",bigN:"{n} கோப்புகள் 14 MB-ஐ விடப் பெரியவை",prepD:"தயாராகிறது {i}/{n}...",sendingD:"அனுப்பப்படுகிறது {i}/{n}...",
+sentOne:"{n} கோப்பு அனுப்பப்பட்டது. இப்போது கடையின் கணினியில் பார்க்கவும்.",sentMany:"{n} கோப்புகள் அனுப்பப்பட்டன. இப்போது கடையின் கணினியில் பார்க்கவும்.",failAll:"{b} அனுப்ப முடியவில்லை.",failMix:"{s} அனுப்பப்பட்டன, {b} அனுப்ப முடியவில்லை.",
+tooBigD:"கோப்பு மிகப் பெரியது.",errD:"ஏதோ தவறு நடந்தது. மீண்டும் முயலவும்.",remove:"நீக்கு",langAria:"மொழி"},
+te:{title:"ఫోటో / డాక్యుమెంట్ పంపండి",sub:"మీ ఫోటో లేదా ఫైల్ నేరుగా షాప్ కంప్యూటర్‌కు చేరుతుంది.",tabP:"ఫోటో",tabD:"డాక్యుమెంట్",tabsAria:"ఏమి పంపాలి?",
+needP:"ఈ విభాగం కోసం షాప్ ఫోటో QR స్కాన్ చేయండి.",needD:"ఈ విభాగం కోసం షాప్ డాక్యుమెంట్ QR స్కాన్ చేయండి.",
+hintP:"ఫోటో ఎంచుకున్న తర్వాత ఇక్కడ కనిపిస్తుంది.\nముఖం నేరుగా, స్పష్టంగా ఉండాలి.",hintD:"ఎంచుకున్న ఫోటోలు / ఫైళ్లు ఇక్కడ కనిపిస్తాయి.\nID కార్డ్ కోసం ముందు Front, తర్వాత Back ఎంచుకోండి.",
+cam:"కెమెరాతో తీయండి",galP:"గ్యాలరీ నుండి ఎంచుకోండి",galD:"గ్యాలరీ / ఫైల్ ఎంచుకోండి",send:"షాప్‌కు పంపండి",sendN:"షాప్‌కు పంపండి ({n})",againP:"మరో ఫోటో పంపండి",againD:"మరిన్ని ఫోటోలు / ఫైళ్లు పంపండి",
+noteP:"ఫోటో ఫోన్‌లోనే లాక్ (ఎన్‌క్రిప్ట్) అవుతుంది, కాబట్టి షాప్ కంప్యూటర్ మాత్రమే దాన్ని తెరవగలదు.",
+noteD:"అన్నీ ఫోన్‌లోనే లాక్ (ఎన్‌క్రిప్ట్) అవుతాయి, కాబట్టి షాప్ కంప్యూటర్ మాత్రమే తెరవగలదు. ఒక ఫైల్ 14 MB వరకు, ఒకసారి 40 ఫైళ్ల వరకు.",
+pickT:"ఈ QR ఫోటో కోసమా, డాక్యుమెంట్ కోసమా?",pickSub:"ఈ QRలో అది దేని కోసమో రాయలేదు. మీరు పంపాలనుకున్నది ఎంచుకోండి.",pickP:"ఫోటో",pickD:"డాక్యుమెంట్",
+badLink:"ఈ QR లింక్ అసంపూర్ణంగా ఉంది. షాప్‌ను QR మళ్లీ స్కాన్ చేయమని చెప్పండి.",noCrypto:"ఈ బ్రౌజర్ సురక్షితంగా పంపలేదు. Chrome లేదా Safariలో తెరవండి.",
+prepP:"ఫోటో సిద్ధమవుతోంది...",readyP:"ఫోటో బాగుంటే “షాప్‌కు పంపండి” నొక్కండి.",failP:"ఈ ఫోటో తెరుచుకోలేదు. మరో ఫోటో ఎంచుకోండి.",lockP:"ఫోటో లాక్ అవుతోంది...",sending:"పంపబడుతోంది...",
+sentP:"ఫోటో పంపబడింది. ఇప్పుడు షాప్ కంప్యూటర్‌లో చూడండి.",tooBigP:"ఫోటో చాలా పెద్దది. మరో ఫోటో ఎంచుకోండి.",rate:"ఇప్పుడు చాలా అభ్యర్థనలు ఉన్నాయి. కాసేపటి తర్వాత మళ్లీ నొక్కండి.",net:"పంపలేకపోయాం. ఇంటర్నెట్ చూసి మళ్లీ నొక్కండి.",
+skipN:"{n} ఫైళ్లు ఎక్కువయ్యాయి (గరిష్టం {m})",bigN:"{n} ఫైళ్లు 14 MB కంటే పెద్దవి",prepD:"సిద్ధమవుతున్నాయి {i}/{n}...",sendingD:"పంపబడుతున్నాయి {i}/{n}...",
+sentOne:"{n} ఫైల్ పంపబడింది. ఇప్పుడు షాప్ కంప్యూటర్‌లో చూడండి.",sentMany:"{n} ఫైళ్లు పంపబడ్డాయి. ఇప్పుడు షాప్ కంప్యూటర్‌లో చూడండి.",failAll:"{b} పంపలేకపోయాం.",failMix:"{s} పంపబడ్డాయి, {b} పంపలేకపోయాం.",
+tooBigD:"ఫైల్ చాలా పెద్దది.",errD:"ఏదో తప్పు జరిగింది. మళ్లీ ప్రయత్నించండి.",remove:"తొలగించు",langAria:"భాష"},
+gu:{title:"ફોટો / ડૉક્યુમેન્ટ મોકલો",sub:"તમારો ફોટો અથવા ફાઇલ સીધી દુકાનના કમ્પ્યુટર પર પહોંચશે.",tabP:"ફોટો",tabD:"ડૉક્યુમેન્ટ",tabsAria:"શું મોકલવું છે?",
+needP:"આ વિભાગ માટે દુકાનનો ફોટો QR સ્કૅન કરો.",needD:"આ વિભાગ માટે દુકાનનો ડૉક્યુમેન્ટ QR સ્કૅન કરો.",
+hintP:"ફોટો પસંદ કર્યા પછી અહીં દેખાશે.\nચહેરો સીધો અને સ્પષ્ટ રાખો.",hintD:"પસંદ કરેલા ફોટો / ફાઇલો અહીં દેખાશે.\nID કાર્ડ માટે પહેલાં Front, પછી Back પસંદ કરો.",
+cam:"કૅમેરાથી લો",galP:"ગૅલેરીમાંથી પસંદ કરો",galD:"ગૅલેરી / ફાઇલ પસંદ કરો",send:"દુકાન પર મોકલો",sendN:"દુકાન પર મોકલો ({n})",againP:"બીજો ફોટો મોકલો",againD:"વધુ ફોટો / ફાઇલો મોકલો",
+noteP:"ફોટો ફોન પર જ લૉક (એન્ક્રિપ્ટ) થાય છે, તેથી ફક્ત દુકાનનું કમ્પ્યુટર જ તેને ખોલી શકે છે.",
+noteD:"બધું ફોન પર જ લૉક (એન્ક્રિપ્ટ) થાય છે, તેથી ફક્ત દુકાનનું કમ્પ્યુટર જ ખોલી શકે છે. એક ફાઇલ 14 MB સુધી, એકસાથે 40 ફાઇલો સુધી.",
+pickT:"આ QR ફોટો માટે છે કે ડૉક્યુમેન્ટ માટે?",pickSub:"આ QR માં લખ્યું નથી કે તે શેના માટે છે. જે મોકલવું હોય તે પસંદ કરો.",pickP:"ફોટો",pickD:"ડૉક્યુમેન્ટ",
+badLink:"આ QR લિંક અધૂરી છે. દુકાનદારને QR ફરી સ્કૅન કરવા કહો.",noCrypto:"આ બ્રાઉઝર સુરક્ષિત રીતે મોકલી શકતું નથી. Chrome અથવા Safari માં ખોલો.",
+prepP:"ફોટો તૈયાર થઈ રહ્યો છે...",readyP:"ફોટો બરાબર લાગે તો “દુકાન પર મોકલો” દબાવો.",failP:"આ ફોટો ખૂલ્યો નહીં. બીજો ફોટો પસંદ કરો.",lockP:"ફોટો લૉક થઈ રહ્યો છે...",sending:"મોકલાઈ રહ્યું છે...",
+sentP:"ફોટો મોકલાઈ ગયો. હવે દુકાનના કમ્પ્યુટર પર જુઓ.",tooBigP:"ફોટો બહુ મોટો છે. બીજો ફોટો પસંદ કરો.",rate:"હમણાં ઘણી વિનંતીઓ છે. થોડી વાર પછી ફરી દબાવો.",net:"મોકલી શકાયું નહીં. ઇન્ટરનેટ તપાસીને ફરી દબાવો.",
+skipN:"{n} ફાઇલો વધારે હતી (મહત્તમ {m})",bigN:"{n} ફાઇલો 14 MB કરતાં મોટી હતી",prepD:"તૈયાર થઈ રહી છે {i}/{n}...",sendingD:"મોકલાઈ રહી છે {i}/{n}...",
+sentOne:"{n} ફાઇલ મોકલાઈ ગઈ. હવે દુકાનના કમ્પ્યુટર પર જુઓ.",sentMany:"{n} ફાઇલો મોકલાઈ ગઈ. હવે દુકાનના કમ્પ્યુટર પર જુઓ.",failAll:"{b} મોકલી શકાઈ નહીં.",failMix:"{s} મોકલાઈ, {b} મોકલી શકાઈ નહીં.",
+tooBigD:"ફાઇલ બહુ મોટી છે.",errD:"કંઈક ખોટું થયું. ફરી પ્રયાસ કરો.",remove:"કાઢો",langAria:"ભાષા"},
+kn:{title:"ಫೋಟೋ / ಡಾಕ್ಯುಮೆಂಟ್ ಕಳುಹಿಸಿ",sub:"ನಿಮ್ಮ ಫೋಟೋ ಅಥವಾ ಫೈಲ್ ನೇರವಾಗಿ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್‌ಗೆ ತಲುಪುತ್ತದೆ.",tabP:"ಫೋಟೋ",tabD:"ಡಾಕ್ಯುಮೆಂಟ್",tabsAria:"ಏನು ಕಳುಹಿಸಬೇಕು?",
+needP:"ಈ ವಿಭಾಗಕ್ಕಾಗಿ ಅಂಗಡಿಯ ಫೋಟೋ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",needD:"ಈ ವಿಭಾಗಕ್ಕಾಗಿ ಅಂಗಡಿಯ ಡಾಕ್ಯುಮೆಂಟ್ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
+hintP:"ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿದ ನಂತರ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.\nಮುಖ ನೇರವಾಗಿ ಮತ್ತು ಸ್ಪಷ್ಟವಾಗಿರಲಿ.",hintD:"ಆಯ್ಕೆ ಮಾಡಿದ ಫೋಟೋ / ಫೈಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.\nID ಕಾರ್ಡ್‌ಗೆ ಮೊದಲು Front, ನಂತರ Back ಆಯ್ಕೆ ಮಾಡಿ.",
+cam:"ಕ್ಯಾಮೆರಾದಿಂದ ತೆಗೆಯಿರಿ",galP:"ಗ್ಯಾಲರಿಯಿಂದ ಆಯ್ಕೆಮಾಡಿ",galD:"ಗ್ಯಾಲರಿ / ಫೈಲ್ ಆಯ್ಕೆಮಾಡಿ",send:"ಅಂಗಡಿಗೆ ಕಳುಹಿಸಿ",sendN:"ಅಂಗಡಿಗೆ ಕಳುಹಿಸಿ ({n})",againP:"ಇನ್ನೊಂದು ಫೋಟೋ ಕಳುಹಿಸಿ",againD:"ಇನ್ನಷ್ಟು ಫೋಟೋ / ಫೈಲ್‌ಗಳನ್ನು ಕಳುಹಿಸಿ",
+noteP:"ಫೋಟೋ ಫೋನ್‌ನಲ್ಲಿಯೇ ಲಾಕ್ (ಎನ್‌ಕ್ರಿಪ್ಟ್) ಆಗುತ್ತದೆ, ಆದ್ದರಿಂದ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ಮಾತ್ರ ಅದನ್ನು ತೆರೆಯಬಹುದು.",
+noteD:"ಎಲ್ಲವೂ ಫೋನ್‌ನಲ್ಲಿಯೇ ಲಾಕ್ (ಎನ್‌ಕ್ರಿಪ್ಟ್) ಆಗುತ್ತದೆ, ಆದ್ದರಿಂದ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ಮಾತ್ರ ತೆರೆಯಬಹುದು. ಒಂದು ಫೈಲ್ 14 MB ವರೆಗೆ, ಒಂದು ಬಾರಿಗೆ 40 ಫೈಲ್‌ಗಳವರೆಗೆ.",
+pickT:"ಈ QR ಫೋಟೋಗಾಗಿಯೋ ಡಾಕ್ಯುಮೆಂಟ್‌ಗಾಗಿಯೋ?",pickSub:"ಈ QR ಯಾವುದಕ್ಕಾಗಿ ಎಂದು ಬರೆದಿಲ್ಲ. ನೀವು ಕಳುಹಿಸಲು ಬಯಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿ.",pickP:"ಫೋಟೋ",pickD:"ಡಾಕ್ಯುಮೆಂಟ್",
+badLink:"ಈ QR ಲಿಂಕ್ ಅಪೂರ್ಣವಾಗಿದೆ. ಅಂಗಡಿಯವರಿಗೆ QR ಮತ್ತೆ ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಹೇಳಿ.",noCrypto:"ಈ ಬ್ರೌಸರ್ ಸುರಕ್ಷಿತವಾಗಿ ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. Chrome ಅಥವಾ Safari ನಲ್ಲಿ ತೆರೆಯಿರಿ.",
+prepP:"ಫೋಟೋ ಸಿದ್ಧವಾಗುತ್ತಿದೆ...",readyP:"ಫೋಟೋ ಸರಿಯಾಗಿದ್ದರೆ “ಅಂಗಡಿಗೆ ಕಳುಹಿಸಿ” ಒತ್ತಿ.",failP:"ಈ ಫೋಟೋ ತೆರೆಯಲಾಗಲಿಲ್ಲ. ಬೇರೆ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ.",lockP:"ಫೋಟೋ ಲಾಕ್ ಆಗುತ್ತಿದೆ...",sending:"ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+sentP:"ಫೋಟೋ ಕಳುಹಿಸಲಾಗಿದೆ. ಈಗ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ನೋಡಿ.",tooBigP:"ಫೋಟೋ ತುಂಬಾ ದೊಡ್ಡದು. ಬೇರೆ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ.",rate:"ಈಗ ಹೆಚ್ಚು ವಿನಂತಿಗಳಿವೆ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಒತ್ತಿ.",net:"ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಒತ್ತಿ.",
+skipN:"{n} ಫೈಲ್‌ಗಳು ಹೆಚ್ಚಾಗಿದ್ದವು (ಗರಿಷ್ಠ {m})",bigN:"{n} ಫೈಲ್‌ಗಳು 14 MB ಗಿಂತ ದೊಡ್ಡವು",prepD:"ಸಿದ್ಧವಾಗುತ್ತಿವೆ {i}/{n}...",sendingD:"ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ {i}/{n}...",
+sentOne:"{n} ಫೈಲ್ ಕಳುಹಿಸಲಾಗಿದೆ. ಈಗ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ನೋಡಿ.",sentMany:"{n} ಫೈಲ್‌ಗಳನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ. ಈಗ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ನೋಡಿ.",failAll:"{b} ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ.",failMix:"{s} ಕಳುಹಿಸಲಾಗಿದೆ, {b} ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ.",
+tooBigD:"ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದು.",errD:"ಏನೋ ತಪ್ಪಾಯಿತು. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",remove:"ತೆಗೆದುಹಾಕಿ",langAria:"ಭಾಷೆ"},
+ml:{title:"ഫോട്ടോ / ഡോക്യുമെന്റ് അയയ്ക്കുക",sub:"നിങ്ങളുടെ ഫോട്ടോയോ ഫയലോ നേരിട്ട് കടയിലെ കമ്പ്യൂട്ടറിൽ എത്തും.",tabP:"ഫോട്ടോ",tabD:"ഡോക്യുമെന്റ്",tabsAria:"എന്താണ് അയയ്ക്കേണ്ടത്?",
+needP:"ഈ ഭാഗത്തിനായി കടയിലെ ഫോട്ടോ QR സ്കാൻ ചെയ്യുക.",needD:"ഈ ഭാഗത്തിനായി കടയിലെ ഡോക്യുമെന്റ് QR സ്കാൻ ചെയ്യുക.",
+hintP:"ഫോട്ടോ തിരഞ്ഞെടുത്ത ശേഷം ഇവിടെ കാണാം.\nമുഖം നേരെയും വ്യക്തവുമായിരിക്കണം.",hintD:"തിരഞ്ഞെടുത്ത ഫോട്ടോകൾ / ഫയലുകൾ ഇവിടെ കാണാം.\nID കാർഡിന് ആദ്യം Front, പിന്നെ Back തിരഞ്ഞെടുക്കുക.",
+cam:"ക്യാമറയിൽ എടുക്കുക",galP:"ഗാലറിയിൽ നിന്ന് തിരഞ്ഞെടുക്കുക",galD:"ഗാലറി / ഫയൽ തിരഞ്ഞെടുക്കുക",send:"കടയിലേക്ക് അയയ്ക്കുക",sendN:"കടയിലേക്ക് അയയ്ക്കുക ({n})",againP:"മറ്റൊരു ഫോട്ടോ അയയ്ക്കുക",againD:"കൂടുതൽ ഫോട്ടോ / ഫയലുകൾ അയയ്ക്കുക",
+noteP:"ഫോട്ടോ ഫോണിൽ തന്നെ ലോക്ക് (എൻക്രിപ്റ്റ്) ചെയ്യപ്പെടുന്നു, അതിനാൽ കടയിലെ കമ്പ്യൂട്ടറിന് മാത്രമേ അത് തുറക്കാനാകൂ.",
+noteD:"എല്ലാം ഫോണിൽ തന്നെ ലോക്ക് (എൻക്രിപ്റ്റ്) ചെയ്യപ്പെടുന്നു, അതിനാൽ കടയിലെ കമ്പ്യൂട്ടറിന് മാത്രമേ തുറക്കാനാകൂ. ഒരു ഫയൽ 14 MB വരെ, ഒരേസമയം 40 ഫയലുകൾ വരെ.",
+pickT:"ഈ QR ഫോട്ടോയ്ക്കാണോ ഡോക്യുമെന്റിനാണോ?",pickSub:"ഈ QR എന്തിനുള്ളതാണെന്ന് എഴുതിയിട്ടില്ല. അയയ്ക്കാൻ ആഗ്രഹിക്കുന്നത് തിരഞ്ഞെടുക്കുക.",pickP:"ഫോട്ടോ",pickD:"ഡോക്യുമെന്റ്",
+badLink:"ഈ QR ലിങ്ക് അപൂർണ്ണമാണ്. കടക്കാരനോട് QR വീണ്ടും സ്കാൻ ചെയ്യാൻ പറയുക.",noCrypto:"ഈ ബ്രൗസറിന് സുരക്ഷിതമായി അയയ്ക്കാൻ കഴിയില്ല. Chrome അല്ലെങ്കിൽ Safari-യിൽ തുറക്കുക.",
+prepP:"ഫോട്ടോ തയ്യാറാകുന്നു...",readyP:"ഫോട്ടോ ശരിയാണെങ്കിൽ “കടയിലേക്ക് അയയ്ക്കുക” അമർത്തുക.",failP:"ഈ ഫോട്ടോ തുറക്കാനായില്ല. മറ്റൊരു ഫോട്ടോ തിരഞ്ഞെടുക്കുക.",lockP:"ഫോട്ടോ ലോക്ക് ചെയ്യുന്നു...",sending:"അയയ്ക്കുന്നു...",
+sentP:"ഫോട്ടോ അയച്ചു. ഇനി കടയിലെ കമ്പ്യൂട്ടറിൽ നോക്കുക.",tooBigP:"ഫോട്ടോ വളരെ വലുതാണ്. മറ്റൊരു ഫോട്ടോ തിരഞ്ഞെടുക്കുക.",rate:"ഇപ്പോൾ ധാരാളം അഭ്യർത്ഥനകളുണ്ട്. കുറച്ചു കഴിഞ്ഞ് വീണ്ടും അമർത്തുക.",net:"അയയ്ക്കാനായില്ല. ഇന്റർനെറ്റ് പരിശോധിച്ച് വീണ്ടും അമർത്തുക.",
+skipN:"{n} ഫയലുകൾ കൂടുതലായിരുന്നു (പരമാവധി {m})",bigN:"{n} ഫയലുകൾ 14 MB-യിൽ കൂടുതലായിരുന്നു",prepD:"തയ്യാറാകുന്നു {i}/{n}...",sendingD:"അയയ്ക്കുന്നു {i}/{n}...",
+sentOne:"{n} ഫയൽ അയച്ചു. ഇനി കടയിലെ കമ്പ്യൂട്ടറിൽ നോക്കുക.",sentMany:"{n} ഫയലുകൾ അയച്ചു. ഇനി കടയിലെ കമ്പ്യൂട്ടറിൽ നോക്കുക.",failAll:"{b} എണ്ണം അയയ്ക്കാനായില്ല.",failMix:"{s} അയച്ചു, {b} അയയ്ക്കാനായില്ല.",
+tooBigD:"ഫയൽ വളരെ വലുതാണ്.",errD:"എന്തോ കുഴപ്പം സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക.",remove:"നീക്കം ചെയ്യുക",langAria:"ഭാഷ"},
+pa:{title:"ਫ਼ੋਟੋ / ਡਾਕੂਮੈਂਟ ਭੇਜੋ",sub:"ਤੁਹਾਡੀ ਫ਼ੋਟੋ ਜਾਂ ਫ਼ਾਈਲ ਸਿੱਧੀ ਦੁਕਾਨ ਦੇ ਕੰਪਿਊਟਰ ਤੇ ਪਹੁੰਚੇਗੀ।",tabP:"ਫ਼ੋਟੋ",tabD:"ਡਾਕੂਮੈਂਟ",tabsAria:"ਕੀ ਭੇਜਣਾ ਹੈ?",
+needP:"ਇਸ ਹਿੱਸੇ ਲਈ ਦੁਕਾਨ ਦਾ ਫ਼ੋਟੋ QR ਸਕੈਨ ਕਰੋ।",needD:"ਇਸ ਹਿੱਸੇ ਲਈ ਦੁਕਾਨ ਦਾ ਡਾਕੂਮੈਂਟ QR ਸਕੈਨ ਕਰੋ।",
+hintP:"ਫ਼ੋਟੋ ਚੁਣਨ ਤੋਂ ਬਾਅਦ ਇੱਥੇ ਦਿਖੇਗੀ।\nਚਿਹਰਾ ਸਿੱਧਾ ਅਤੇ ਸਾਫ਼ ਹੋਵੇ।",hintD:"ਚੁਣੀਆਂ ਫ਼ੋਟੋਆਂ / ਫ਼ਾਈਲਾਂ ਇੱਥੇ ਦਿਖਣਗੀਆਂ।\nID ਕਾਰਡ ਲਈ ਪਹਿਲਾਂ Front, ਫਿਰ Back ਚੁਣੋ।",
+cam:"ਕੈਮਰੇ ਨਾਲ ਲਓ",galP:"ਗੈਲਰੀ ਵਿੱਚੋਂ ਚੁਣੋ",galD:"ਗੈਲਰੀ / ਫ਼ਾਈਲ ਚੁਣੋ",send:"ਦੁਕਾਨ ਨੂੰ ਭੇਜੋ",sendN:"ਦੁਕਾਨ ਨੂੰ ਭੇਜੋ ({n})",againP:"ਇੱਕ ਹੋਰ ਫ਼ੋਟੋ ਭੇਜੋ",againD:"ਹੋਰ ਫ਼ੋਟੋਆਂ / ਫ਼ਾਈਲਾਂ ਭੇਜੋ",
+noteP:"ਫ਼ੋਟੋ ਫ਼ੋਨ ਤੇ ਹੀ ਲੌਕ (ਐਨਕ੍ਰਿਪਟ) ਹੁੰਦੀ ਹੈ, ਇਸ ਲਈ ਸਿਰਫ਼ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਹੀ ਇਸਨੂੰ ਖੋਲ੍ਹ ਸਕਦਾ ਹੈ।",
+noteD:"ਸਭ ਕੁਝ ਫ਼ੋਨ ਤੇ ਹੀ ਲੌਕ (ਐਨਕ੍ਰਿਪਟ) ਹੁੰਦਾ ਹੈ, ਇਸ ਲਈ ਸਿਰਫ਼ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਹੀ ਖੋਲ੍ਹ ਸਕਦਾ ਹੈ। ਇੱਕ ਫ਼ਾਈਲ 14 MB ਤੱਕ, ਇੱਕ ਵਾਰ ਵਿੱਚ 40 ਫ਼ਾਈਲਾਂ ਤੱਕ।",
+pickT:"ਇਹ QR ਫ਼ੋਟੋ ਲਈ ਹੈ ਜਾਂ ਡਾਕੂਮੈਂਟ ਲਈ?",pickSub:"ਇਸ QR ਵਿੱਚ ਨਹੀਂ ਲਿਖਿਆ ਕਿ ਇਹ ਕਿਸ ਲਈ ਹੈ। ਜੋ ਭੇਜਣਾ ਹੈ ਉਹ ਚੁਣੋ।",pickP:"ਫ਼ੋਟੋ",pickD:"ਡਾਕੂਮੈਂਟ",
+badLink:"ਇਹ QR ਲਿੰਕ ਅਧੂਰਾ ਹੈ। ਦੁਕਾਨ ਵਾਲੇ ਨੂੰ QR ਦੁਬਾਰਾ ਸਕੈਨ ਕਰਨ ਲਈ ਕਹੋ।",noCrypto:"ਇਹ ਬ੍ਰਾਊਜ਼ਰ ਸੁਰੱਖਿਅਤ ਢੰਗ ਨਾਲ ਨਹੀਂ ਭੇਜ ਸਕਦਾ। Chrome ਜਾਂ Safari ਵਿੱਚ ਖੋਲ੍ਹੋ।",
+prepP:"ਫ਼ੋਟੋ ਤਿਆਰ ਹੋ ਰਹੀ ਹੈ...",readyP:"ਫ਼ੋਟੋ ਠੀਕ ਲੱਗੇ ਤਾਂ “ਦੁਕਾਨ ਨੂੰ ਭੇਜੋ” ਦਬਾਓ।",failP:"ਇਹ ਫ਼ੋਟੋ ਖੁੱਲ੍ਹ ਨਹੀਂ ਸਕੀ। ਕੋਈ ਹੋਰ ਫ਼ੋਟੋ ਚੁਣੋ।",lockP:"ਫ਼ੋਟੋ ਲੌਕ ਹੋ ਰਹੀ ਹੈ...",sending:"ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ...",
+sentP:"ਫ਼ੋਟੋ ਭੇਜ ਦਿੱਤੀ ਗਈ। ਹੁਣ ਦੁਕਾਨ ਦੇ ਕੰਪਿਊਟਰ ਤੇ ਦੇਖੋ।",tooBigP:"ਫ਼ੋਟੋ ਬਹੁਤ ਵੱਡੀ ਹੈ। ਹੋਰ ਫ਼ੋਟੋ ਚੁਣੋ।",rate:"ਹੁਣ ਬਹੁਤ ਜ਼ਿਆਦਾ ਬੇਨਤੀਆਂ ਹਨ। ਥੋੜ੍ਹੀ ਦੇਰ ਬਾਅਦ ਦੁਬਾਰਾ ਦਬਾਓ।",net:"ਭੇਜੀ ਨਹੀਂ ਜਾ ਸਕੀ। ਇੰਟਰਨੈੱਟ ਜਾਂਚ ਕੇ ਦੁਬਾਰਾ ਦਬਾਓ।",
+skipN:"{n} ਫ਼ਾਈਲਾਂ ਵੱਧ ਸਨ (ਵੱਧ ਤੋਂ ਵੱਧ {m})",bigN:"{n} ਫ਼ਾਈਲਾਂ 14 MB ਤੋਂ ਵੱਡੀਆਂ ਸਨ",prepD:"ਤਿਆਰ ਹੋ ਰਹੀਆਂ ਹਨ {i}/{n}...",sendingD:"ਭੇਜੀਆਂ ਜਾ ਰਹੀਆਂ ਹਨ {i}/{n}...",
+sentOne:"{n} ਫ਼ਾਈਲ ਭੇਜ ਦਿੱਤੀ ਗਈ। ਹੁਣ ਦੁਕਾਨ ਦੇ ਕੰਪਿਊਟਰ ਤੇ ਦੇਖੋ।",sentMany:"{n} ਫ਼ਾਈਲਾਂ ਭੇਜ ਦਿੱਤੀਆਂ ਗਈਆਂ। ਹੁਣ ਦੁਕਾਨ ਦੇ ਕੰਪਿਊਟਰ ਤੇ ਦੇਖੋ।",failAll:"{b} ਨਹੀਂ ਜਾ ਸਕੀਆਂ।",failMix:"{s} ਭੇਜੀਆਂ ਗਈਆਂ, {b} ਨਹੀਂ ਜਾ ਸਕੀਆਂ।",
+tooBigD:"ਫ਼ਾਈਲ ਬਹੁਤ ਵੱਡੀ ਹੈ।",errD:"ਕੁਝ ਗੜਬੜ ਹੋ ਗਈ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",remove:"ਹਟਾਓ",langAria:"ਭਾਸ਼ਾ"},
+or:{title:"ଫଟୋ / ଡକ୍ୟୁମେଣ୍ଟ ପଠାନ୍ତୁ",sub:"ଆପଣଙ୍କ ଫଟୋ କିମ୍ବା ଫାଇଲ୍ ସିଧା ଦୋକାନର କମ୍ପ୍ୟୁଟରକୁ ପହଞ୍ଚିବ।",tabP:"ଫଟୋ",tabD:"ଡକ୍ୟୁମେଣ୍ଟ",tabsAria:"କ'ଣ ପଠାଇବେ?",
+needP:"ଏହି ଭାଗ ପାଇଁ ଦୋକାନର ଫଟୋ QR ସ୍କାନ୍ କରନ୍ତୁ।",needD:"ଏହି ଭାଗ ପାଇଁ ଦୋକାନର ଡକ୍ୟୁମେଣ୍ଟ QR ସ୍କାନ୍ କରନ୍ତୁ।",
+hintP:"ଫଟୋ ବାଛିବା ପରେ ଏଠାରେ ଦେଖାଯିବ।\nମୁହଁ ସିଧା ଓ ସ୍ପଷ୍ଟ ରଖନ୍ତୁ।",hintD:"ବଛା ଫଟୋ / ଫାଇଲ୍ ଏଠାରେ ଦେଖାଯିବ।\nID କାର୍ଡ ପାଇଁ ପ୍ରଥମେ Front, ପରେ Back ବାଛନ୍ତୁ।",
+cam:"କ୍ୟାମେରାରେ ନିଅନ୍ତୁ",galP:"ଗ୍ୟାଲେରୀରୁ ବାଛନ୍ତୁ",galD:"ଗ୍ୟାଲେରୀ / ଫାଇଲ୍ ବାଛନ୍ତୁ",send:"ଦୋକାନକୁ ପଠାନ୍ତୁ",sendN:"ଦୋକାନକୁ ପଠାନ୍ତୁ ({n})",againP:"ଆଉ ଗୋଟିଏ ଫଟୋ ପଠାନ୍ତୁ",againD:"ଆହୁରି ଫଟୋ / ଫାଇଲ୍ ପଠାନ୍ତୁ",
+noteP:"ଫଟୋ ଫୋନରେ ହିଁ ଲକ୍ (ଏନକ୍ରିପ୍ଟ) ହୁଏ, ତେଣୁ କେବଳ ଦୋକାନର କମ୍ପ୍ୟୁଟର ହିଁ ଏହାକୁ ଖୋଲିପାରେ।",
+noteD:"ସବୁକିଛି ଫୋନରେ ହିଁ ଲକ୍ (ଏନକ୍ରିପ୍ଟ) ହୁଏ, ତେଣୁ କେବଳ ଦୋକାନର କମ୍ପ୍ୟୁଟର ହିଁ ଖୋଲିପାରେ। ଗୋଟିଏ ଫାଇଲ୍ 14 MB ପର୍ଯ୍ୟନ୍ତ, ଥରକରେ 40 ଫାଇଲ୍ ପର୍ଯ୍ୟନ୍ତ।",
+pickT:"ଏହି QR ଫଟୋ ପାଇଁ ନା ଡକ୍ୟୁମେଣ୍ଟ ପାଇଁ?",pickSub:"ଏହି QRରେ ଏହା କାହା ପାଇଁ ଲେଖା ନାହିଁ। ଯାହା ପଠାଇବେ ତାହା ବାଛନ୍ତୁ।",pickP:"ଫଟୋ",pickD:"ଡକ୍ୟୁମେଣ୍ଟ",
+badLink:"ଏହି QR ଲିଙ୍କ୍ ଅସମ୍ପୂର୍ଣ୍ଣ। ଦୋକାନୀଙ୍କୁ QR ପୁଣି ସ୍କାନ୍ କରିବାକୁ କୁହନ୍ତୁ।",noCrypto:"ଏହି ବ୍ରାଉଜର୍ ସୁରକ୍ଷିତ ଭାବେ ପଠାଇପାରିବ ନାହିଁ। Chrome କିମ୍ବା Safariରେ ଖୋଲନ୍ତୁ।",
+prepP:"ଫଟୋ ପ୍ରସ୍ତୁତ ହେଉଛି...",readyP:"ଫଟୋ ଠିକ୍ ଲାଗିଲେ “ଦୋକାନକୁ ପଠାନ୍ତୁ” ଦବାନ୍ତୁ।",failP:"ଏହି ଫଟୋ ଖୋଲିଲା ନାହିଁ। ଅନ୍ୟ ଫଟୋ ବାଛନ୍ତୁ।",lockP:"ଫଟୋ ଲକ୍ ହେଉଛି...",sending:"ପଠାଯାଉଛି...",
+sentP:"ଫଟୋ ପଠାଯାଇଗଲା। ଏବେ ଦୋକାନର କମ୍ପ୍ୟୁଟରରେ ଦେଖନ୍ତୁ।",tooBigP:"ଫଟୋ ବହୁତ ବଡ। ଅନ୍ୟ ଫଟୋ ବାଛନ୍ତୁ।",rate:"ଏବେ ବହୁତ ଅନୁରୋଧ ଅଛି। କିଛି ସମୟ ପରେ ପୁଣି ଦବାନ୍ତୁ।",net:"ପଠାଯାଇପାରିଲା ନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଦେଖି ପୁଣି ଦବାନ୍ତୁ।",
+skipN:"{n} ଫାଇଲ୍ ଅଧିକ ଥିଲା (ସର୍ବାଧିକ {m})",bigN:"{n} ଫାଇଲ୍ 14 MB ରୁ ବଡ ଥିଲା",prepD:"ପ୍ରସ୍ତୁତ ହେଉଛି {i}/{n}...",sendingD:"ପଠାଯାଉଛି {i}/{n}...",
+sentOne:"{n} ଫାଇଲ୍ ପଠାଯାଇଗଲା। ଏବେ ଦୋକାନର କମ୍ପ୍ୟୁଟରରେ ଦେଖନ୍ତୁ।",sentMany:"{n} ଫାଇଲ୍ ପଠାଯାଇଗଲା। ଏବେ ଦୋକାନର କମ୍ପ୍ୟୁଟରରେ ଦେଖନ୍ତୁ।",failAll:"{b} ପଠାଯାଇପାରିଲା ନାହିଁ।",failMix:"{s} ପଠାଯାଇଛି, {b} ପଠାଯାଇପାରିଲା ନାହିଁ।",
+tooBigD:"ଫାଇଲ୍ ବହୁତ ବଡ।",errD:"କିଛି ଗଡବଡ ହେଲା। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",remove:"ହଟାନ୍ତୁ",langAria:"ଭାଷା"}
+};
 var RELAY='https://ntfy.sh';   /* free public relay; everything is end-to-end encrypted before upload */
-var LSK='phoneSender.v2';
+var LSK='phoneSender.v2', LSL='phoneSender.lang';
 var MAXFILE=14*1024*1024, MAXN=40;
 var $=function(id){return document.getElementById(id)};
 
 /* slots: p = Passport Photo tool (format v1, one JPEG), d = WhatsApp Print tool (format v2, many files) */
-var slots={p:null,d:null}, cur='p', busy=false, hasCrypto=!!(window.crypto&&crypto.subtle);
+var slots={p:null,d:null}, cur='p', busy=false, hasCrypto=!!(window.crypto&&crypto.subtle), lang='en';
+var lastMsg={p:null,d:null};
+
+/* ---------- language ---------- */
+function t(k,v){
+  var s=(L[lang]&&L[lang][k])||L.en[k]||k;
+  if(v)s=s.replace(/\{(\w+)\}/g,function(_,x){return v[x]});
+  return s;
+}
+function M(k,v){return function(){return t(k,v)}}
+function say(pre,cls,m){
+  lastMsg[pre]={cls:cls,m:m};
+  var el=$(pre+'msg');el.className='msg'+(cls?' '+cls:'');
+  el.textContent=!m?'':(typeof m==='function'?m():t(m));
+}
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.title=t('title');
+  Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'),function(el){el.textContent=t(el.getAttribute('data-i18n'))});
+  $('lang').setAttribute('aria-label',t('langAria'));
+  $('tabs').setAttribute('aria-label',t('tabsAria'));
+  ['p','d'].forEach(function(s){if(lastMsg[s])say(s,lastMsg[s].cls,lastMsg[s].m)});
+}
+function setLang(c){
+  if(!L[c])c='en';
+  lang=c;$('lang').value=c;
+  try{localStorage.setItem(LSL,c)}catch(e){}
+  applyLang();ui();
+}
+$('lang').onchange=function(){setLang(this.value)};
 
 function unb64u(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
-function okPair(t,k){try{
-  if(!/^[A-Za-z0-9_-]{8,64}$/.test(t||''))return null;
+function okPair(tp,k){try{
+  if(!/^[A-Za-z0-9_-]{8,64}$/.test(tp||''))return null;
   var r=unb64u(k||'');if(r.length!==65||r[0]!==4)return null;
-  return{t:t,k:k,raw:r};
+  return{t:tp,k:k,raw:r};
 }catch(e){return null}}
 function persist(){try{localStorage.setItem(LSK,JSON.stringify({cur:cur,
   p:slots.p&&{t:slots.p.t,k:slots.p.k},d:slots.d&&{t:slots.d.t,k:slots.d.k}}))}catch(e){}}
-function restore(){try{var o=JSON.parse(localStorage.getItem(LSK)||'null');if(!o)return;
+function restore(){try{var o=JSON.parse(localStorage.getItem(LSK)||'null');if(o){
   ['p','d'].forEach(function(s){if(o[s])slots[s]=okPair(o[s].t,o[s].k)});
-  if(o.cur==='p'||o.cur==='d')cur=o.cur}catch(e){}}
-function say(pre,cls,txt){var m=$(pre+'msg');m.className='msg'+(cls?' '+cls:'');m.textContent=txt||''}
+  if(o.cur==='p'||o.cur==='d')cur=o.cur}}catch(e){}
+  try{var l=localStorage.getItem(LSL);if(l&&L[l])lang=l}catch(e){}}
 function bar(pre,p){$(pre+'bar').style.width=Math.round(Math.max(0,Math.min(1,p))*100)+'%'}
 function fmt(n){return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
 function extOf(n){var m=/\.([A-Za-z0-9]{1,6})$/.exec(n||'');return m?m[1].toLowerCase():''}
@@ -182,7 +377,6 @@ function ui(){
   $('tabP').disabled=busy;$('tabD').disabled=busy;
   $('secP').classList.toggle('on',cur==='p');$('secD').classList.toggle('on',cur==='d');
   $('needP').classList.toggle('on',!slots.p);$('needD').classList.toggle('on',!slots.d);
-  if(!hasCrypto){say('p','err','Ye browser secure photo bhejne ko support nahi karta. Chrome ya Safari mein kholein.');say('d','err','Ye browser secure file bhejne ko support nahi karta. Chrome ya Safari mein kholein.')}
   var pr=ready('p'),dr=ready('d');
   $('pcam').disabled=busy||!pr;$('pgal').disabled=busy||!pr;$('psend').disabled=busy||!pr||!pBlob;
   $('dcam').disabled=busy||!dr;$('dgal').disabled=busy||!dr;
@@ -196,7 +390,7 @@ $('tabD').onclick=function(){setTab('d')};
 var pendingPair=null;
 function useSlot(s,pair){slots[s]=pair;cur=s;persist();
   try{history.replaceState(null,'',location.pathname+location.search+'#t='+pair.t+'&k='+pair.k+'&m='+s)}catch(e){}}
-(function init(){
+function initLink(){
   restore();
   var h=new URLSearchParams(location.hash.replace(/^#/,''));
   var pair=okPair(h.get('t')||'',h.get('k')||''), m=h.get('m');
@@ -204,11 +398,11 @@ function useSlot(s,pair){slots[s]=pair;cur=s;persist();
     if(m==='p'||m==='d')useSlot(m,pair);
     else pendingPair=pair;
   }else if(h.get('t')||h.get('k')){
-    say('p','err','Ye QR link adhura hai. Shop se QR dobara scan karne ko kahein.');
-    say('d','err','Ye QR link adhura hai. Shop se QR dobara scan karne ko kahein.');
+    say('p','err','badLink');say('d','err','badLink');
   }
+  if(!hasCrypto){say('p','err','noCrypto');say('d','err','noCrypto')}
   if(pendingPair)$('pick').classList.add('on');
-})();
+}
 $('pickP').onclick=function(){if(pendingPair){useSlot('p',pendingPair);pendingPair=null}$('pick').classList.remove('on');ui()};
 $('pickD').onclick=function(){if(pendingPair){useSlot('d',pendingPair);pendingPair=null}$('pick').classList.remove('on');ui()};
 
@@ -218,7 +412,7 @@ function shrink(file){
     var u=URL.createObjectURL(file),im=new Image();
     im.onload=function(){
       try{
-        var M=2400,w0=im.naturalWidth,h0=im.naturalHeight,s=Math.min(1,M/Math.max(w0,h0)),
+        var Mx=2400,w0=im.naturalWidth,h0=im.naturalHeight,s=Math.min(1,Mx/Math.max(w0,h0)),
             w=Math.max(1,Math.round(w0*s)),hh=Math.max(1,Math.round(h0*s)),
             c=document.createElement('canvas');
         c.width=w;c.height=hh;
@@ -277,14 +471,14 @@ function pShow(b){
 async function pPrepare(file){
   if(busy)return;
   $('pagain').style.display='none';$('pbarwrap').classList.remove('on');bar('p',0);
-  say('p','','Photo taiyaar ho rahi hai...');
+  say('p','','prepP');
   try{
     pBlob=await shrink(file);
     pShow(pBlob);
-    say('p','','Photo theek lage to "PC par bhejein" dabayein.');
+    say('p','','readyP');
   }catch(e){
     pBlob=null;
-    say('p','err','Ye photo khul nahi payi. Koi dusri photo chunein.');
+    say('p','err','failP');
   }
   ui();
 }
@@ -298,17 +492,17 @@ $('psend').onclick=async function(){
   var S=slots.p;
   if(!pBlob||busy||!S||!hasCrypto)return;
   busy=true;ui();
-  $('pbarwrap').classList.add('on');bar('p',0);say('p','','Photo lock ho rahi hai...');
+  $('pbarwrap').classList.add('on');bar('p',0);say('p','','lockP');
   try{
     var body=await seal(S.raw,1,null,new Uint8Array(await pBlob.arrayBuffer()));
-    say('p','','Bheji ja rahi hai...');
+    say('p','','sending');
     await upload(S.t,body,function(f){bar('p',f)},180000);
     bar('p',1);
-    say('p','ok','Photo bhej di gayi. Ab shop ke computer par dekhein.');
+    say('p','ok','sentP');
     pBlob=null;$('pagain').style.display='block';
   }catch(e){
     var s=e&&e.status;
-    say('p','err',s===413?'Photo bahut badi hai. Dusri photo chunein.':s===429?'Abhi bahut zyada requests hain. Thodi der baad dobara dabayein.':'Photo nahi ja payi. Internet check karke dobara dabayein.');
+    say('p','err',s===413?'tooBigP':s===429?'rate':'net');
   }finally{
     busy=false;ui();
   }
@@ -320,11 +514,11 @@ $('pagain').onclick=function(){
   pBlob=null;say('p','','');ui();
 };
 
-/* =================== PARTITION 2: DOCUMENTS =================== */
+/* =================== PARTITION 2: DOCUMENT =================== */
 var items=[],uid=0;
 function renderDocs(){
-  var L=$('dlist');
-  L.innerHTML='';
+  var Lst=$('dlist');
+  Lst.innerHTML='';
   items.forEach(function(it){
     var d=document.createElement('div');d.className='it'+(it.state==='ok'?' done':it.state==='bad'?' bad':'');
     function addExt(){if(d.querySelector('.ext'))return;var e=document.createElement('div');e.className='ext';e.textContent=extOf(it.file.name)||'FILE';var n=document.createElement('div');n.className='nm';n.textContent=it.file.name;d.appendChild(e);d.appendChild(n)}
@@ -333,16 +527,13 @@ function renderDocs(){
     var sz=document.createElement('span');sz.className='sz';sz.textContent=fmt(it.file.size);
     var st=document.createElement('span');st.className='st';st.textContent=it.state==='ok'?'\u2713':'!';
     d.appendChild(sz);d.appendChild(st);
-    if(!busy){var x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label','Hatayein');x.textContent='\u2715';
-      x.onclick=function(){if(it.url)URL.revokeObjectURL(it.url);items=items.filter(function(q){return q!==it});renderDocs();syncDocBtn()};d.appendChild(x)}
-    L.appendChild(d);
+    if(!busy){var x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label',t('remove'));x.textContent='\u2715';
+      x.onclick=function(){if(it.url)URL.revokeObjectURL(it.url);items=items.filter(function(q){return q!==it});renderDocs()};d.appendChild(x)}
+    Lst.appendChild(d);
   });
   $('dframe').classList.toggle('has',items.length>0);
-  syncDocBtn();
-}
-function syncDocBtn(){
   var pend=items.filter(function(q){return q.state!=='ok'}).length;
-  $('dsend').textContent=pend?'PC par bhejein ('+pend+')':'PC par bhejein';
+  $('dsend').textContent=pend?t('sendN',{n:pend}):t('send');
   $('dsend').disabled=busy||!ready('d')||!pend;
 }
 function addFiles(list){
@@ -353,8 +544,9 @@ function addFiles(list){
     items.push({id:++uid,file:f,state:'',url:isImg(f)&&!/hei[cf]$/.test(extOf(f.name))?URL.createObjectURL(f):null});
   });
   $('dagain').style.display='none';$('dbarwrap').classList.remove('on');bar('d',0);
-  var m=[];if(skipped)m.push(skipped+' file zyada thi (max '+MAXN+')');if(big)m.push(big+' file 14 MB se badi thi');
-  say('d',m.length?'err':'',m.length?m.join('. ')+'.':(items.length?'Theek lage to "PC par bhejein" dabayein.':''));
+  if(skipped||big){
+    say('d','err',function(){var m=[];if(skipped)m.push(t('skipN',{n:skipped,m:MAXN}));if(big)m.push(t('bigN',{n:big}));return m.join('; ')});
+  }else say('d','',items.length?'readyP':'');
   renderDocs();
 }
 function dPick(inp){var f=inp.files;var a=f?Array.prototype.slice.call(f):[];inp.value='';if(a.length)addFiles(a)}
@@ -381,17 +573,17 @@ $('dsend').onclick=async function(){
   $('dbarwrap').classList.add('on');bar('d',0);
   var bad=0,sent=0,prepared=[];
   try{
-    /* 1) sabko taiyaar karo, taaki PC ko pata ho ki is batch mein kitni files hain */
+    /* 1) prepare all first, so the PC knows how many files are in this batch */
     for(var i=0;i<todo.length;i++){
-      say('d','','Taiyaar ho rahi hain '+(i+1)+'/'+todo.length+'...');bar('d',i/todo.length*.3);
+      say('d','',M('prepD',{i:i+1,n:todo.length}));bar('d',i/todo.length*.3);
       try{prepared.push({it:todo[i],p:await dPrepare(todo[i])})}catch(e){todo[i].state='bad';bad++}
     }
     renderDocs();
     var n=prepared.length,b=rid(),lastErr=null;
-    /* 2) ek ek karke lock karke bhejo */
+    /* 2) encrypt and send one by one */
     for(var k=0;k<n;k++){
       var P=prepared[k];
-      say('d','','Bheji ja rahi hai '+(k+1)+'/'+n+'...');
+      say('d','',M('sendingD',{i:k+1,n:n}));
       try{
         var body=await seal(S.raw,2,{v:2,b:b,i:k,n:n,name:P.p.name,type:P.p.type},P.p.bytes);
         await upload(S.t,body,(function(kk){return function(f){bar('d',.3+.7*((kk+f)/n))}})(k),240000);
@@ -400,14 +592,16 @@ $('dsend').onclick=async function(){
       P.p=null;renderDocs();
     }
     bar('d',1);
-    if(!bad){say('d','ok',sent+(sent>1?' files bhej di gayi. ':' file bhej di gayi. ')+'Ab shop ke computer par dekhein.');$('dagain').style.display='block';}
-    else{var s=lastErr&&lastErr.status;
-      say('d','err',(sent?sent+' bheji gayi, ':'')+bad+' nahi ja payi. '+(s===413?'File bahut badi hai.':s===429?'Abhi bahut requests hain, thodi der baad dobara dabayein.':'Internet check karke dobara dabayein.'));}
+    if(!bad){say('d','ok',M(sent>1?'sentMany':'sentOne',{n:sent}));$('dagain').style.display='block';}
+    else{
+      var s=lastErr&&lastErr.status,rk=s===413?'tooBigD':s===429?'rate':'net',sn=sent,bn=bad;
+      say('d','err',function(){return (sn?t('failMix',{s:sn,b:bn}):t('failAll',{b:bn}))+' '+t(rk)});
+    }
   }catch(e){
-    say('d','err','Kuch gadbad hui. Dobara koshish karein.');
+    say('d','err','errD');
   }finally{
     busy=false;
-    /* bhej chuki files list se hata do, bachi hui (fail) wahin rahengi */
+    /* remove sent files from the list; failed ones stay so they can be retried */
     items=items.filter(function(q){if(q.state==='ok'){if(q.url)URL.revokeObjectURL(q.url);return false}return true});
     items.forEach(function(q){if(q.state==='bad')q.state=''});
     ui();
@@ -417,7 +611,8 @@ $('dagain').onclick=function(){
   $('dagain').style.display='none';$('dbarwrap').classList.remove('on');bar('d',0);say('d','','');renderDocs();
 };
 
-ui();
+initLink();
+setLang(lang);
 })();
 </script>
 </body>
