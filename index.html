@@ -10,28 +10,24 @@
 :root{--bg:#f3f5f9;--ink:#0f172a;--mut:#56667e;--line:#cfd8e6;--acc:#2269e8;--acc-d:#1a54bd;--ok:#15803d;--err:#b91c1c;color-scheme:light}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Bengali","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Gujarati","Noto Sans Kannada","Noto Sans Malayalam","Noto Sans Gurmukhi","Noto Sans Oriya",sans-serif;padding:max(20px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom));display:flex;justify-content:center;-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Bengali","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Gujarati","Noto Sans Kannada","Noto Sans Malayalam","Noto Sans Gurmukhi","Noto Sans Oriya","Noto Sans Arabic","Noto Sans Ol Chiki","Noto Sans Meetei Mayek",sans-serif;padding:max(20px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom));display:flex;justify-content:center;-webkit-text-size-adjust:100%}
 main{width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px}
 .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .top h1{min-width:0;flex:1}
 h1{margin:4px 0 0;font-size:26px;line-height:1.15;letter-spacing:-.015em;overflow-wrap:anywhere}
 .sub{margin:6px 0 0;color:var(--mut);font-size:14.5px}
-.langwrap{flex:none;position:relative}
-#lang{appearance:none;-webkit-appearance:none;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;border:1.5px solid var(--ink);border-radius:10px;min-height:40px;max-width:130px;padding:6px 30px 6px 10px;cursor:pointer}
+.tools{flex:none;display:flex;flex-direction:column;gap:6px;align-items:stretch;max-width:132px}
+#lang{appearance:none;-webkit-appearance:none;font:inherit;font-size:14px;font-weight:700;color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;border:1.5px solid var(--ink);border-radius:10px;min-height:40px;width:100%;padding:6px 30px 6px 10px;cursor:pointer}
+[dir=rtl] #lang{background-position:left 10px center;padding:6px 10px 6px 30px}
 #lang:focus-visible{outline:3px solid #8ab4ff;outline-offset:2px}
+#gbtn{min-height:40px;font-size:14px;padding:6px 10px;border-radius:10px;background:var(--acc);border-color:var(--acc);color:#fff}
 
-/* two partitions: Photo (Passport Photo tool) / Document (WhatsApp Print tool) */
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#e3e9f3;border-radius:14px;padding:5px}
 .tab{min-height:50px;border:0;border-radius:10px;background:transparent;color:var(--mut);font-size:16px;line-height:1.15;padding:6px 8px}
 .tab[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(15,23,42,.18)}
-.tab .dot{display:inline-block;width:8px;height:8px;border-radius:99px;background:#c3cddd;margin-right:7px;vertical-align:middle}
-.tab.ready .dot{background:var(--ok)}
 .sec{display:none;flex-direction:column;gap:14px}
 .sec.on{display:flex}
-.need{display:none;margin:0;padding:11px 13px;border:1.5px solid #f0c36d;background:#fff8e6;border-radius:12px;font-size:14px;color:#6b4a00}
-.need.on{display:block}
 
-/* frames with cutting-guide corners (same motif as the studio tool) */
 .frame{position:relative;background:#fff;border:1px solid var(--line)}
 .frame i{position:absolute;width:22px;height:22px;border:0 solid var(--ink);z-index:2;pointer-events:none}
 .frame i:nth-of-type(1){left:8px;top:8px;border-left-width:3px;border-top-width:3px}
@@ -39,11 +35,6 @@ h1{margin:4px 0 0;font-size:26px;line-height:1.15;letter-spacing:-.015em;overflo
 .frame i:nth-of-type(3){left:8px;bottom:8px;border-left-width:3px;border-bottom-width:3px}
 .frame i:nth-of-type(4){right:8px;bottom:8px;border-right-width:3px;border-bottom-width:3px}
 .hint{white-space:pre-line}
-.pframe{align-self:center;width:min(100%,calc(46vh*35/45));aspect-ratio:35/45;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pframe img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;display:none}
-.pframe.has img{display:block}
-.pframe .hint{padding:0 22px;text-align:center;color:var(--mut);font-size:14.5px}
-.pframe.has .hint{display:none}
 .dframe{width:100%;min-height:180px;padding:14px 12px}
 .dframe .hint{display:flex;align-items:center;justify-content:center;min-height:150px;padding:0 22px;text-align:center;color:var(--mut);font-size:14.5px}
 .dframe.has .hint{display:none}
@@ -77,19 +68,24 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 .note{margin:2px 0 0;font-size:12.5px;color:var(--mut)}
 .again{display:none}
 
-/* "Photo or Document?" popup (only if the scanned QR link has no tool tag) */
-#pick{position:fixed;inset:0;z-index:50;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px}
-#pick.on{display:flex}
-#pick .box{background:#fff;border-radius:16px;padding:20px 18px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px}
-#pick h2{margin:0;font-size:20px;line-height:1.25}
+#pick,#gm{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px}
+#pick{z-index:50}
+#gm{z-index:60}
+#pick.on,#gm.on{display:flex}
+#pick .box,#gm .box{background:#fff;border-radius:16px;padding:20px 18px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px}
+#gm .box{max-height:88vh;max-height:88dvh;overflow:auto}
+#pick h2,#gm h2{margin:0;font-size:20px;line-height:1.25}
 #pick p{margin:0 0 4px;color:var(--mut);font-size:14px}
+#gl{margin:0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:9px;font-size:14.5px}
+[dir=rtl] #gl{padding:0 22px 0 0}
+#gl li::marker{font-weight:800;color:var(--acc)}
 @media (prefers-reduced-motion:reduce){.bar b{transition:none}}
 
 [hidden]{display:none!important}
-/* single visible tab (the others stay hidden) + change link */
 .tabs.one{grid-template-columns:1fr}
 .tab[hidden]{display:none}
 .chg{align-self:flex-end;margin-top:-6px;min-height:0;border:0;background:transparent;color:var(--acc);font-size:14px;padding:2px 4px;text-decoration:underline}
+[dir=rtl] .chg{align-self:flex-start}
 .timer{margin:0;padding:9px 12px;border-radius:12px;background:#e8f6ee;border:1.5px solid #9fd8b5;color:var(--ok);font-size:14px;font-weight:700}
 .timer.low{background:#fff4e0;border-color:#f0c36d;color:#8a5a00}
 #exp{position:fixed;inset:0;z-index:80;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:20px}
@@ -98,58 +94,205 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 #exp h2{margin:0 0 8px;font-size:22px;color:var(--err)}
 #exp p{margin:0;color:var(--mut);font-size:15px}
 #pick.lock{cursor:default}
+
+/* ===== DESIGN LAYER: light theme, box (grid) pattern, icons, animations ===== */
+:root{--bg:#f4f7fc;--grid:#dde5f2;--acc2:#5b8cff;--sh:0 6px 20px rgba(34,105,232,.10),0 1px 3px rgba(15,23,42,.08)}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),linear-gradient(rgba(34,105,232,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(34,105,232,.06) 1px,transparent 1px);background-size:96px 96px,96px 96px,24px 24px,24px 24px;background-position:center top;animation:gridmove 40s linear infinite}
+@keyframes gridmove{to{background-position:96px 96px,96px 96px,24px 24px,24px 24px}}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;border-radius:14px;box-shadow:0 2px 6px rgba(15,23,42,.08);transition:transform .15s ease,box-shadow .2s ease,background .2s ease}
+button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(34,105,232,.18)}
+button:not(:disabled):hover .ic{animation:wiggle .5s ease}
+button.pri{background:linear-gradient(135deg,var(--acc2),var(--acc));border-color:var(--acc);box-shadow:0 6px 16px rgba(34,105,232,.30)}
+button.pri .ic{width:22px;height:22px}
+#send:not(:disabled){animation:pulse 2s ease-in-out infinite}
+#send:not(:disabled) .ic{animation:fly 1.6s ease-in-out infinite}
+#cam .pic{animation:float 2.6s ease-in-out infinite}
+#gbtn{box-shadow:0 4px 10px rgba(34,105,232,.28)}
+#gbtn .ic{width:18px;height:18px}
+.chg{display:inline-flex;gap:5px;box-shadow:none;align-items:center}
+.chg .ic{width:15px;height:15px}
+.chg:not(:disabled):hover{box-shadow:none;transform:none}
+.again{align-items:center}
+.tab{display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:none}
+.tab .ic{color:var(--acc)}
+.frame{border-radius:18px;box-shadow:var(--sh);border:1.5px solid #cdd9ee;background:#fff;background-image:linear-gradient(rgba(34,105,232,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,105,232,.05) 1px,transparent 1px);background-size:18px 18px}
+.dframe .hint{animation:breathe 3s ease-in-out infinite}
+.it{border-radius:12px;box-shadow:0 2px 6px rgba(15,23,42,.10);animation:pop .3s cubic-bezier(.2,1.4,.4,1) both}
+.it.done .st{animation:pop .4s ease both}
+.timer{border-radius:14px;box-shadow:0 2px 8px rgba(21,128,61,.12);animation:slidein .4s ease both}
+.bar{height:10px}
+.bar b{background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc));background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+h1{background:linear-gradient(90deg,#0f172a,#2269e8);-webkit-background-clip:text;background-clip:text;color:transparent}
+header,.tabs,.chg,.sec>*{animation:rise .5s ease both}
+.sec>*:nth-child(2){animation-delay:.05s}.sec>*:nth-child(3){animation-delay:.1s}
+.sec>*:nth-child(4){animation-delay:.12s}.sec>*:nth-child(5){animation-delay:.15s}
+#pick .box,#gm .box,#exp .box{border-radius:20px;box-shadow:0 20px 50px rgba(15,23,42,.25);animation:zoomin .25s ease both}
+#pick,#gm,#exp{backdrop-filter:blur(3px)}
+#gl li{animation:rise .4s ease both}
+#gl li:nth-child(2){animation-delay:.05s}#gl li:nth-child(3){animation-delay:.1s}#gl li:nth-child(4){animation-delay:.15s}
+#gl li:nth-child(5){animation-delay:.2s}#gl li:nth-child(6){animation-delay:.25s}#gl li:nth-child(7){animation-delay:.3s}#gl li:nth-child(8){animation-delay:.35s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes slidein{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+@keyframes zoomin{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes fly{0%,100%{transform:translate(0,0)}50%{transform:translate(3px,-3px)}}
+@keyframes pulse{0%,100%{box-shadow:0 6px 16px rgba(34,105,232,.30)}50%{box-shadow:0 6px 26px rgba(34,105,232,.55)}}
+@keyframes shimmer{to{background-position:-200% 0}}
+@keyframes breathe{0%,100%{opacity:.75}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ===== HEADER & FOOTER DECOR ===== */
+header{position:relative;overflow:hidden;background:#fff;border:1.5px solid #cdd9ee;border-radius:22px;padding:18px 16px 14px;box-shadow:var(--sh)}
+header::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--acc),var(--acc2),#7be0c3,var(--acc2),var(--acc));background-size:200% 100%;animation:shimmer 6s linear infinite}
+header::after{content:"";position:absolute;right:-34px;bottom:-34px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(91,140,255,.22),transparent 70%);pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.brand h1{margin:0}
+.logo{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--acc2),var(--acc));box-shadow:0 6px 14px rgba(34,105,232,.35);position:relative;animation:float 3s ease-in-out infinite}
+.logo::after{content:"";position:absolute;inset:-5px;border-radius:18px;border:2px solid rgba(34,105,232,.35);animation:ring 2.4s ease-out infinite}
+.logo .ic{width:26px;height:26px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;position:relative;z-index:1}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--acc-d);background:#eaf1ff;border:1px solid #cddcfb;border-radius:99px;padding:4px 11px 4px 8px;animation:rise .5s ease both}
+.chip:nth-child(2){animation-delay:.1s}.chip:nth-child(3){animation-delay:.2s}
+.chip .ic{width:15px;height:15px}
+.foot{position:relative;margin-top:6px;background:#fff;border:1.5px solid #cdd9ee;border-radius:22px;padding:14px 16px 12px;box-shadow:var(--sh);text-align:center;overflow:hidden;animation:rise .6s ease both .2s}
+.foot::before{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--acc2),#7be0c3,var(--acc2))}
+.cut{display:flex;align-items:center;gap:8px;color:var(--mut);margin-bottom:10px}
+.cut span{flex:1;border-top:2px dashed #b9c7e0}
+.cut .ic{width:18px;height:18px;animation:snip 2.4s ease-in-out infinite;transform-origin:center}
+.svc{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.svc span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);background:#f1f5fc;border:1px solid var(--line);border-radius:12px;padding:6px 10px}
+.svc b{font-weight:700}
+.svc .ic{width:16px;height:16px;color:var(--acc)}
+.fnote{display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0 0;font-size:12.5px;color:var(--ok);font-weight:700}
+.fnote .ic{width:16px;height:16px;flex:none}
+.copy{margin:10px 0 4px;font-size:12px;color:var(--mut)}
+.dots{display:inline-flex;gap:4px;vertical-align:middle}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--acc2);animation:blink 1.4s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes ring{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.25);opacity:0}}
+@keyframes snip{0%,100%{transform:rotate(0)}40%{transform:rotate(-14deg)}60%{transform:rotate(8deg)}}
+@keyframes blink{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+/* big icon buttons with small caption underneath */
+.row button{flex-direction:column;gap:6px;min-height:104px;padding:12px 8px 10px}
+.row button .pic{width:52px;height:52px;flex:none;filter:drop-shadow(0 4px 6px rgba(15,23,42,.18))}
+.row button span{font-size:12.5px;font-weight:700;line-height:1.2}
+.row button:not(:disabled):hover .pic{animation:wiggle .5s ease}
+
+/* animated zoom in/out watermark inside the preview frame */
+.wm{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;gap:18px;pointer-events:none;overflow:hidden;border-radius:inherit}
+.wmi{width:68px;height:68px;opacity:.2;transform-origin:center;animation:wmzoom 3.2s ease-in-out infinite;filter:saturate(1.1)}
+.wmi:nth-child(2){animation-delay:1.6s}
+@keyframes wmzoom{0%,100%{transform:scale(.8)}50%{transform:scale(1.25)}}
+
+/* preview frame: animated "Preview" title + captioned icons */
+.dframe{min-height:240px}
+.wm{flex-direction:column;justify-content:space-between;align-items:center;gap:0;padding:14px 10px 12px}
+.wmt{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-align:center;background:linear-gradient(90deg,#2269e8,#7be0c3,#9a5bd6,#2269e8);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.6;animation:wmshine 3s linear infinite}
+.wmt span{display:inline-block;animation:wmzoom2 2.4s ease-in-out infinite}
+.wmr{display:flex;gap:26px;justify-content:center;align-items:flex-end}
+.wmf{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.38}
+.wmf figcaption{font-size:11.5px;font-weight:800;color:var(--ink);letter-spacing:.03em}
+.wmi{width:56px;height:56px;opacity:1}
+.wmi:nth-child(2){animation-delay:0s}
+.wmf:nth-child(2) .wmi{animation-delay:1.6s}
+.dframe .hint{position:relative}
+@keyframes wmshine{to{background-position:-250% 0}}
+@keyframes wmzoom2{0%,100%{transform:scale(.9)}50%{transform:scale(1.15)}}
+
+/* compact camera/gallery buttons */
+.row button{min-height:72px;gap:4px;padding:8px 8px 7px}
+.row button .pic{width:32px;height:32px}
+.row button span{font-size:12px}
+/* big running "Preview" watermark in the centre of the preview frame, no icons */
+.dframe{min-height:210px}
+.wm{justify-content:center;align-items:center;padding:0 8px}
+.wmt{font-size:clamp(30px,12vw,46px);line-height:1.1;font-weight:900;letter-spacing:.08em;max-width:100%;opacity:.3;transform:rotate(-10deg);overflow-wrap:anywhere;animation:wmshine 2.6s linear infinite}
+.wmt span{animation:wmzoom2 2.2s ease-in-out infinite}
+.dframe .hint{align-items:flex-end;padding-bottom:12px;min-height:180px;position:relative;z-index:0}
+@keyframes wmzoom2{0%,100%{transform:scale(.88)}50%{transform:scale(1.12)}}
+
+/* bigger icons on camera / gallery buttons */
+.row button{min-height:92px}
+.row button .pic{height:52px;width:auto;max-width:64px;object-fit:contain}
+.row button svg.pic{width:52px;height:52px}
 </style>
 </head>
 <body>
 <main>
   <header>
-    <div class="top"><h1>Send Photo / Document</h1></div>
-    <p class="sub">Choose what you want to send. It goes straight to the shop's computer.</p>
+    <div class="top">
+      <div class="brand"><span class="logo"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 18c1-3 9-3 10 0"/></svg></span><h1 data-i="ttl">Send Photo / Document</h1></div>
+      <div class="tools">
+        <select id="lang" aria-label="Language"></select>
+        <button type="button" id="gbtn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 3.5"/><path d="M12 17v.01"/></svg><span data-i="gd">Manual Guide</span></button>
+      </div>
+    </div>
+    <p class="sub" data-i="sub">Choose what you want to send. It goes straight to the shop's computer.</p>
+    <div class="chips"><span class="chip"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-i="hb1">Secure</span></span><span class="chip"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><span data-i="hb2">Fast</span></span><span class="chip"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><span data-i="hb3">Private</span></span></div>
   </header>
 
   <p class="timer" id="timer" role="timer" hidden><span id="tmTxt"></span></p>
 
-  <div class="tabs one" role="tablist" id="tabs" aria-label="What do you want to send?" hidden>
-    <button type="button" class="tab" data-k="photo" role="tab" aria-selected="true" hidden><span class="dot"></span><span>Passport Photos</span></button>
-    <button type="button" class="tab" data-k="idcard" role="tab" aria-selected="true" hidden><span class="dot"></span><span>ID Cards</span></button>
-    <button type="button" class="tab" data-k="doc" role="tab" aria-selected="true" hidden><span class="dot"></span><span>Documents (A4)</span></button>
+  <div class="tabs one" role="tablist" id="tabs" hidden>
+    <button type="button" class="tab" data-k="photo" role="tab" aria-selected="true" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i="pP">Passport Photos</span></button>
+    <button type="button" class="tab" data-k="idcard" role="tab" aria-selected="true" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-2 5.5-2 6 0M14 10h4M14 14h4"/></svg><span data-i="pI">ID Cards</span></button>
+    <button type="button" class="tab" data-k="doc" role="tab" aria-selected="true" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><span data-i="pD">Documents (A4)</span></button>
   </div>
-  <button type="button" class="chg" id="chg" hidden>Change</button>
+  <button type="button" class="chg" id="chg" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h13l-3-3M20 17H7l3 3"/></svg><span data-i="chg">Change</span></button>
 
   <section class="sec on" id="sec" hidden>
     <div class="frame dframe" id="frame">
       <i></i><i></i><i></i><i></i>
+      <div class="wm" aria-hidden="true"><div class="wmt"><span data-i="pv">Preview</span></div></div>
       <div class="hint" id="hint"></div>
       <div id="dlist"></div>
     </div>
     <div class="row">
-      <button type="button" id="cam">Take with Camera</button>
-      <button type="button" id="gal"></button>
+      <button type="button" id="cam"><img class="pic" alt="" width="200" height="136" src="data:image/png;base64,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RzHFUgkpBb1uD9/3MzpLmq4OFFd16YP3v1dw/O3ZxSKFRAmJQehCfVj9+E/+xJd/5zd+/W133323c++9Wfa4+24r4R55+PBhe/HAP/T4kSufeu7JX+n0I3Pl3qvElu07LoxurH14oxAzl/4PvZ5dM3vu3OTZhQtWay2SJGFkZASShCeffJKRyUlaS0ucO3cO13Xp9/t8/etfZ2RkhKWlFhs2TOICI5MjvPjii2zdupU7br+Dn/rATz5r7fcmna6srMgPfOADelCF2P8lAsRaK+666y558QWcato7cPgXc42OCa0WaWJwNOSs6p478+JHP7PvE6Ibhj+1sLRyc2xkPavVjblszai54rKt6q//6uN2cnKNWb9hrd1z1V65efMmMTd9lvf8yJ2y0+2RpJpUG7r9gERrrFBo12c+sKzE0I01wrH4vktfVlnu9EnTGKMT5s5Pc+70GU4fOUpufomNY8O845138J73vZ0nD55lMRRoz8d1wFESHIdBe4DGEAUBxTAi6XeJwx466hN328RRwFe/+DmOPvEAjoIktYRxTKpNxua1lksv16rIajCRzxWKCAGu6xLHMWmaUiwWV4NCa51lkO866BeDQwz6lu93kV6uYXkpQKWQxEmajqxZ57z3x9/zD37rX9/94e930b/22DOvm5tv1R577LF/dPTkqVuthUKxSKU+THthZnnl3NFDQmZAslTSjI6NX1EulYfDKEZIkfVGUqDTlEqlyuzsDFu3bQehMMZw2WXbEELguh6u42CsodPv4iqH+fk5XNcll8+TJvpxV8rf3bNnd6Jwzr7lLa997nsNNB988EEH4Pbbb9f/s5E48b3Mm621ww88c+InViLn33WM408tzLLcbdNpdYlaPfpLHeTKEa7eMc7GTVsZHqpRrw9pP+er/c/t5/jBF4iCPgvLDaxw6ccJuVKFtes2oPudAREwodXpEscpyysr9MOQULiUxjZQ37SD4U3bGRpfw9at61kzNkzqFZlvtZlvLBGnKUkY02m06Sw1mD5wiJljR2nPneOtr7+JX/2nv8IzB8+TqBxxblDuqKyksVbgKI9Ea2ScIHQMOsKEXWwSooTmK5/7NM8+8BmUgDg1aGuQ0kW5LkoqzGr/kR3YiwfbWksuX6RYLNLtdsn5uWy+ojXaGKS61K/u5airzLwjvkfTnwXV6peKly6bxWZAgBUo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"><span data-i="cam">Take with Camera</span></button>
+      <button type="button" id="gal"><svg class="pic" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="14" width="40" height="34" rx="5" fill="#ffc94d" transform="rotate(-10 28 31)"/><rect x="14" y="14" width="40" height="34" rx="5" fill="#7be0c3" transform="rotate(8 34 31)"/><rect x="12" y="16" width="40" height="34" rx="5" fill="#fff" stroke="#2269e8" stroke-width="2.5"/><circle cx="24" cy="26" r="4" fill="#ff9f1c"/><path d="M14 46l11-12 8 8 6-6 11 10z" fill="#2f9e6e"/></svg><span id="galT" data-i="gF">Choose Gallery / File</span></button>
     </div>
     <input type="file" id="fcam" accept="image/*" capture="environment" aria-label="Camera">
     <input type="file" id="fgal" multiple aria-label="Gallery / File">
-    <button type="button" class="pri" id="send" disabled>Send to Shop</button>
+    <button type="button" class="pri" id="send" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg><span id="sendT">Send to Shop</span></button>
     <div class="bar" id="barwrap"><b id="bar"></b></div>
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
-    <button type="button" class="again" id="again">Send more</button>
+    <button type="button" class="again" id="again"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i="agn">Send more</span></button>
     <p class="note" id="note"></p>
   </section>
+  <footer class="foot">
+    <div class="cut"><span></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 8L20 19M8.5 16L20 5"/></svg><span></span></div>
+    <div class="svc"><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><b data-i="pP">Passport Photos</b></span><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-2 5.5-2 6 0M14 10h4M14 14h4"/></svg><b data-i="pI">ID Cards</b></span><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><b data-i="pD">Documents (A4)</b></span></div>
+    <p class="fnote"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><span data-i="ft">Your files go only to the shop's computer.</span></p>
+    <p class="copy">&copy; <span id="yr"></span> &middot; <span class="dots"><i></i><i></i><i></i></span></p>
+  </footer>
 </main>
 
 <div id="pick" role="dialog" aria-modal="true" aria-labelledby="pickT">
   <div class="box">
-    <h2 id="pickT">What do you want to send?</h2>
-    <p>Choose one option.</p>
-    <button type="button" class="pri" data-pk="photo">Passport Photos</button>
-    <button type="button" class="pri" data-pk="idcard">ID Cards</button>
-    <button type="button" class="pri" data-pk="doc">Documents (A4)</button>
+    <h2 id="pickT" data-i="pkT">What do you want to send?</h2>
+    <p data-i="pkP">Choose one option.</p>
+    <button type="button" class="pri" data-pk="photo"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-i="pP">Passport Photos</span></button>
+    <button type="button" class="pri" data-pk="idcard"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-2 5.5-2 6 0M14 10h4M14 14h4"/></svg><span data-i="pI">ID Cards</span></button>
+    <button type="button" class="pri" data-pk="doc"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg><span data-i="pD">Documents (A4)</span></button>
+  </div>
+</div>
+
+<div id="gm" role="dialog" aria-modal="true" aria-labelledby="gmT">
+  <div class="box">
+    <h2 id="gmT" data-i="gT">How to use this page</h2>
+    <ol id="gl"></ol>
+    <button type="button" class="pri" id="gclose"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-i="gC">Close</span></button>
   </div>
 </div>
 
 <div id="exp" role="alertdialog" aria-modal="true" aria-labelledby="expT">
   <div class="box">
     <h2 id="expT">QR expired</h2>
-    <p id="expP">This QR code was valid for 5 minutes after it was scanned. Please scan the shop's QR code again.</p>
+    <p id="expP"></p>
   </div>
 </div>
 
@@ -157,36 +300,860 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 (function(){
 'use strict';
 var TTL=5*60*1000;                 /* a scanned QR is valid for 5 minutes */
-var SK='qrSession.v1';
+var SK='qrSession.v1',LK='sendPageLang.v1';
 var RELAY='https://ntfy.sh';       /* free public relay; everything is end-to-end encrypted before upload */
 var MAXFILE=14*1024*1024, MAXN=40;
 var $=function(id){return document.getElementById(id)};
-var T={
-  badLink:"This QR link is incomplete. Ask the shop to show the QR again and scan it.",
-  noCrypto:"This browser can't send securely. Please open this page in Chrome or Safari.",
-  expired:"This QR code was valid for 5 minutes after it was scanned. Please scan the shop's QR code again.",
-  ready:"If everything looks fine, tap \u201cSend to Shop\u201d.",
-  onlyImg:"Only photos can be added here. {n} file(s) skipped.",
-  skipN:"{n} too many files (max {m})",bigN:"{n} file(s) larger than 14 MB",
-  prep:"Preparing {i}/{n}...",sending:"Sending {i}/{n}...",
-  sentOne:"{n} file sent. Now check the shop's computer.",sentMany:"{n} files sent. Now check the shop's computer.",
-  failAll:"{b} could not be sent.",failMix:"{s} sent, {b} could not be sent.",
-  tooBig:"The file is too large.",rate:"Too many requests right now. Please try again in a little while.",
-  net:"Could not send. Check your internet and try again.",err:"Something went wrong. Please try again.",
-  remove:"Remove"
+
+/* ================= LANGUAGES (English + all 22 scheduled languages of India) =================
+   Page text is written in English; every other language is chosen from the top-right menu. */
+var LANGS=[
+ ['en','English'],['hi','हिन्दी'],['bn','বাংলা'],['te','తెలుగు'],['mr','मराठी'],['ta','தமிழ்'],
+ ['ur','اردو'],['gu','ગુજરાતી'],['kn','ಕನ್ನಡ'],['or','ଓଡ଼ିଆ'],['ml','മലയാളം'],['pa','ਪੰਜਾਬੀ'],
+ ['as','অসমীয়া'],['mai','मैथिली'],['sa','संस्कृतम्'],['ne','नेपाली'],['kok','कोंकणी'],
+ ['sd','سنڌي'],['sat','ᱥᱟᱱᱛᱟᱲᱤ'],['ks','کٲشُر'],['doi','डोगरी'],['mni','মৈতৈলোন্'],['brx','बड़ो']
+];
+var RTL={ur:1,sd:1,ks:1};
+var L={};
+L.en={
+ pv:"Preview",wc:"Camera",wg:"Gallery",
+ hb1:"Secure",hb2:"Fast",hb3:"Private",ft:"Your files go only to the shop's computer.",
+ ttl:"Send Photo / Document",
+ sub:"Choose what you want to send. It goes straight to the shop's computer.",
+ chg:"Change",pP:"Passport Photos",pI:"ID Cards",pD:"Documents (A4)",
+ pkT:"What do you want to send?",pkP:"Choose one option.",
+ cam:"Take with Camera",gP:"Choose from Gallery",gF:"Choose Gallery / File",
+ snd:"Send to Shop",agn:"Send more",
+ tm:"QR is valid for 5 minutes. Time left: {t}",tmO:"Time is over. Finishing the upload...",
+ exT:"QR expired",exP:"This QR code was valid for 5 minutes after it was scanned. Please scan the shop's QR code again.",
+ bad:"This QR link is incomplete. Ask the shop to show the QR again and scan it.",
+ nc:"This browser can't send securely. Please open this page in Chrome or Safari.",
+ rdy:"If everything looks fine, tap “Send to Shop”.",
+ oi:"Only photos can be added here. {n} file(s) skipped.",
+ sk:"{n} too many files (max {m})",bg:"{n} file(s) larger than 14 MB",
+ pr:"Preparing {i}/{n}...",sg:"Sending {i}/{n}...",
+ s1:"{n} file sent. Now check the shop's computer.",sM:"{n} files sent. Now check the shop's computer.",
+ fA:"{b} could not be sent.",fM:"{s} sent, {b} could not be sent.",
+ tb:"The file is too large.",rt:"Too many requests right now. Please try again in a little while.",
+ nt:"Could not send. Check your internet and try again.",er:"Something went wrong. Please try again.",
+ rm:"Remove",
+ hP:"Your photos will appear here after you choose them.\nKeep your face straight and clear.",
+ hI:"Your ID card files will appear here.\nChoose them in pairs: Front, Back, Front, Back...",
+ hD:"Your selected photos / files will appear here.",
+ nn:"Everything is locked (encrypted) on your phone, so only the shop's computer can open it. Up to 14 MB per file, 40 files at a time.",
+ gd:"Manual Guide",gT:"How to use this page",gC:"Close",
+ g1:"Scan the shop's QR code. This page opens and a 5-minute timer starts.",
+ g2:"Choose what you want to send: Passport Photos, ID Cards or Documents (A4). Tap “Change” to switch the type.",
+ g3:"Tap “Take with Camera” to click a photo, or “Choose Gallery / File” to select existing files. You can choose many files at once.",
+ g4:"Check the previews. Tap ✕ on a file to remove it. For ID Cards, add files in pairs: Front, Back, Front, Back.",
+ g5:"Tap “Send to Shop” and wait until the success message appears. Then check the shop's computer.",
+ g6:"Your files are encrypted on your phone, so only the shop's computer can open them. Maximum 14 MB per file and 40 files at a time.",
+ g7:"If the time runs out, scan the shop's QR code again. If the page says the link is incomplete, ask the shop to show the QR again.",
+ g8:"You can change the language at any time from the menu at the top right."
 };
+L.hi={
+ pv:"पूर्वावलोकन",wc:"कैमरा",wg:"गैलरी",
+ hb1:"सुरक्षित",hb2:"तेज़",hb3:"निजी",ft:"आपकी फ़ाइलें केवल दुकान के कंप्यूटर पर जाती हैं।",
+ ttl:"फ़ोटो / दस्तावेज़ भेजें",
+ sub:"चुनें कि आप क्या भेजना चाहते हैं। यह सीधे दुकान के कंप्यूटर पर जाएगा।",
+ chg:"बदलें",pP:"पासपोर्ट फ़ोटो",pI:"आईडी कार्ड",pD:"दस्तावेज़ (A4)",
+ pkT:"आप क्या भेजना चाहते हैं?",pkP:"एक विकल्प चुनें।",
+ cam:"कैमरे से फ़ोटो लें",gP:"गैलरी से चुनें",gF:"गैलरी / फ़ाइल चुनें",
+ snd:"दुकान को भेजें",agn:"और भेजें",
+ tm:"QR 5 मिनट के लिए मान्य है। बचा समय: {t}",tmO:"समय समाप्त। अपलोड पूरा किया जा रहा है...",
+ exT:"QR की समय-सीमा समाप्त",exP:"यह QR कोड स्कैन करने के बाद 5 मिनट तक मान्य था। कृपया दुकान का QR कोड फिर से स्कैन करें।",
+ bad:"यह QR लिंक अधूरा है। दुकान से QR फिर दिखाने को कहें और स्कैन करें।",
+ nc:"यह ब्राउज़र सुरक्षित रूप से नहीं भेज सकता। कृपया इस पेज को Chrome या Safari में खोलें।",
+ rdy:"यदि सब ठीक है, तो “दुकान को भेजें” दबाएँ।",
+ oi:"यहाँ केवल फ़ोटो जोड़ी जा सकती हैं। {n} फ़ाइल छोड़ी गईं।",
+ sk:"{n} फ़ाइलें अधिक हैं (अधिकतम {m})",bg:"{n} फ़ाइल 14 MB से बड़ी हैं",
+ pr:"तैयार हो रहा है {i}/{n}...",sg:"भेजा जा रहा है {i}/{n}...",
+ s1:"{n} फ़ाइल भेजी गई। अब दुकान का कंप्यूटर देखें।",sM:"{n} फ़ाइलें भेजी गईं। अब दुकान का कंप्यूटर देखें।",
+ fA:"{b} फ़ाइल नहीं भेजी जा सकीं।",fM:"{s} भेजी गईं, {b} नहीं भेजी जा सकीं।",
+ tb:"फ़ाइल बहुत बड़ी है।",rt:"अभी बहुत अधिक अनुरोध हैं। कृपया थोड़ी देर बाद फिर कोशिश करें।",
+ nt:"भेज नहीं सके। इंटरनेट जाँचें और फिर कोशिश करें।",er:"कुछ गड़बड़ हो गई। कृपया फिर कोशिश करें।",
+ rm:"हटाएँ",
+ hP:"चुनने के बाद आपकी फ़ोटो यहाँ दिखेंगी।\nचेहरा सीधा और साफ़ रखें।",
+ hI:"आपकी आईडी कार्ड फ़ाइलें यहाँ दिखेंगी।\nजोड़ी में चुनें: आगे, पीछे, आगे, पीछे...",
+ hD:"आपकी चुनी हुई फ़ोटो / फ़ाइलें यहाँ दिखेंगी।",
+ nn:"सब कुछ आपके फ़ोन पर ही लॉक (एन्क्रिप्ट) हो जाता है, इसलिए केवल दुकान का कंप्यूटर ही इसे खोल सकता है। प्रति फ़ाइल 14 MB तक, एक बार में 40 फ़ाइलें।",
+ gd:"उपयोग गाइड",gT:"इस पेज का उपयोग कैसे करें",gC:"बंद करें",
+ g1:"दुकान का QR कोड स्कैन करें। यह पेज खुलेगा और 5 मिनट का टाइमर शुरू होगा।",
+ g2:"चुनें कि क्या भेजना है: पासपोर्ट फ़ोटो, आईडी कार्ड या दस्तावेज़ (A4)। प्रकार बदलने के लिए “बदलें” दबाएँ।",
+ g3:"फ़ोटो खींचने के लिए “कैमरे से फ़ोटो लें” दबाएँ, या मौजूदा फ़ाइलें चुनने के लिए “गैलरी / फ़ाइल चुनें” दबाएँ। एक साथ कई फ़ाइलें चुन सकते हैं।",
+ g4:"पूर्वावलोकन जाँचें। किसी फ़ाइल को हटाने के लिए उस पर ✕ दबाएँ। आईडी कार्ड के लिए जोड़ी में जोड़ें: आगे, पीछे, आगे, पीछे।",
+ g5:"“दुकान को भेजें” दबाएँ और सफलता का संदेश आने तक रुकें। फिर दुकान का कंप्यूटर देखें।",
+ g6:"आपकी फ़ाइलें फ़ोन पर ही एन्क्रिप्ट हो जाती हैं, इसलिए केवल दुकान का कंप्यूटर उन्हें खोल सकता है। प्रति फ़ाइल अधिकतम 14 MB और एक बार में 40 फ़ाइलें।",
+ g7:"समय समाप्त होने पर दुकान का QR कोड फिर स्कैन करें। यदि पेज बताए कि लिंक अधूरा है, तो दुकान से QR फिर दिखाने को कहें।",
+ g8:"आप ऊपर दाईं ओर के मेनू से कभी भी भाषा बदल सकते हैं।"
+};
+L.bn={
+ pv:"প্রিভিউ",wc:"ক্যামেরা",wg:"গ্যালারি",
+ hb1:"নিরাপদ",hb2:"দ্রুত",hb3:"গোপনীয়",ft:"আপনার ফাইল শুধু দোকানের কম্পিউটারে যায়।",
+ ttl:"ছবি / নথি পাঠান",
+ sub:"আপনি কী পাঠাতে চান তা বেছে নিন। এটি সরাসরি দোকানের কম্পিউটারে যাবে।",
+ chg:"পরিবর্তন",pP:"পাসপোর্ট ছবি",pI:"আইডি কার্ড",pD:"নথি (A4)",
+ pkT:"আপনি কী পাঠাতে চান?",pkP:"একটি বিকল্প বেছে নিন।",
+ cam:"ক্যামেরায় তুলুন",gP:"গ্যালারি থেকে বেছে নিন",gF:"গ্যালারি / ফাইল বেছে নিন",
+ snd:"দোকানে পাঠান",agn:"আরও পাঠান",
+ tm:"QR ৫ মিনিটের জন্য বৈধ। বাকি সময়: {t}",tmO:"সময় শেষ। আপলোড শেষ করা হচ্ছে...",
+ exT:"QR-এর মেয়াদ শেষ",exP:"স্ক্যান করার পর এই QR কোড ৫ মিনিট বৈধ ছিল। অনুগ্রহ করে দোকানের QR কোড আবার স্ক্যান করুন।",
+ bad:"এই QR লিংকটি অসম্পূর্ণ। দোকানকে আবার QR দেখাতে বলুন এবং স্ক্যান করুন।",
+ nc:"এই ব্রাউজার নিরাপদে পাঠাতে পারে না। অনুগ্রহ করে পেজটি Chrome বা Safari-তে খুলুন।",
+ rdy:"সব ঠিক থাকলে “দোকানে পাঠান” চাপুন।",
+ oi:"এখানে শুধু ছবি যোগ করা যায়। {n}টি ফাইল বাদ গেছে।",
+ sk:"{n}টি ফাইল বেশি (সর্বোচ্চ {m})",bg:"{n}টি ফাইল ১৪ MB-এর বেশি",
+ pr:"প্রস্তুত হচ্ছে {i}/{n}...",sg:"পাঠানো হচ্ছে {i}/{n}...",
+ s1:"{n}টি ফাইল পাঠানো হয়েছে। এখন দোকানের কম্পিউটার দেখুন।",sM:"{n}টি ফাইল পাঠানো হয়েছে। এখন দোকানের কম্পিউটার দেখুন।",
+ fA:"{b}টি ফাইল পাঠানো যায়নি।",fM:"{s}টি পাঠানো হয়েছে, {b}টি পাঠানো যায়নি।",
+ tb:"ফাইলটি খুব বড়।",rt:"এখন অনেক বেশি অনুরোধ। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
+ nt:"পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।",er:"কিছু ভুল হয়েছে। আবার চেষ্টা করুন।",
+ rm:"সরান",
+ hP:"বাছাই করার পর আপনার ছবি এখানে দেখা যাবে।\nমুখ সোজা ও পরিষ্কার রাখুন।",
+ hI:"আপনার আইডি কার্ডের ফাইল এখানে দেখা যাবে।\nজোড়ায় বেছে নিন: সামনে, পিছনে, সামনে, পিছনে...",
+ hD:"আপনার বাছাই করা ছবি / ফাইল এখানে দেখা যাবে।",
+ nn:"সবকিছু আপনার ফোনেই লক (এনক্রিপ্ট) হয়, তাই শুধু দোকানের কম্পিউটারই খুলতে পারে। প্রতি ফাইল ১৪ MB পর্যন্ত, একসাথে ৪০টি ফাইল।",
+ gd:"ব্যবহার নির্দেশিকা",gT:"এই পেজ কীভাবে ব্যবহার করবেন",gC:"বন্ধ করুন",
+ g1:"দোকানের QR কোড স্ক্যান করুন। এই পেজ খুলবে এবং ৫ মিনিটের টাইমার শুরু হবে।",
+ g2:"কী পাঠাবেন বেছে নিন: পাসপোর্ট ছবি, আইডি কার্ড বা নথি (A4)। ধরন বদলাতে “পরিবর্তন” চাপুন।",
+ g3:"ছবি তুলতে “ক্যামেরায় তুলুন” চাপুন, অথবা আগের ফাইল বেছে নিতে “গ্যালারি / ফাইল বেছে নিন” চাপুন। একসাথে অনেক ফাইল বাছা যায়।",
+ g4:"প্রিভিউ দেখে নিন। কোনো ফাইল সরাতে তার উপর ✕ চাপুন। আইডি কার্ডের ক্ষেত্রে জোড়ায় দিন: সামনে, পিছনে, সামনে, পিছনে।",
+ g5:"“দোকানে পাঠান” চাপুন এবং সফল বার্তা না আসা পর্যন্ত অপেক্ষা করুন। তারপর দোকানের কম্পিউটার দেখুন।",
+ g6:"আপনার ফাইল ফোনেই এনক্রিপ্ট হয়, তাই শুধু দোকানের কম্পিউটারই খুলতে পারে। প্রতি ফাইল সর্বোচ্চ ১৪ MB এবং একসাথে ৪০টি ফাইল।",
+ g7:"সময় শেষ হলে দোকানের QR কোড আবার স্ক্যান করুন। পেজ লিংক অসম্পূর্ণ বললে দোকানকে আবার QR দেখাতে বলুন।",
+ g8:"উপরের ডানদিকের মেনু থেকে যেকোনো সময় ভাষা বদলাতে পারেন।"
+};
+L.te={
+ pv:"ప్రివ్యూ",wc:"కెమెరా",wg:"గ్యాలరీ",
+ hb1:"సురక్షితం",hb2:"వేగం",hb3:"ప్రైవేట్",ft:"మీ ఫైళ్లు షాప్ కంప్యూటర్‌కు మాత్రమే వెళ్తాయి.",
+ ttl:"ఫోటో / పత్రం పంపండి",
+ sub:"మీరు ఏమి పంపాలనుకుంటున్నారో ఎంచుకోండి. ఇది నేరుగా షాప్ కంప్యూటర్‌కు వెళ్తుంది.",
+ chg:"మార్చు",pP:"పాస్‌పోర్ట్ ఫోటోలు",pI:"ఐడీ కార్డులు",pD:"పత్రాలు (A4)",
+ pkT:"మీరు ఏమి పంపాలనుకుంటున్నారు?",pkP:"ఒక ఎంపికను ఎంచుకోండి.",
+ cam:"కెమెరాతో తీయండి",gP:"గ్యాలరీ నుండి ఎంచుకోండి",gF:"గ్యాలరీ / ఫైల్ ఎంచుకోండి",
+ snd:"షాప్‌కు పంపండి",agn:"మరిన్ని పంపండి",
+ tm:"QR 5 నిమిషాలు చెల్లుతుంది. మిగిలిన సమయం: {t}",tmO:"సమయం ముగిసింది. అప్‌లోడ్ పూర్తవుతోంది...",
+ exT:"QR గడువు ముగిసింది",exP:"ఈ QR కోడ్ స్కాన్ చేసిన తర్వాత 5 నిమిషాలు చెల్లింది. దయచేసి షాప్ QR కోడ్‌ను మళ్లీ స్కాన్ చేయండి.",
+ bad:"ఈ QR లింక్ అసంపూర్ణంగా ఉంది. షాప్‌ను మళ్లీ QR చూపమని అడిగి స్కాన్ చేయండి.",
+ nc:"ఈ బ్రౌజర్ సురక్షితంగా పంపలేదు. దయచేసి ఈ పేజీని Chrome లేదా Safariలో తెరవండి.",
+ rdy:"అన్నీ సరిగ్గా ఉంటే “షాప్‌కు పంపండి” నొక్కండి.",
+ oi:"ఇక్కడ ఫోటోలు మాత్రమే జోడించగలరు. {n} ఫైల్(లు) వదిలివేయబడ్డాయి.",
+ sk:"{n} ఫైళ్లు ఎక్కువ (గరిష్టం {m})",bg:"{n} ఫైల్(లు) 14 MB కంటే పెద్దవి",
+ pr:"సిద్ధం చేస్తున్నాం {i}/{n}...",sg:"పంపుతున్నాం {i}/{n}...",
+ s1:"{n} ఫైల్ పంపబడింది. ఇప్పుడు షాప్ కంప్యూటర్ చూడండి.",sM:"{n} ఫైళ్లు పంపబడ్డాయి. ఇప్పుడు షాప్ కంప్యూటర్ చూడండి.",
+ fA:"{b} ఫైల్(లు) పంపలేకపోయాం.",fM:"{s} పంపబడ్డాయి, {b} పంపలేకపోయాం.",
+ tb:"ఫైల్ చాలా పెద్దది.",rt:"ప్రస్తుతం చాలా అభ్యర్థనలు ఉన్నాయి. కొంత సేపటి తర్వాత మళ్లీ ప్రయత్నించండి.",
+ nt:"పంపలేకపోయాం. ఇంటర్నెట్ చూసుకుని మళ్లీ ప్రయత్నించండి.",er:"ఏదో తప్పు జరిగింది. దయచేసి మళ్లీ ప్రయత్నించండి.",
+ rm:"తొలగించు",
+ hP:"మీరు ఎంచుకున్న తర్వాత ఫోటోలు ఇక్కడ కనిపిస్తాయి.\nముఖం నేరుగా, స్పష్టంగా ఉంచండి.",
+ hI:"మీ ఐడీ కార్డ్ ఫైళ్లు ఇక్కడ కనిపిస్తాయి.\nజంటగా ఎంచుకోండి: ముందు, వెనుక, ముందు, వెనుక...",
+ hD:"మీరు ఎంచుకున్న ఫోటోలు / ఫైళ్లు ఇక్కడ కనిపిస్తాయి.",
+ nn:"అన్నీ మీ ఫోన్‌లోనే లాక్ (ఎన్‌క్రిప్ట్) అవుతాయి, కాబట్టి షాప్ కంప్యూటర్ మాత్రమే తెరవగలదు. ఒక్కో ఫైల్ 14 MB వరకు, ఒకేసారి 40 ఫైళ్లు.",
+ gd:"వినియోగ గైడ్",gT:"ఈ పేజీని ఎలా ఉపయోగించాలి",gC:"మూసివేయి",
+ g1:"షాప్ QR కోడ్‌ను స్కాన్ చేయండి. ఈ పేజీ తెరుచుకుని 5 నిమిషాల టైమర్ మొదలవుతుంది.",
+ g2:"ఏమి పంపాలో ఎంచుకోండి: పాస్‌పోర్ట్ ఫోటోలు, ఐడీ కార్డులు లేదా పత్రాలు (A4). రకం మార్చడానికి “మార్చు” నొక్కండి.",
+ g3:"ఫోటో తీయడానికి “కెమెరాతో తీయండి” నొక్కండి, లేదా ఉన్న ఫైళ్లు ఎంచుకోవడానికి “గ్యాలరీ / ఫైల్ ఎంచుకోండి” నొక్కండి. ఒకేసారి చాలా ఫైళ్లు ఎంచుకోవచ్చు.",
+ g4:"ప్రివ్యూలను చూడండి. ఫైల్‌ను తొలగించడానికి దానిపై ✕ నొక్కండి. ఐడీ కార్డులకు జంటగా జోడించండి: ముందు, వెనుక, ముందు, వెనుక.",
+ g5:"“షాప్‌కు పంపండి” నొక్కి, విజయ సందేశం వచ్చే వరకు వేచి ఉండండి. తర్వాత షాప్ కంప్యూటర్ చూడండి.",
+ g6:"మీ ఫైళ్లు ఫోన్‌లోనే ఎన్‌క్రిప్ట్ అవుతాయి, కాబట్టి షాప్ కంప్యూటర్ మాత్రమే తెరవగలదు. ఒక్కో ఫైల్ గరిష్టంగా 14 MB, ఒకేసారి 40 ఫైళ్లు.",
+ g7:"సమయం ముగిస్తే షాప్ QR కోడ్‌ను మళ్లీ స్కాన్ చేయండి. లింక్ అసంపూర్ణమని పేజీ చెబితే షాప్‌ను QR మళ్లీ చూపమని అడగండి.",
+ g8:"పైన కుడివైపు మెనూ నుండి ఎప్పుడైనా భాష మార్చుకోవచ్చు."
+};
+L.mr={
+ pv:"पूर्वावलोकन",wc:"कॅमेरा",wg:"गॅलरी",
+ hb1:"सुरक्षित",hb2:"जलद",hb3:"खासगी",ft:"तुमच्या फाईल्स फक्त दुकानाच्या संगणकावर जातात.",
+ ttl:"फोटो / दस्तऐवज पाठवा",
+ sub:"तुम्हाला काय पाठवायचे आहे ते निवडा. हे थेट दुकानाच्या संगणकावर जाते.",
+ chg:"बदला",pP:"पासपोर्ट फोटो",pI:"ओळखपत्रे",pD:"दस्तऐवज (A4)",
+ pkT:"तुम्हाला काय पाठवायचे आहे?",pkP:"एक पर्याय निवडा.",
+ cam:"कॅमेऱ्याने फोटो काढा",gP:"गॅलरीतून निवडा",gF:"गॅलरी / फाईल निवडा",
+ snd:"दुकानाला पाठवा",agn:"आणखी पाठवा",
+ tm:"QR 5 मिनिटांसाठी वैध आहे. उरलेला वेळ: {t}",tmO:"वेळ संपली. अपलोड पूर्ण होत आहे...",
+ exT:"QR ची मुदत संपली",exP:"हा QR कोड स्कॅन केल्यानंतर 5 मिनिटांसाठी वैध होता. कृपया दुकानाचा QR कोड पुन्हा स्कॅन करा.",
+ bad:"ही QR लिंक अपूर्ण आहे. दुकानदाराला QR पुन्हा दाखवायला सांगा आणि स्कॅन करा.",
+ nc:"हा ब्राउझर सुरक्षितपणे पाठवू शकत नाही. कृपया हे पेज Chrome किंवा Safari मध्ये उघडा.",
+ rdy:"सर्व ठीक असल्यास “दुकानाला पाठवा” दाबा.",
+ oi:"येथे फक्त फोटो जोडता येतात. {n} फाईल वगळल्या.",
+ sk:"{n} फाईल जास्त आहेत (कमाल {m})",bg:"{n} फाईल 14 MB पेक्षा मोठ्या आहेत",
+ pr:"तयार होत आहे {i}/{n}...",sg:"पाठवत आहे {i}/{n}...",
+ s1:"{n} फाईल पाठवली. आता दुकानाचा संगणक पहा.",sM:"{n} फाईल्स पाठवल्या. आता दुकानाचा संगणक पहा.",
+ fA:"{b} फाईल पाठवता आल्या नाहीत.",fM:"{s} पाठवल्या, {b} पाठवता आल्या नाहीत.",
+ tb:"फाईल खूप मोठी आहे.",rt:"सध्या खूप विनंत्या आहेत. थोड्या वेळाने पुन्हा प्रयत्न करा.",
+ nt:"पाठवता आले नाही. इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.",er:"काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.",
+ rm:"काढा",
+ hP:"निवडल्यानंतर तुमचे फोटो येथे दिसतील.\nचेहरा सरळ आणि स्पष्ट ठेवा.",
+ hI:"तुमच्या ओळखपत्राच्या फाईल्स येथे दिसतील.\nजोडीने निवडा: पुढची, मागची, पुढची, मागची...",
+ hD:"तुम्ही निवडलेले फोटो / फाईल्स येथे दिसतील.",
+ nn:"सर्व काही तुमच्या फोनवरच लॉक (एन्क्रिप्ट) होते, त्यामुळे फक्त दुकानाचा संगणकच ते उघडू शकतो. प्रति फाईल 14 MB पर्यंत, एकावेळी 40 फाईल्स.",
+ gd:"वापर मार्गदर्शक",gT:"हे पेज कसे वापरावे",gC:"बंद करा",
+ g1:"दुकानाचा QR कोड स्कॅन करा. हे पेज उघडेल आणि 5 मिनिटांचा टायमर सुरू होईल.",
+ g2:"काय पाठवायचे ते निवडा: पासपोर्ट फोटो, ओळखपत्रे किंवा दस्तऐवज (A4). प्रकार बदलण्यासाठी “बदला” दाबा.",
+ g3:"फोटो काढण्यासाठी “कॅमेऱ्याने फोटो काढा” दाबा, किंवा आधीच्या फाईल्स निवडण्यासाठी “गॅलरी / फाईल निवडा” दाबा. एकावेळी अनेक फाईल्स निवडता येतात.",
+ g4:"पूर्वावलोकन तपासा. फाईल काढण्यासाठी तिच्यावरील ✕ दाबा. ओळखपत्रासाठी जोडीने जोडा: पुढची, मागची, पुढची, मागची.",
+ g5:"“दुकानाला पाठवा” दाबा आणि यशस्वी संदेश येईपर्यंत थांबा. नंतर दुकानाचा संगणक पहा.",
+ g6:"तुमच्या फाईल्स फोनवरच एन्क्रिप्ट होतात, त्यामुळे फक्त दुकानाचा संगणकच त्या उघडू शकतो. प्रति फाईल कमाल 14 MB आणि एकावेळी 40 फाईल्स.",
+ g7:"वेळ संपल्यास दुकानाचा QR कोड पुन्हा स्कॅन करा. लिंक अपूर्ण असल्याचे पेज सांगत असल्यास दुकानदाराला QR पुन्हा दाखवायला सांगा.",
+ g8:"वर उजवीकडील मेनूमधून तुम्ही कधीही भाषा बदलू शकता."
+};
+L.ta={
+ pv:"முன்னோட்டம்",wc:"கேமரா",wg:"கேலரி",
+ hb1:"பாதுகாப்பு",hb2:"விரைவு",hb3:"தனிப்பட்டது",ft:"உங்கள் கோப்புகள் கடையின் கணினிக்கு மட்டுமே செல்லும்.",
+ ttl:"புகைப்படம் / ஆவணம் அனுப்பவும்",
+ sub:"எதை அனுப்ப வேண்டும் என்பதைத் தேர்ந்தெடுக்கவும். இது நேரடியாக கடையின் கணினிக்குச் செல்லும்.",
+ chg:"மாற்று",pP:"பாஸ்போர்ட் புகைப்படங்கள்",pI:"அடையாள அட்டைகள்",pD:"ஆவணங்கள் (A4)",
+ pkT:"எதை அனுப்ப விரும்புகிறீர்கள்?",pkP:"ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்.",
+ cam:"கேமராவில் எடுக்கவும்",gP:"கேலரியிலிருந்து தேர்வு செய்யவும்",gF:"கேலரி / கோப்பைத் தேர்வு செய்யவும்",
+ snd:"கடைக்கு அனுப்பு",agn:"மேலும் அனுப்பு",
+ tm:"QR 5 நிமிடங்கள் செல்லுபடியாகும். மீதமுள்ள நேரம்: {t}",tmO:"நேரம் முடிந்தது. பதிவேற்றம் முடிக்கப்படுகிறது...",
+ exT:"QR காலாவதியானது",exP:"இந்த QR குறியீடு ஸ்கேன் செய்த பிறகு 5 நிமிடங்கள் செல்லுபடியானது. கடையின் QR குறியீட்டை மீண்டும் ஸ்கேன் செய்யவும்.",
+ bad:"இந்த QR இணைப்பு முழுமையாக இல்லை. கடையிடம் QR ஐ மீண்டும் காட்டச் சொல்லி ஸ்கேன் செய்யவும்.",
+ nc:"இந்த உலாவி பாதுகாப்பாக அனுப்ப முடியாது. இந்தப் பக்கத்தை Chrome அல்லது Safari இல் திறக்கவும்.",
+ rdy:"எல்லாம் சரியாக இருந்தால் “கடைக்கு அனுப்பு” என்பதைத் தட்டவும்.",
+ oi:"இங்கு புகைப்படங்களை மட்டுமே சேர்க்க முடியும். {n} கோப்பு(கள்) தவிர்க்கப்பட்டன.",
+ sk:"{n} கோப்புகள் அதிகம் (அதிகபட்சம் {m})",bg:"{n} கோப்பு(கள்) 14 MB ஐ விடப் பெரியவை",
+ pr:"தயார் செய்கிறது {i}/{n}...",sg:"அனுப்புகிறது {i}/{n}...",
+ s1:"{n} கோப்பு அனுப்பப்பட்டது. இப்போது கடையின் கணினியைப் பாருங்கள்.",sM:"{n} கோப்புகள் அனுப்பப்பட்டன. இப்போது கடையின் கணினியைப் பாருங்கள்.",
+ fA:"{b} கோப்பு(கள்) அனுப்ப முடியவில்லை.",fM:"{s} அனுப்பப்பட்டன, {b} அனுப்ப முடியவில்லை.",
+ tb:"கோப்பு மிகப் பெரியது.",rt:"இப்போது அதிக கோரிக்கைகள் உள்ளன. சிறிது நேரம் கழித்து மீண்டும் முயலவும்.",
+ nt:"அனுப்ப முடியவில்லை. இணையத்தைச் சரிபார்த்து மீண்டும் முயலவும்.",er:"ஏதோ தவறு நடந்தது. மீண்டும் முயலவும்.",
+ rm:"நீக்கு",
+ hP:"நீங்கள் தேர்ந்தெடுத்த பிறகு புகைப்படங்கள் இங்கே தோன்றும்.\nமுகத்தை நேராகவும் தெளிவாகவும் வைத்திருங்கள்.",
+ hI:"உங்கள் அடையாள அட்டை கோப்புகள் இங்கே தோன்றும்.\nஜோடியாகத் தேர்ந்தெடுக்கவும்: முன், பின், முன், பின்...",
+ hD:"நீங்கள் தேர்ந்தெடுத்த புகைப்படங்கள் / கோப்புகள் இங்கே தோன்றும்.",
+ nn:"எல்லாமும் உங்கள் தொலைபேசியிலேயே பூட்டப்படுகிறது (என்கிரிப்ட்), எனவே கடையின் கணினி மட்டுமே திறக்க முடியும். ஒரு கோப்புக்கு 14 MB வரை, ஒரே நேரத்தில் 40 கோப்புகள்.",
+ gd:"பயன்பாட்டு வழிகாட்டி",gT:"இந்தப் பக்கத்தை எப்படிப் பயன்படுத்துவது",gC:"மூடு",
+ g1:"கடையின் QR குறியீட்டை ஸ்கேன் செய்யவும். இந்தப் பக்கம் திறந்து 5 நிமிட டைமர் தொடங்கும்.",
+ g2:"எதை அனுப்ப வேண்டும் எனத் தேர்ந்தெடுக்கவும்: பாஸ்போர்ட் புகைப்படங்கள், அடையாள அட்டைகள் அல்லது ஆவணங்கள் (A4). வகையை மாற்ற “மாற்று” என்பதைத் தட்டவும்.",
+ g3:"புகைப்படம் எடுக்க “கேமராவில் எடுக்கவும்” என்பதைத் தட்டவும், அல்லது ஏற்கனவே உள்ள கோப்புகளைத் தேர்ந்தெடுக்க “கேலரி / கோப்பைத் தேர்வு செய்யவும்” என்பதைத் தட்டவும். ஒரே நேரத்தில் பல கோப்புகளைத் தேர்ந்தெடுக்கலாம்.",
+ g4:"முன்னோட்டங்களைச் சரிபார்க்கவும். கோப்பை நீக்க அதில் ✕ தட்டவும். அடையாள அட்டைகளுக்கு ஜோடியாகச் சேர்க்கவும்: முன், பின், முன், பின்.",
+ g5:"“கடைக்கு அனுப்பு” என்பதைத் தட்டி, வெற்றிச் செய்தி வரும் வரை காத்திருக்கவும். பிறகு கடையின் கணினியைப் பாருங்கள்.",
+ g6:"உங்கள் கோப்புகள் தொலைபேசியிலேயே என்கிரிப்ட் செய்யப்படுகின்றன, எனவே கடையின் கணினி மட்டுமே திறக்க முடியும். ஒரு கோப்புக்கு அதிகபட்சம் 14 MB, ஒரே நேரத்தில் 40 கோப்புகள்.",
+ g7:"நேரம் முடிந்தால் கடையின் QR குறியீட்டை மீண்டும் ஸ்கேன் செய்யவும். இணைப்பு முழுமையாக இல்லை என்று பக்கம் கூறினால், கடையிடம் QR ஐ மீண்டும் காட்டச் சொல்லுங்கள்.",
+ g8:"மேல் வலதுபுற மெனுவிலிருந்து எப்போது வேண்டுமானாலும் மொழியை மாற்றலாம்."
+};
+L.ur={
+ pv:"پیش منظر",wc:"کیمرہ",wg:"گیلری",
+ hb1:"محفوظ",hb2:"تیز",hb3:"نجی",ft:"آپ کی فائلیں صرف دکان کے کمپیوٹر پر جاتی ہیں۔",
+ ttl:"تصویر / دستاویز بھیجیں",
+ sub:"منتخب کریں کہ آپ کیا بھیجنا چاہتے ہیں۔ یہ سیدھا دکان کے کمپیوٹر پر جائے گا۔",
+ chg:"تبدیل کریں",pP:"پاسپورٹ تصاویر",pI:"شناختی کارڈ",pD:"دستاویزات (A4)",
+ pkT:"آپ کیا بھیجنا چاہتے ہیں؟",pkP:"ایک آپشن منتخب کریں۔",
+ cam:"کیمرے سے تصویر لیں",gP:"گیلری سے منتخب کریں",gF:"گیلری / فائل منتخب کریں",
+ snd:"دکان کو بھیجیں",agn:"مزید بھیجیں",
+ tm:"QR 5 منٹ کے لیے درست ہے۔ باقی وقت: {t}",tmO:"وقت ختم۔ اپ لوڈ مکمل کیا جا رہا ہے...",
+ exT:"QR کی میعاد ختم",exP:"یہ QR کوڈ اسکین کرنے کے بعد 5 منٹ کے لیے درست تھا۔ براہِ کرم دکان کا QR کوڈ دوبارہ اسکین کریں۔",
+ bad:"یہ QR لنک نامکمل ہے۔ دکاندار سے QR دوبارہ دکھانے کو کہیں اور اسکین کریں۔",
+ nc:"یہ براؤزر محفوظ طریقے سے نہیں بھیج سکتا۔ براہِ کرم یہ صفحہ Chrome یا Safari میں کھولیں۔",
+ rdy:"اگر سب ٹھیک ہے تو “دکان کو بھیجیں” دبائیں۔",
+ oi:"یہاں صرف تصاویر شامل کی جا سکتی ہیں۔ {n} فائل(یں) چھوڑ دی گئیں۔",
+ sk:"{n} فائلیں زیادہ ہیں (زیادہ سے زیادہ {m})",bg:"{n} فائل(یں) 14 MB سے بڑی ہیں",
+ pr:"تیار ہو رہا ہے {i}/{n}...",sg:"بھیجا جا رہا ہے {i}/{n}...",
+ s1:"{n} فائل بھیج دی گئی۔ اب دکان کا کمپیوٹر دیکھیں۔",sM:"{n} فائلیں بھیج دی گئیں۔ اب دکان کا کمپیوٹر دیکھیں۔",
+ fA:"{b} فائل(یں) نہیں بھیجی جا سکیں۔",fM:"{s} بھیجی گئیں، {b} نہیں بھیجی جا سکیں۔",
+ tb:"فائل بہت بڑی ہے۔",rt:"اس وقت بہت زیادہ درخواستیں ہیں۔ تھوڑی دیر بعد دوبارہ کوشش کریں۔",
+ nt:"بھیج نہیں سکے۔ انٹرنیٹ چیک کریں اور دوبارہ کوشش کریں۔",er:"کچھ غلط ہو گیا۔ براہِ کرم دوبارہ کوشش کریں۔",
+ rm:"ہٹائیں",
+ hP:"منتخب کرنے کے بعد آپ کی تصاویر یہاں نظر آئیں گی۔\nچہرہ سیدھا اور صاف رکھیں۔",
+ hI:"آپ کی شناختی کارڈ فائلیں یہاں نظر آئیں گی۔\nجوڑی میں منتخب کریں: آگے، پیچھے، آگے، پیچھے...",
+ hD:"آپ کی منتخب تصاویر / فائلیں یہاں نظر آئیں گی۔",
+ nn:"سب کچھ آپ کے فون پر ہی لاک (انکرپٹ) ہو جاتا ہے، اس لیے صرف دکان کا کمپیوٹر ہی اسے کھول سکتا ہے۔ فی فائل 14 MB تک، ایک وقت میں 40 فائلیں۔",
+ gd:"استعمال گائیڈ",gT:"اس صفحے کو کیسے استعمال کریں",gC:"بند کریں",
+ g1:"دکان کا QR کوڈ اسکین کریں۔ یہ صفحہ کھلے گا اور 5 منٹ کا ٹائمر شروع ہوگا۔",
+ g2:"منتخب کریں کہ کیا بھیجنا ہے: پاسپورٹ تصاویر، شناختی کارڈ یا دستاویزات (A4)۔ قسم بدلنے کے لیے “تبدیل کریں” دبائیں۔",
+ g3:"تصویر لینے کے لیے “کیمرے سے تصویر لیں” دبائیں، یا موجودہ فائلیں چننے کے لیے “گیلری / فائل منتخب کریں” دبائیں۔ ایک ساتھ کئی فائلیں چن سکتے ہیں۔",
+ g4:"پیش نظارہ دیکھ لیں۔ کسی فائل کو ہٹانے کے لیے اس پر ✕ دبائیں۔ شناختی کارڈ کے لیے جوڑی میں شامل کریں: آگے، پیچھے، آگے، پیچھے۔",
+ g5:"“دکان کو بھیجیں” دبائیں اور کامیابی کا پیغام آنے تک انتظار کریں۔ پھر دکان کا کمپیوٹر دیکھیں۔",
+ g6:"آپ کی فائلیں فون پر ہی انکرپٹ ہو جاتی ہیں، اس لیے صرف دکان کا کمپیوٹر انہیں کھول سکتا ہے۔ فی فائل زیادہ سے زیادہ 14 MB اور ایک وقت میں 40 فائلیں۔",
+ g7:"وقت ختم ہو جائے تو دکان کا QR کوڈ دوبارہ اسکین کریں۔ اگر صفحہ کہے کہ لنک نامکمل ہے تو دکاندار سے QR دوبارہ دکھانے کو کہیں۔",
+ g8:"آپ اوپر دائیں جانب کے مینو سے کسی بھی وقت زبان بدل سکتے ہیں۔"
+};
+L.gu={
+ pv:"પૂર્વાવલોકન",wc:"કેમેરા",wg:"ગેલેરી",
+ hb1:"સુરક્ષિત",hb2:"ઝડપી",hb3:"ખાનગી",ft:"તમારી ફાઇલો ફક્ત દુકાનના કમ્પ્યુટર પર જાય છે.",
+ ttl:"ફોટો / દસ્તાવેજ મોકલો",
+ sub:"તમે શું મોકલવા માંગો છો તે પસંદ કરો. તે સીધું દુકાનના કમ્પ્યુટર પર જશે.",
+ chg:"બદલો",pP:"પાસપોર્ટ ફોટા",pI:"ઓળખ કાર્ડ",pD:"દસ્તાવેજો (A4)",
+ pkT:"તમે શું મોકલવા માંગો છો?",pkP:"એક વિકલ્પ પસંદ કરો.",
+ cam:"કેમેરાથી ફોટો લો",gP:"ગેલેરીમાંથી પસંદ કરો",gF:"ગેલેરી / ફાઇલ પસંદ કરો",
+ snd:"દુકાનને મોકલો",agn:"વધુ મોકલો",
+ tm:"QR 5 મિનિટ માટે માન્ય છે. બાકી સમય: {t}",tmO:"સમય પૂરો. અપલોડ પૂર્ણ થઈ રહ્યું છે...",
+ exT:"QR ની મુદત પૂરી",exP:"આ QR કોડ સ્કેન કર્યા પછી 5 મિનિટ માટે માન્ય હતો. કૃપા કરીને દુકાનનો QR કોડ ફરી સ્કેન કરો.",
+ bad:"આ QR લિંક અધૂરી છે. દુકાનદારને QR ફરી બતાવવા કહો અને સ્કેન કરો.",
+ nc:"આ બ્રાઉઝર સુરક્ષિત રીતે મોકલી શકતું નથી. કૃપા કરીને આ પેજ Chrome અથવા Safari માં ખોલો.",
+ rdy:"બધું બરાબર હોય તો “દુકાનને મોકલો” દબાવો.",
+ oi:"અહીં ફક્ત ફોટા ઉમેરી શકાય છે. {n} ફાઇલ છોડી દેવામાં આવી.",
+ sk:"{n} ફાઇલ વધારે છે (મહત્તમ {m})",bg:"{n} ફાઇલ 14 MB થી મોટી છે",
+ pr:"તૈયાર થઈ રહ્યું છે {i}/{n}...",sg:"મોકલી રહ્યા છે {i}/{n}...",
+ s1:"{n} ફાઇલ મોકલાઈ. હવે દુકાનનું કમ્પ્યુટર જુઓ.",sM:"{n} ફાઇલો મોકલાઈ. હવે દુકાનનું કમ્પ્યુટર જુઓ.",
+ fA:"{b} ફાઇલ મોકલી શકાઈ નહીં.",fM:"{s} મોકલાઈ, {b} મોકલી શકાઈ નહીં.",
+ tb:"ફાઇલ ખૂબ મોટી છે.",rt:"અત્યારે ઘણી વિનંતીઓ છે. થોડી વાર પછી ફરી પ્રયાસ કરો.",
+ nt:"મોકલી શકાયું નહીં. ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો.",er:"કંઈક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો.",
+ rm:"દૂર કરો",
+ hP:"પસંદ કર્યા પછી તમારા ફોટા અહીં દેખાશે.\nચહેરો સીધો અને સ્પષ્ટ રાખો.",
+ hI:"તમારી ઓળખ કાર્ડની ફાઇલો અહીં દેખાશે.\nજોડીમાં પસંદ કરો: આગળ, પાછળ, આગળ, પાછળ...",
+ hD:"તમારા પસંદ કરેલા ફોટા / ફાઇલો અહીં દેખાશે.",
+ nn:"બધું તમારા ફોન પર જ લૉક (એન્ક્રિપ્ટ) થાય છે, તેથી ફક્ત દુકાનનું કમ્પ્યુટર જ ખોલી શકે છે. એક ફાઇલ 14 MB સુધી, એક વારમાં 40 ફાઇલો.",
+ gd:"ઉપયોગ માર્ગદર્શિકા",gT:"આ પેજનો ઉપયોગ કેવી રીતે કરવો",gC:"બંધ કરો",
+ g1:"દુકાનનો QR કોડ સ્કેન કરો. આ પેજ ખુલશે અને 5 મિનિટનો ટાઇમર શરૂ થશે.",
+ g2:"શું મોકલવું તે પસંદ કરો: પાસપોર્ટ ફોટા, ઓળખ કાર્ડ અથવા દસ્તાવેજો (A4). પ્રકાર બદલવા “બદલો” દબાવો.",
+ g3:"ફોટો લેવા “કેમેરાથી ફોટો લો” દબાવો, અથવા હાલની ફાઇલો પસંદ કરવા “ગેલેરી / ફાઇલ પસંદ કરો” દબાવો. એકસાથે ઘણી ફાઇલો પસંદ કરી શકાય છે.",
+ g4:"પ્રિવ્યૂ તપાસો. ફાઇલ દૂર કરવા તેના પર ✕ દબાવો. ઓળખ કાર્ડ માટે જોડીમાં ઉમેરો: આગળ, પાછળ, આગળ, પાછળ.",
+ g5:"“દુકાનને મોકલો” દબાવો અને સફળતાનો સંદેશ આવે ત્યાં સુધી રાહ જુઓ. પછી દુકાનનું કમ્પ્યુટર જુઓ.",
+ g6:"તમારી ફાઇલો ફોન પર જ એન્ક્રિપ્ટ થાય છે, તેથી ફક્ત દુકાનનું કમ્પ્યુટર જ ખોલી શકે છે. એક ફાઇલ મહત્તમ 14 MB અને એક વારમાં 40 ફાઇલો.",
+ g7:"સમય પૂરો થાય તો દુકાનનો QR કોડ ફરી સ્કેન કરો. પેજ લિંક અધૂરી હોવાનું કહે તો દુકાનદારને QR ફરી બતાવવા કહો.",
+ g8:"ઉપર જમણી બાજુના મેનૂમાંથી તમે ગમે ત્યારે ભાષા બદલી શકો છો."
+};
+L.kn={
+ pv:"ಪೂರ್ವವೀಕ್ಷಣೆ",wc:"ಕ್ಯಾಮೆರಾ",wg:"ಗ್ಯಾಲರಿ",
+ hb1:"ಸುರಕ್ಷಿತ",hb2:"ವೇಗ",hb3:"ಖಾಸಗಿ",ft:"ನಿಮ್ಮ ಫೈಲ್‌ಗಳು ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್‌ಗೆ ಮಾತ್ರ ಹೋಗುತ್ತವೆ.",
+ ttl:"ಫೋಟೋ / ದಾಖಲೆ ಕಳುಹಿಸಿ",
+ sub:"ನೀವು ಏನು ಕಳುಹಿಸಲು ಬಯಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿ. ಇದು ನೇರವಾಗಿ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್‌ಗೆ ಹೋಗುತ್ತದೆ.",
+ chg:"ಬದಲಿಸಿ",pP:"ಪಾಸ್‌ಪೋರ್ಟ್ ಫೋಟೋಗಳು",pI:"ಗುರುತಿನ ಚೀಟಿಗಳು",pD:"ದಾಖಲೆಗಳು (A4)",
+ pkT:"ನೀವು ಏನು ಕಳುಹಿಸಲು ಬಯಸುತ್ತೀರಿ?",pkP:"ಒಂದು ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ.",
+ cam:"ಕ್ಯಾಮೆರಾದಿಂದ ತೆಗೆಯಿರಿ",gP:"ಗ್ಯಾಲರಿಯಿಂದ ಆರಿಸಿ",gF:"ಗ್ಯಾಲರಿ / ಫೈಲ್ ಆರಿಸಿ",
+ snd:"ಅಂಗಡಿಗೆ ಕಳುಹಿಸಿ",agn:"ಇನ್ನಷ್ಟು ಕಳುಹಿಸಿ",
+ tm:"QR 5 ನಿಮಿಷ ಮಾನ್ಯವಾಗಿರುತ್ತದೆ. ಉಳಿದ ಸಮಯ: {t}",tmO:"ಸಮಯ ಮುಗಿದಿದೆ. ಅಪ್‌ಲೋಡ್ ಪೂರ್ಣಗೊಳ್ಳುತ್ತಿದೆ...",
+ exT:"QR ಅವಧಿ ಮುಗಿದಿದೆ",exP:"ಈ QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿದ ನಂತರ 5 ನಿಮಿಷ ಮಾನ್ಯವಾಗಿತ್ತು. ದಯವಿಟ್ಟು ಅಂಗಡಿಯ QR ಕೋಡ್ ಅನ್ನು ಮತ್ತೆ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
+ bad:"ಈ QR ಲಿಂಕ್ ಅಪೂರ್ಣವಾಗಿದೆ. ಅಂಗಡಿಯವರಿಗೆ QR ಮತ್ತೆ ತೋರಿಸಲು ಹೇಳಿ ಮತ್ತು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
+ nc:"ಈ ಬ್ರೌಸರ್ ಸುರಕ್ಷಿತವಾಗಿ ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಈ ಪುಟವನ್ನು Chrome ಅಥವಾ Safari ನಲ್ಲಿ ತೆರೆಯಿರಿ.",
+ rdy:"ಎಲ್ಲವೂ ಸರಿಯಾಗಿದ್ದರೆ “ಅಂಗಡಿಗೆ ಕಳುಹಿಸಿ” ಒತ್ತಿ.",
+ oi:"ಇಲ್ಲಿ ಫೋಟೋಗಳನ್ನು ಮಾತ್ರ ಸೇರಿಸಬಹುದು. {n} ಫೈಲ್(ಗಳು) ಬಿಟ್ಟುಬಿಡಲಾಗಿದೆ.",
+ sk:"{n} ಫೈಲ್‌ಗಳು ಹೆಚ್ಚು (ಗರಿಷ್ಠ {m})",bg:"{n} ಫೈಲ್(ಗಳು) 14 MB ಗಿಂತ ದೊಡ್ಡದು",
+ pr:"ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ {i}/{n}...",sg:"ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ {i}/{n}...",
+ s1:"{n} ಫೈಲ್ ಕಳುಹಿಸಲಾಗಿದೆ. ಈಗ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ನೋಡಿ.",sM:"{n} ಫೈಲ್‌ಗಳನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ. ಈಗ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ನೋಡಿ.",
+ fA:"{b} ಫೈಲ್(ಗಳು) ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",fM:"{s} ಕಳುಹಿಸಲಾಗಿದೆ, {b} ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
+ tb:"ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ.",rt:"ಈಗ ಹೆಚ್ಚು ವಿನಂತಿಗಳಿವೆ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+ nt:"ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",er:"ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+ rm:"ತೆಗೆದುಹಾಕಿ",
+ hP:"ಆಯ್ಕೆ ಮಾಡಿದ ನಂತರ ನಿಮ್ಮ ಫೋಟೋಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.\nಮುಖವನ್ನು ನೇರವಾಗಿ ಮತ್ತು ಸ್ಪಷ್ಟವಾಗಿ ಇರಿಸಿ.",
+ hI:"ನಿಮ್ಮ ಗುರುತಿನ ಚೀಟಿ ಫೈಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.\nಜೋಡಿಯಾಗಿ ಆರಿಸಿ: ಮುಂಭಾಗ, ಹಿಂಭಾಗ, ಮುಂಭಾಗ, ಹಿಂಭಾಗ...",
+ hD:"ನೀವು ಆರಿಸಿದ ಫೋಟೋಗಳು / ಫೈಲ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.",
+ nn:"ಎಲ್ಲವೂ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲೇ ಲಾಕ್ (ಎನ್‌ಕ್ರಿಪ್ಟ್) ಆಗುತ್ತದೆ, ಆದ್ದರಿಂದ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ಮಾತ್ರ ತೆರೆಯಬಲ್ಲದು. ಪ್ರತಿ ಫೈಲ್ 14 MB ವರೆಗೆ, ಒಮ್ಮೆಗೆ 40 ಫೈಲ್‌ಗಳು.",
+ gd:"ಬಳಕೆ ಮಾರ್ಗದರ್ಶಿ",gT:"ಈ ಪುಟವನ್ನು ಹೇಗೆ ಬಳಸುವುದು",gC:"ಮುಚ್ಚಿ",
+ g1:"ಅಂಗಡಿಯ QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ. ಈ ಪುಟ ತೆರೆದು 5 ನಿಮಿಷದ ಟೈಮರ್ ಆರಂಭವಾಗುತ್ತದೆ.",
+ g2:"ಏನು ಕಳುಹಿಸಬೇಕು ಎಂದು ಆರಿಸಿ: ಪಾಸ್‌ಪೋರ್ಟ್ ಫೋಟೋಗಳು, ಗುರುತಿನ ಚೀಟಿಗಳು ಅಥವಾ ದಾಖಲೆಗಳು (A4). ಪ್ರಕಾರ ಬದಲಿಸಲು “ಬದಲಿಸಿ” ಒತ್ತಿ.",
+ g3:"ಫೋಟೋ ತೆಗೆಯಲು “ಕ್ಯಾಮೆರಾದಿಂದ ತೆಗೆಯಿರಿ” ಒತ್ತಿ, ಅಥವಾ ಇರುವ ಫೈಲ್‌ಗಳನ್ನು ಆರಿಸಲು “ಗ್ಯಾಲರಿ / ಫೈಲ್ ಆರಿಸಿ” ಒತ್ತಿ. ಒಮ್ಮೆಗೆ ಹಲವು ಫೈಲ್‌ಗಳನ್ನು ಆರಿಸಬಹುದು.",
+ g4:"ಪೂರ್ವವೀಕ್ಷಣೆ ಪರಿಶೀಲಿಸಿ. ಫೈಲ್ ತೆಗೆದುಹಾಕಲು ಅದರ ಮೇಲಿನ ✕ ಒತ್ತಿ. ಗುರುತಿನ ಚೀಟಿಗಳಿಗೆ ಜೋಡಿಯಾಗಿ ಸೇರಿಸಿ: ಮುಂಭಾಗ, ಹಿಂಭಾಗ, ಮುಂಭಾಗ, ಹಿಂಭಾಗ.",
+ g5:"“ಅಂಗಡಿಗೆ ಕಳುಹಿಸಿ” ಒತ್ತಿ ಮತ್ತು ಯಶಸ್ಸಿನ ಸಂದೇಶ ಬರುವವರೆಗೆ ಕಾಯಿರಿ. ನಂತರ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ನೋಡಿ.",
+ g6:"ನಿಮ್ಮ ಫೈಲ್‌ಗಳು ಫೋನ್‌ನಲ್ಲೇ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗುತ್ತವೆ, ಆದ್ದರಿಂದ ಅಂಗಡಿಯ ಕಂಪ್ಯೂಟರ್ ಮಾತ್ರ ತೆರೆಯಬಲ್ಲದು. ಪ್ರತಿ ಫೈಲ್ ಗರಿಷ್ಠ 14 MB, ಒಮ್ಮೆಗೆ 40 ಫೈಲ್‌ಗಳು.",
+ g7:"ಸಮಯ ಮುಗಿದರೆ ಅಂಗಡಿಯ QR ಕೋಡ್ ಮತ್ತೆ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ. ಲಿಂಕ್ ಅಪೂರ್ಣ ಎಂದು ಪುಟ ಹೇಳಿದರೆ ಅಂಗಡಿಯವರಿಗೆ QR ಮತ್ತೆ ತೋರಿಸಲು ಹೇಳಿ.",
+ g8:"ಮೇಲಿನ ಬಲಭಾಗದ ಮೆನುವಿನಿಂದ ಯಾವಾಗ ಬೇಕಾದರೂ ಭಾಷೆ ಬದಲಿಸಬಹುದು."
+};
+L.or={
+ pv:"ପ୍ରିଭ୍ୟୁ",wc:"କ୍ୟାମେରା",wg:"ଗ୍ୟାଲେରୀ",
+ hb1:"ସୁରକ୍ଷିତ",hb2:"ଦ୍ରୁତ",hb3:"ବ୍ୟକ୍ତିଗତ",ft:"ଆପଣଙ୍କ ଫାଇଲ୍ କେବଳ ଦୋକାନର କମ୍ପ୍ୟୁଟରକୁ ଯାଏ।",
+ ttl:"ଫଟୋ / ଦଲିଲ ପଠାନ୍ତୁ",
+ sub:"ଆପଣ କଣ ପଠାଇବାକୁ ଚାହାଁନ୍ତି ବାଛନ୍ତୁ। ଏହା ସିଧାସଳଖ ଦୋକାନର କମ୍ପ୍ୟୁଟରକୁ ଯିବ।",
+ chg:"ବଦଳାନ୍ତୁ",pP:"ପାସପୋର୍ଟ ଫଟୋ",pI:"ଆଇଡି କାର୍ଡ",pD:"ଦଲିଲ (A4)",
+ pkT:"ଆପଣ କଣ ପଠାଇବାକୁ ଚାହାଁନ୍ତି?",pkP:"ଗୋଟିଏ ବିକଳ୍ପ ବାଛନ୍ତୁ।",
+ cam:"କ୍ୟାମେରାରେ ଉଠାନ୍ତୁ",gP:"ଗ୍ୟାଲେରୀରୁ ବାଛନ୍ତୁ",gF:"ଗ୍ୟାଲେରୀ / ଫାଇଲ୍ ବାଛନ୍ତୁ",
+ snd:"ଦୋକାନକୁ ପଠାନ୍ତୁ",agn:"ଆହୁରି ପଠାନ୍ତୁ",
+ tm:"QR 5 ମିନିଟ୍ ପାଇଁ ବୈଧ। ବାକି ସମୟ: {t}",tmO:"ସମୟ ସରିଲା। ଅପଲୋଡ୍ ଶେଷ ହେଉଛି...",
+ exT:"QR ର ମିଆଦ ଶେଷ",exP:"ଏହି QR କୋଡ୍ ସ୍କାନ୍ କଲା ପରେ 5 ମିନିଟ୍ ବୈଧ ଥିଲା। ଦୟାକରି ଦୋକାନର QR କୋଡ୍ ପୁଣି ସ୍କାନ୍ କରନ୍ତୁ।",
+ bad:"ଏହି QR ଲିଙ୍କ୍ ଅସମ୍ପୂର୍ଣ୍ଣ। ଦୋକାନୀଙ୍କୁ QR ପୁଣି ଦେଖାଇବାକୁ କହି ସ୍କାନ୍ କରନ୍ତୁ।",
+ nc:"ଏହି ବ୍ରାଉଜର୍ ସୁରକ୍ଷିତ ଭାବେ ପଠାଇ ପାରିବ ନାହିଁ। ଦୟାକରି ଏହି ପେଜ୍ Chrome କିମ୍ବା Safari ରେ ଖୋଲନ୍ତୁ।",
+ rdy:"ସବୁ ଠିକ୍ ଥିଲେ “ଦୋକାନକୁ ପଠାନ୍ତୁ” ଦବାନ୍ତୁ।",
+ oi:"ଏଠାରେ କେବଳ ଫଟୋ ଯୋଡ଼ାଯାଇପାରିବ। {n} ଫାଇଲ୍ ଛାଡ଼ି ଦିଆଗଲା।",
+ sk:"{n} ଫାଇଲ୍ ଅଧିକ (ସର୍ବାଧିକ {m})",bg:"{n} ଫାଇଲ୍ 14 MB ରୁ ବଡ଼",
+ pr:"ପ୍ରସ୍ତୁତ ହେଉଛି {i}/{n}...",sg:"ପଠାଯାଉଛି {i}/{n}...",
+ s1:"{n} ଫାଇଲ୍ ପଠାଗଲା। ବର୍ତ୍ତମାନ ଦୋକାନର କମ୍ପ୍ୟୁଟର ଦେଖନ୍ତୁ।",sM:"{n} ଫାଇଲ୍ ପଠାଗଲା। ବର୍ତ୍ତମାନ ଦୋକାନର କମ୍ପ୍ୟୁଟର ଦେଖନ୍ତୁ।",
+ fA:"{b} ଫାଇଲ୍ ପଠାଯାଇପାରିଲା ନାହିଁ।",fM:"{s} ପଠାଗଲା, {b} ପଠାଯାଇପାରିଲା ନାହିଁ।",
+ tb:"ଫାଇଲ୍ ଅତ୍ୟନ୍ତ ବଡ଼।",rt:"ବର୍ତ୍ତମାନ ଅନେକ ଅନୁରୋଧ ଅଛି। କିଛି ସମୟ ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",
+ nt:"ପଠାଯାଇପାରିଲା ନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଯାଞ୍ଚ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",er:"କିଛି ଭୁଲ ହେଲା। ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",
+ rm:"କାଢ଼ନ୍ତୁ",
+ hP:"ବାଛିବା ପରେ ଆପଣଙ୍କ ଫଟୋ ଏଠାରେ ଦେଖାଯିବ।\nମୁହଁ ସିଧା ଓ ସ୍ପଷ୍ଟ ରଖନ୍ତୁ।",
+ hI:"ଆପଣଙ୍କ ଆଇଡି କାର୍ଡ ଫାଇଲ୍ ଏଠାରେ ଦେଖାଯିବ।\nଯୋଡ଼ିରେ ବାଛନ୍ତୁ: ଆଗ, ପଛ, ଆଗ, ପଛ...",
+ hD:"ଆପଣ ବାଛିଥିବା ଫଟୋ / ଫାଇଲ୍ ଏଠାରେ ଦେଖାଯିବ।",
+ nn:"ସବୁକିଛି ଆପଣଙ୍କ ଫୋନରେ ହିଁ ଲକ୍ (ଏନକ୍ରିପ୍ଟ) ହୁଏ, ତେଣୁ କେବଳ ଦୋକାନର କମ୍ପ୍ୟୁଟର ଖୋଲିପାରିବ। ପ୍ରତି ଫାଇଲ୍ 14 MB ପର୍ଯ୍ୟନ୍ତ, ଥରକେ 40 ଫାଇଲ୍।",
+ gd:"ବ୍ୟବହାର ଗାଇଡ୍",gT:"ଏହି ପେଜ୍ କିପରି ବ୍ୟବହାର କରିବେ",gC:"ବନ୍ଦ କରନ୍ତୁ",
+ g1:"ଦୋକାନର QR କୋଡ୍ ସ୍କାନ୍ କରନ୍ତୁ। ଏହି ପେଜ୍ ଖୋଲିବ ଏବଂ 5 ମିନିଟ୍ ଟାଇମର୍ ଆରମ୍ଭ ହେବ।",
+ g2:"କଣ ପଠାଇବେ ବାଛନ୍ତୁ: ପାସପୋର୍ଟ ଫଟୋ, ଆଇଡି କାର୍ଡ କିମ୍ବା ଦଲିଲ (A4)। ପ୍ରକାର ବଦଳାଇବାକୁ “ବଦଳାନ୍ତୁ” ଦବାନ୍ତୁ।",
+ g3:"ଫଟୋ ଉଠାଇବାକୁ “କ୍ୟାମେରାରେ ଉଠାନ୍ତୁ” ଦବାନ୍ତୁ, କିମ୍ବା ଥିବା ଫାଇଲ୍ ବାଛିବାକୁ “ଗ୍ୟାଲେରୀ / ଫାଇଲ୍ ବାଛନ୍ତୁ” ଦବାନ୍ତୁ। ଏକାସାଥରେ ଅନେକ ଫାଇଲ୍ ବାଛିପାରିବେ।",
+ g4:"ପ୍ରିଭ୍ୟୁ ଯାଞ୍ଚ କରନ୍ତୁ। ଫାଇଲ୍ କାଢ଼ିବାକୁ ତା’ ଉପରେ ✕ ଦବାନ୍ତୁ। ଆଇଡି କାର୍ଡ ପାଇଁ ଯୋଡ଼ିରେ ଯୋଡ଼ନ୍ତୁ: ଆଗ, ପଛ, ଆଗ, ପଛ।",
+ g5:"“ଦୋକାନକୁ ପଠାନ୍ତୁ” ଦବାନ୍ତୁ ଏବଂ ସଫଳତା ବାର୍ତ୍ତା ଆସିବା ପର୍ଯ୍ୟନ୍ତ ଅପେକ୍ଷା କରନ୍ତୁ। ତା’ପରେ ଦୋକାନର କମ୍ପ୍ୟୁଟର ଦେଖନ୍ତୁ।",
+ g6:"ଆପଣଙ୍କ ଫାଇଲ୍ ଫୋନରେ ହିଁ ଏନକ୍ରିପ୍ଟ ହୁଏ, ତେଣୁ କେବଳ ଦୋକାନର କମ୍ପ୍ୟୁଟର ଖୋଲିପାରିବ। ପ୍ରତି ଫାଇଲ୍ ସର୍ବାଧିକ 14 MB ଓ ଥରକେ 40 ଫାଇଲ୍।",
+ g7:"ସମୟ ସରିଗଲେ ଦୋକାନର QR କୋଡ୍ ପୁଣି ସ୍କାନ୍ କରନ୍ତୁ। ପେଜ୍ ଲିଙ୍କ୍ ଅସମ୍ପୂର୍ଣ୍ଣ ବୋଲି କହିଲେ ଦୋକାନୀଙ୍କୁ QR ପୁଣି ଦେଖାଇବାକୁ କୁହନ୍ତୁ।",
+ g8:"ଉପର ଡାହାଣ ମେନୁରୁ ଯେକୌଣସି ସମୟରେ ଭାଷା ବଦଳାଇପାରିବେ।"
+};
+L.ml={
+ pv:"പ്രിവ്യൂ",wc:"ക്യാമറ",wg:"ഗാലറി",
+ hb1:"സുരക്ഷിതം",hb2:"വേഗം",hb3:"സ്വകാര്യം",ft:"നിങ്ങളുടെ ഫയലുകൾ കടയിലെ കമ്പ്യൂട്ടറിലേക്ക് മാത്രം പോകുന്നു.",
+ ttl:"ഫോട്ടോ / രേഖ അയയ്ക്കുക",
+ sub:"നിങ്ങൾ എന്താണ് അയയ്ക്കേണ്ടതെന്ന് തിരഞ്ഞെടുക്കുക. ഇത് നേരിട്ട് കടയിലെ കമ്പ്യൂട്ടറിലേക്ക് പോകും.",
+ chg:"മാറ്റുക",pP:"പാസ്‌പോർട്ട് ഫോട്ടോകൾ",pI:"തിരിച്ചറിയൽ കാർഡുകൾ",pD:"രേഖകൾ (A4)",
+ pkT:"നിങ്ങൾ എന്താണ് അയയ്ക്കാൻ ആഗ്രഹിക്കുന്നത്?",pkP:"ഒരു ഓപ്ഷൻ തിരഞ്ഞെടുക്കുക.",
+ cam:"ക്യാമറയിൽ എടുക്കുക",gP:"ഗാലറിയിൽ നിന്ന് തിരഞ്ഞെടുക്കുക",gF:"ഗാലറി / ഫയൽ തിരഞ്ഞെടുക്കുക",
+ snd:"കടയിലേക്ക് അയയ്ക്കുക",agn:"കൂടുതൽ അയയ്ക്കുക",
+ tm:"QR 5 മിനിറ്റ് സാധുവാണ്. ബാക്കി സമയം: {t}",tmO:"സമയം കഴിഞ്ഞു. അപ്‌ലോഡ് പൂർത്തിയാക്കുന്നു...",
+ exT:"QR കാലഹരണപ്പെട്ടു",exP:"ഈ QR കോഡ് സ്കാൻ ചെയ്ത ശേഷം 5 മിനിറ്റ് സാധുവായിരുന്നു. ദയവായി കടയുടെ QR കോഡ് വീണ്ടും സ്കാൻ ചെയ്യുക.",
+ bad:"ഈ QR ലിങ്ക് അപൂർണ്ണമാണ്. കടക്കാരനോട് QR വീണ്ടും കാണിക്കാൻ പറഞ്ഞ് സ്കാൻ ചെയ്യുക.",
+ nc:"ഈ ബ്രൗസറിന് സുരക്ഷിതമായി അയയ്ക്കാൻ കഴിയില്ല. ദയവായി ഈ പേജ് Chrome അല്ലെങ്കിൽ Safari-ൽ തുറക്കുക.",
+ rdy:"എല്ലാം ശരിയാണെങ്കിൽ “കടയിലേക്ക് അയയ്ക്കുക” അമർത്തുക.",
+ oi:"ഇവിടെ ഫോട്ടോകൾ മാത്രമേ ചേർക്കാനാകൂ. {n} ഫയൽ(കൾ) ഒഴിവാക്കി.",
+ sk:"{n} ഫയലുകൾ കൂടുതലാണ് (പരമാവധി {m})",bg:"{n} ഫയൽ(കൾ) 14 MB-യിൽ കൂടുതലാണ്",
+ pr:"തയ്യാറാക്കുന്നു {i}/{n}...",sg:"അയയ്ക്കുന്നു {i}/{n}...",
+ s1:"{n} ഫയൽ അയച്ചു. ഇനി കടയിലെ കമ്പ്യൂട്ടർ നോക്കുക.",sM:"{n} ഫയലുകൾ അയച്ചു. ഇനി കടയിലെ കമ്പ്യൂട്ടർ നോക്കുക.",
+ fA:"{b} ഫയൽ(കൾ) അയയ്ക്കാനായില്ല.",fM:"{s} അയച്ചു, {b} അയയ്ക്കാനായില്ല.",
+ tb:"ഫയൽ വളരെ വലുതാണ്.",rt:"ഇപ്പോൾ വളരെയധികം അഭ്യർത്ഥനകളുണ്ട്. അൽപ്പം കഴിഞ്ഞ് വീണ്ടും ശ്രമിക്കുക.",
+ nt:"അയയ്ക്കാനായില്ല. ഇന്റർനെറ്റ് പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.",er:"എന്തോ പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+ rm:"നീക്കം ചെയ്യുക",
+ hP:"തിരഞ്ഞെടുത്ത ശേഷം നിങ്ങളുടെ ഫോട്ടോകൾ ഇവിടെ കാണാം.\nമുഖം നേരെയും വ്യക്തമായും വയ്ക്കുക.",
+ hI:"നിങ്ങളുടെ ഐഡി കാർഡ് ഫയലുകൾ ഇവിടെ കാണാം.\nജോഡിയായി തിരഞ്ഞെടുക്കുക: മുൻവശം, പിൻവശം, മുൻവശം, പിൻവശം...",
+ hD:"നിങ്ങൾ തിരഞ്ഞെടുത്ത ഫോട്ടോകൾ / ഫയലുകൾ ഇവിടെ കാണാം.",
+ nn:"എല്ലാം നിങ്ങളുടെ ഫോണിൽ തന്നെ ലോക്ക് (എൻക്രിപ്റ്റ്) ചെയ്യപ്പെടുന്നു, അതിനാൽ കടയിലെ കമ്പ്യൂട്ടറിന് മാത്രമേ തുറക്കാനാകൂ. ഒരു ഫയലിന് 14 MB വരെ, ഒരേസമയം 40 ഫയലുകൾ.",
+ gd:"ഉപയോഗ ഗൈഡ്",gT:"ഈ പേജ് എങ്ങനെ ഉപയോഗിക്കാം",gC:"അടയ്ക്കുക",
+ g1:"കടയുടെ QR കോഡ് സ്കാൻ ചെയ്യുക. ഈ പേജ് തുറക്കുകയും 5 മിനിറ്റ് ടൈമർ തുടങ്ങുകയും ചെയ്യും.",
+ g2:"എന്ത് അയയ്ക്കണമെന്ന് തിരഞ്ഞെടുക്കുക: പാസ്‌പോർട്ട് ഫോട്ടോകൾ, ഐഡി കാർഡുകൾ അല്ലെങ്കിൽ രേഖകൾ (A4). തരം മാറ്റാൻ “മാറ്റുക” അമർത്തുക.",
+ g3:"ഫോട്ടോ എടുക്കാൻ “ക്യാമറയിൽ എടുക്കുക” അമർത്തുക, അല്ലെങ്കിൽ നിലവിലുള്ള ഫയലുകൾ തിരഞ്ഞെടുക്കാൻ “ഗാലറി / ഫയൽ തിരഞ്ഞെടുക്കുക” അമർത്തുക. ഒരേസമയം നിരവധി ഫയലുകൾ തിരഞ്ഞെടുക്കാം.",
+ g4:"പ്രിവ്യൂ പരിശോധിക്കുക. ഫയൽ നീക്കാൻ അതിലെ ✕ അമർത്തുക. ഐഡി കാർഡുകൾക്ക് ജോഡിയായി ചേർക്കുക: മുൻവശം, പിൻവശം, മുൻവശം, പിൻവശം.",
+ g5:"“കടയിലേക്ക് അയയ്ക്കുക” അമർത്തി വിജയ സന്ദേശം വരുന്നതുവരെ കാത്തിരിക്കുക. പിന്നെ കടയിലെ കമ്പ്യൂട്ടർ നോക്കുക.",
+ g6:"നിങ്ങളുടെ ഫയലുകൾ ഫോണിൽ തന്നെ എൻക്രിപ്റ്റ് ചെയ്യപ്പെടുന്നു, അതിനാൽ കടയിലെ കമ്പ്യൂട്ടറിന് മാത്രമേ തുറക്കാനാകൂ. ഒരു ഫയലിന് പരമാവധി 14 MB, ഒരേസമയം 40 ഫയലുകൾ.",
+ g7:"സമയം കഴിഞ്ഞാൽ കടയുടെ QR കോഡ് വീണ്ടും സ്കാൻ ചെയ്യുക. ലിങ്ക് അപൂർണ്ണമാണെന്ന് പേജ് പറഞ്ഞാൽ കടക്കാരനോട് QR വീണ്ടും കാണിക്കാൻ പറയുക.",
+ g8:"മുകളിൽ വലതുവശത്തെ മെനുവിൽ നിന്ന് എപ്പോൾ വേണമെങ്കിലും ഭാഷ മാറ്റാം."
+};
+L.pa={
+ pv:"ਪ੍ਰੀਵਿਊ",wc:"ਕੈਮਰਾ",wg:"ਗੈਲਰੀ",
+ hb1:"ਸੁਰੱਖਿਅਤ",hb2:"ਤੇਜ਼",hb3:"ਨਿੱਜੀ",ft:"ਤੁਹਾਡੀਆਂ ਫਾਈਲਾਂ ਸਿਰਫ਼ ਦੁਕਾਨ ਦੇ ਕੰਪਿਊਟਰ ਤੇ ਜਾਂਦੀਆਂ ਹਨ।",
+ ttl:"ਫੋਟੋ / ਦਸਤਾਵੇਜ਼ ਭੇਜੋ",
+ sub:"ਚੁਣੋ ਕਿ ਤੁਸੀਂ ਕੀ ਭੇਜਣਾ ਚਾਹੁੰਦੇ ਹੋ। ਇਹ ਸਿੱਧਾ ਦੁਕਾਨ ਦੇ ਕੰਪਿਊਟਰ ਤੇ ਜਾਵੇਗਾ।",
+ chg:"ਬਦਲੋ",pP:"ਪਾਸਪੋਰਟ ਫੋਟੋਆਂ",pI:"ਆਈਡੀ ਕਾਰਡ",pD:"ਦਸਤਾਵੇਜ਼ (A4)",
+ pkT:"ਤੁਸੀਂ ਕੀ ਭੇਜਣਾ ਚਾਹੁੰਦੇ ਹੋ?",pkP:"ਇੱਕ ਵਿਕਲਪ ਚੁਣੋ।",
+ cam:"ਕੈਮਰੇ ਨਾਲ ਖਿੱਚੋ",gP:"ਗੈਲਰੀ ਵਿੱਚੋਂ ਚੁਣੋ",gF:"ਗੈਲਰੀ / ਫਾਈਲ ਚੁਣੋ",
+ snd:"ਦੁਕਾਨ ਨੂੰ ਭੇਜੋ",agn:"ਹੋਰ ਭੇਜੋ",
+ tm:"QR 5 ਮਿੰਟ ਲਈ ਯੋਗ ਹੈ। ਬਾਕੀ ਸਮਾਂ: {t}",tmO:"ਸਮਾਂ ਖਤਮ। ਅੱਪਲੋਡ ਪੂਰਾ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+ exT:"QR ਦੀ ਮਿਆਦ ਖਤਮ",exP:"ਇਹ QR ਕੋਡ ਸਕੈਨ ਕਰਨ ਤੋਂ ਬਾਅਦ 5 ਮਿੰਟ ਲਈ ਯੋਗ ਸੀ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਕਾਨ ਦਾ QR ਕੋਡ ਦੁਬਾਰਾ ਸਕੈਨ ਕਰੋ।",
+ bad:"ਇਹ QR ਲਿੰਕ ਅਧੂਰਾ ਹੈ। ਦੁਕਾਨਦਾਰ ਨੂੰ QR ਦੁਬਾਰਾ ਦਿਖਾਉਣ ਲਈ ਕਹੋ ਅਤੇ ਸਕੈਨ ਕਰੋ।",
+ nc:"ਇਹ ਬ੍ਰਾਊਜ਼ਰ ਸੁਰੱਖਿਅਤ ਢੰਗ ਨਾਲ ਨਹੀਂ ਭੇਜ ਸਕਦਾ। ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਪੇਜ Chrome ਜਾਂ Safari ਵਿੱਚ ਖੋਲ੍ਹੋ।",
+ rdy:"ਜੇ ਸਭ ਠੀਕ ਹੈ ਤਾਂ “ਦੁਕਾਨ ਨੂੰ ਭੇਜੋ” ਦਬਾਓ।",
+ oi:"ਇੱਥੇ ਸਿਰਫ਼ ਫੋਟੋਆਂ ਜੋੜੀਆਂ ਜਾ ਸਕਦੀਆਂ ਹਨ। {n} ਫਾਈਲ ਛੱਡ ਦਿੱਤੀਆਂ ਗਈਆਂ।",
+ sk:"{n} ਫਾਈਲਾਂ ਵੱਧ ਹਨ (ਵੱਧ ਤੋਂ ਵੱਧ {m})",bg:"{n} ਫਾਈਲ 14 MB ਤੋਂ ਵੱਡੀਆਂ ਹਨ",
+ pr:"ਤਿਆਰ ਹੋ ਰਿਹਾ ਹੈ {i}/{n}...",sg:"ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ {i}/{n}...",
+ s1:"{n} ਫਾਈਲ ਭੇਜੀ ਗਈ। ਹੁਣ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਦੇਖੋ।",sM:"{n} ਫਾਈਲਾਂ ਭੇਜੀਆਂ ਗਈਆਂ। ਹੁਣ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਦੇਖੋ।",
+ fA:"{b} ਫਾਈਲ ਨਹੀਂ ਭੇਜੀਆਂ ਜਾ ਸਕੀਆਂ।",fM:"{s} ਭੇਜੀਆਂ ਗਈਆਂ, {b} ਨਹੀਂ ਭੇਜੀਆਂ ਜਾ ਸਕੀਆਂ।",
+ tb:"ਫਾਈਲ ਬਹੁਤ ਵੱਡੀ ਹੈ।",rt:"ਹੁਣ ਬਹੁਤ ਜ਼ਿਆਦਾ ਬੇਨਤੀਆਂ ਹਨ। ਕੁਝ ਦੇਰ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+ nt:"ਭੇਜ ਨਹੀਂ ਸਕੇ। ਇੰਟਰਨੈੱਟ ਚੈੱਕ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",er:"ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+ rm:"ਹਟਾਓ",
+ hP:"ਚੁਣਨ ਤੋਂ ਬਾਅਦ ਤੁਹਾਡੀਆਂ ਫੋਟੋਆਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।\nਚਿਹਰਾ ਸਿੱਧਾ ਅਤੇ ਸਾਫ਼ ਰੱਖੋ।",
+ hI:"ਤੁਹਾਡੀਆਂ ਆਈਡੀ ਕਾਰਡ ਫਾਈਲਾਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।\nਜੋੜੀ ਵਿੱਚ ਚੁਣੋ: ਅੱਗੇ, ਪਿੱਛੇ, ਅੱਗੇ, ਪਿੱਛੇ...",
+ hD:"ਤੁਹਾਡੀਆਂ ਚੁਣੀਆਂ ਫੋਟੋਆਂ / ਫਾਈਲਾਂ ਇੱਥੇ ਦਿਖਾਈ ਦੇਣਗੀਆਂ।",
+ nn:"ਸਭ ਕੁਝ ਤੁਹਾਡੇ ਫ਼ੋਨ ਉੱਤੇ ਹੀ ਲਾਕ (ਇਨਕ੍ਰਿਪਟ) ਹੋ ਜਾਂਦਾ ਹੈ, ਇਸ ਲਈ ਸਿਰਫ਼ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਹੀ ਖੋਲ੍ਹ ਸਕਦਾ ਹੈ। ਹਰ ਫਾਈਲ 14 MB ਤੱਕ, ਇੱਕ ਵਾਰ ਵਿੱਚ 40 ਫਾਈਲਾਂ।",
+ gd:"ਵਰਤੋਂ ਗਾਈਡ",gT:"ਇਸ ਪੇਜ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ",gC:"ਬੰਦ ਕਰੋ",
+ g1:"ਦੁਕਾਨ ਦਾ QR ਕੋਡ ਸਕੈਨ ਕਰੋ। ਇਹ ਪੇਜ ਖੁੱਲ੍ਹੇਗਾ ਅਤੇ 5 ਮਿੰਟ ਦਾ ਟਾਈਮਰ ਸ਼ੁਰੂ ਹੋਵੇਗਾ।",
+ g2:"ਚੁਣੋ ਕਿ ਕੀ ਭੇਜਣਾ ਹੈ: ਪਾਸਪੋਰਟ ਫੋਟੋਆਂ, ਆਈਡੀ ਕਾਰਡ ਜਾਂ ਦਸਤਾਵੇਜ਼ (A4)। ਕਿਸਮ ਬਦਲਣ ਲਈ “ਬਦਲੋ” ਦਬਾਓ।",
+ g3:"ਫੋਟੋ ਖਿੱਚਣ ਲਈ “ਕੈਮਰੇ ਨਾਲ ਖਿੱਚੋ” ਦਬਾਓ, ਜਾਂ ਮੌਜੂਦਾ ਫਾਈਲਾਂ ਚੁਣਨ ਲਈ “ਗੈਲਰੀ / ਫਾਈਲ ਚੁਣੋ” ਦਬਾਓ। ਇੱਕ ਵਾਰ ਵਿੱਚ ਕਈ ਫਾਈਲਾਂ ਚੁਣ ਸਕਦੇ ਹੋ।",
+ g4:"ਪ੍ਰੀਵਿਊ ਜਾਂਚੋ। ਫਾਈਲ ਹਟਾਉਣ ਲਈ ਉਸ ਉੱਤੇ ✕ ਦਬਾਓ। ਆਈਡੀ ਕਾਰਡ ਲਈ ਜੋੜੀ ਵਿੱਚ ਜੋੜੋ: ਅੱਗੇ, ਪਿੱਛੇ, ਅੱਗੇ, ਪਿੱਛੇ।",
+ g5:"“ਦੁਕਾਨ ਨੂੰ ਭੇਜੋ” ਦਬਾਓ ਅਤੇ ਸਫਲਤਾ ਦਾ ਸੁਨੇਹਾ ਆਉਣ ਤੱਕ ਉਡੀਕ ਕਰੋ। ਫਿਰ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਦੇਖੋ।",
+ g6:"ਤੁਹਾਡੀਆਂ ਫਾਈਲਾਂ ਫ਼ੋਨ ਉੱਤੇ ਹੀ ਇਨਕ੍ਰਿਪਟ ਹੁੰਦੀਆਂ ਹਨ, ਇਸ ਲਈ ਸਿਰਫ਼ ਦੁਕਾਨ ਦਾ ਕੰਪਿਊਟਰ ਹੀ ਖੋਲ੍ਹ ਸਕਦਾ ਹੈ। ਹਰ ਫਾਈਲ ਵੱਧ ਤੋਂ ਵੱਧ 14 MB ਅਤੇ ਇੱਕ ਵਾਰ ਵਿੱਚ 40 ਫਾਈਲਾਂ।",
+ g7:"ਸਮਾਂ ਖਤਮ ਹੋਵੇ ਤਾਂ ਦੁਕਾਨ ਦਾ QR ਕੋਡ ਦੁਬਾਰਾ ਸਕੈਨ ਕਰੋ। ਜੇ ਪੇਜ ਲਿੰਕ ਅਧੂਰਾ ਦੱਸੇ ਤਾਂ ਦੁਕਾਨਦਾਰ ਨੂੰ QR ਦੁਬਾਰਾ ਦਿਖਾਉਣ ਲਈ ਕਹੋ।",
+ g8:"ਤੁਸੀਂ ਉੱਪਰ ਸੱਜੇ ਪਾਸੇ ਦੇ ਮੀਨੂ ਤੋਂ ਕਿਸੇ ਵੀ ਸਮੇਂ ਭਾਸ਼ਾ ਬਦਲ ਸਕਦੇ ਹੋ।"
+};
+L.as={
+ pv:"প্ৰিভিউ",wc:"কেমেৰা",wg:"গেলাৰী",
+ hb1:"সুৰক্ষিত",hb2:"দ্ৰুত",hb3:"ব্যক্তিগত",ft:"আপোনাৰ ফাইল কেৱল দোকানৰ কম্পিউটাৰলৈ যায়।",
+ ttl:"ফটো / নথি পঠিয়াওক",
+ sub:"আপুনি কি পঠাব বিচাৰে বাছনি কৰক। এইটো পোনপটীয়াকৈ দোকানৰ কম্পিউটাৰলৈ যাব।",
+ chg:"সলনি কৰক",pP:"পাছপৰ্ট ফটো",pI:"আইডি কাৰ্ড",pD:"নথি (A4)",
+ pkT:"আপুনি কি পঠাব বিচাৰে?",pkP:"এটা বিকল্প বাছনি কৰক।",
+ cam:"কেমেৰাৰে তোলক",gP:"গেলাৰীৰ পৰা বাছনি কৰক",gF:"গেলাৰী / ফাইল বাছনি কৰক",
+ snd:"দোকানলৈ পঠিয়াওক",agn:"আৰু পঠিয়াওক",
+ tm:"QR ৫ মিনিটৰ বাবে বৈধ। বাকী সময়: {t}",tmO:"সময় শেষ। আপলোড সম্পূৰ্ণ কৰা হৈছে...",
+ exT:"QR ৰ বৈধতা শেষ",exP:"এই QR ক'ড স্কেন কৰাৰ পিছত ৫ মিনিটৰ বাবে বৈধ আছিল। অনুগ্ৰহ কৰি দোকানৰ QR ক'ড পুনৰ স্কেন কৰক।",
+ bad:"এই QR লিংকটো অসম্পূৰ্ণ। দোকানীক QR পুনৰ দেখুৱাবলৈ কওক আৰু স্কেন কৰক।",
+ nc:"এই ব্ৰাউজাৰে সুৰক্ষিতভাৱে পঠিয়াব নোৱাৰে। অনুগ্ৰহ কৰি এই পৃষ্ঠা Chrome বা Safari ত খোলক।",
+ rdy:"সকলো ঠিক থাকিলে “দোকানলৈ পঠিয়াওক” টিপক।",
+ oi:"ইয়াত কেৱল ফটো যোগ কৰিব পাৰি। {n}টা ফাইল বাদ দিয়া হ'ল।",
+ sk:"{n}টা ফাইল অধিক (সৰ্বাধিক {m})",bg:"{n}টা ফাইল ১৪ MB তকৈ ডাঙৰ",
+ pr:"সাজু কৰি আছে {i}/{n}...",sg:"পঠিয়াই আছে {i}/{n}...",
+ s1:"{n}টা ফাইল পঠোৱা হ'ল। এতিয়া দোকানৰ কম্পিউটাৰ চাওক।",sM:"{n}টা ফাইল পঠোৱা হ'ল। এতিয়া দোকানৰ কম্পিউটাৰ চাওক।",
+ fA:"{b}টা ফাইল পঠিয়াব পৰা নগ'ল।",fM:"{s}টা পঠোৱা হ'ল, {b}টা পঠিয়াব পৰা নগ'ল।",
+ tb:"ফাইলটো অতি ডাঙৰ।",rt:"এতিয়া বহুত অনুৰোধ আছে। অলপ পিছত পুনৰ চেষ্টা কৰক।",
+ nt:"পঠিয়াব পৰা নগ'ল। ইণ্টাৰনেট পৰীক্ষা কৰি পুনৰ চেষ্টা কৰক।",er:"কিবা ভুল হ'ল। অনুগ্ৰহ কৰি পুনৰ চেষ্টা কৰক।",
+ rm:"আতৰাওক",
+ hP:"বাছনি কৰাৰ পিছত আপোনাৰ ফটো ইয়াত দেখা যাব।\nমুখখন পোনপটীয়া আৰু স্পষ্ট ৰাখক।",
+ hI:"আপোনাৰ আইডি কাৰ্ডৰ ফাইল ইয়াত দেখা যাব।\nযোৰাকৈ বাছনি কৰক: আগ, পিছ, আগ, পিছ...",
+ hD:"আপুনি বাছনি কৰা ফটো / ফাইল ইয়াত দেখা যাব।",
+ nn:"সকলো আপোনাৰ ফোনতে লক (এনক্ৰিপ্ট) হয়, গতিকে কেৱল দোকানৰ কম্পিউটাৰেহে খুলিব পাৰে। প্ৰতিটো ফাইল ১৪ MB লৈকে, এবাৰত ৪০টা ফাইল।",
+ gd:"ব্যৱহাৰ নিৰ্দেশিকা",gT:"এই পৃষ্ঠা কেনেকৈ ব্যৱহাৰ কৰিব",gC:"বন্ধ কৰক",
+ g1:"দোকানৰ QR ক'ড স্কেন কৰক। এই পৃষ্ঠা খোল খাব আৰু ৫ মিনিটৰ টাইমাৰ আৰম্ভ হ'ব।",
+ g2:"কি পঠাব বাছনি কৰক: পাছপৰ্ট ফটো, আইডি কাৰ্ড বা নথি (A4)। প্ৰকাৰ সলনি কৰিবলৈ “সলনি কৰক” টিপক।",
+ g3:"ফটো তুলিবলৈ “কেমেৰাৰে তোলক” টিপক, বা থকা ফাইল বাছিবলৈ “গেলাৰী / ফাইল বাছনি কৰক” টিপক। এবাৰতে বহুত ফাইল বাছিব পাৰি।",
+ g4:"প্ৰিভিউ পৰীক্ষা কৰক। ফাইল আতৰাবলৈ তাৰ ওপৰৰ ✕ টিপক। আইডি কাৰ্ডৰ বাবে যোৰাকৈ যোগ কৰক: আগ, পিছ, আগ, পিছ।",
+ g5:"“দোকানলৈ পঠিয়াওক” টিপক আৰু সফলতাৰ বাৰ্তা নহালৈ অপেক্ষা কৰক। তাৰ পিছত দোকানৰ কম্পিউটাৰ চাওক।",
+ g6:"আপোনাৰ ফাইল ফোনতে এনক্ৰিপ্ট হয়, গতিকে কেৱল দোকানৰ কম্পিউটাৰেহে খুলিব পাৰে। প্ৰতিটো ফাইল সৰ্বাধিক ১৪ MB আৰু এবাৰত ৪০টা ফাইল।",
+ g7:"সময় শেষ হ'লে দোকানৰ QR ক'ড পুনৰ স্কেন কৰক। পৃষ্ঠাই লিংক অসম্পূৰ্ণ বুলি কলে দোকানীক QR পুনৰ দেখুৱাবলৈ কওক।",
+ g8:"ওপৰৰ সোঁফালৰ মেনুৰ পৰা যিকোনো সময়তে ভাষা সলনি কৰিব পাৰে।"
+};
+L.mai={
+ pv:"पूर्वावलोकन",wc:"कैमरा",wg:"गैलरी",
+ hb1:"सुरक्षित",hb2:"तेज",hb3:"निजी",ft:"अहाँक फाइल मात्र दोकानक कंप्यूटर पर जाइत अछि।",
+ ttl:"फोटो / दस्तावेज पठाउ",
+ sub:"चुनू जे अहाँ की पठाबऽ चाहैत छी। ई सोझे दोकानक कंप्यूटर पर जाएत।",
+ chg:"बदलू",pP:"पासपोर्ट फोटो",pI:"आइडी कार्ड",pD:"दस्तावेज (A4)",
+ pkT:"अहाँ की पठाबऽ चाहैत छी?",pkP:"एकटा विकल्प चुनू।",
+ cam:"कैमरासँ फोटो खींचू",gP:"गैलरीसँ चुनू",gF:"गैलरी / फाइल चुनू",
+ snd:"दोकान केँ पठाउ",agn:"आओर पठाउ",
+ tm:"QR 5 मिनटक लेल मान्य अछि। बचल समय: {t}",tmO:"समय समाप्त। अपलोड पूरा कएल जा रहल अछि...",
+ exT:"QR क समय-सीमा समाप्त",exP:"ई QR कोड स्कैन कएलाक बाद 5 मिनट धरि मान्य छल। कृपया दोकानक QR कोड फेरसँ स्कैन करू।",
+ bad:"ई QR लिंक अधूरा अछि। दोकानदार सँ QR फेरसँ देखाबऽ कहू आ स्कैन करू।",
+ nc:"ई ब्राउजर सुरक्षित रूपेँ नहि पठा सकैत अछि। कृपया एहि पेज केँ Chrome वा Safari मे खोलू।",
+ rdy:"जँ सभ ठीक अछि तँ “दोकान केँ पठाउ” दबाउ।",
+ oi:"एतय मात्र फोटो जोड़ल जा सकैत अछि। {n} फाइल छोड़ल गेल।",
+ sk:"{n} फाइल बेसी अछि (अधिकतम {m})",bg:"{n} फाइल 14 MB सँ पैघ अछि",
+ pr:"तैयार भऽ रहल अछि {i}/{n}...",sg:"पठाओल जा रहल अछि {i}/{n}...",
+ s1:"{n} फाइल पठाओल गेल। आब दोकानक कंप्यूटर देखू।",sM:"{n} फाइल पठाओल गेल। आब दोकानक कंप्यूटर देखू।",
+ fA:"{b} फाइल नहि पठाओल जा सकल।",fM:"{s} पठाओल गेल, {b} नहि पठाओल जा सकल।",
+ tb:"फाइल बहुत पैघ अछि।",rt:"एखन बहुत बेसी अनुरोध अछि। कनी काल बाद फेर प्रयास करू।",
+ nt:"पठा नहि सकलहुँ। इंटरनेट जाँचू आ फेर प्रयास करू।",er:"किछु गड़बड़ भऽ गेल। कृपया फेर प्रयास करू।",
+ rm:"हटाउ",
+ hP:"चुनलाक बाद अहाँक फोटो एतय देखाएत।\nमुँह सोझ आ साफ राखू।",
+ hI:"अहाँक आइडी कार्ड फाइल एतय देखाएत।\nजोड़ी मे चुनू: आगू, पाछू, आगू, पाछू...",
+ hD:"अहाँक चुनल फोटो / फाइल एतय देखाएत।",
+ nn:"सभ किछु अहाँक फोन पर लॉक (एन्क्रिप्ट) भऽ जाइत अछि, तेँ मात्र दोकानक कंप्यूटर खोलि सकैत अछि। प्रति फाइल 14 MB धरि, एक बेर मे 40 फाइल।",
+ gd:"प्रयोग गाइड",gT:"एहि पेज केँ कोना प्रयोग करी",gC:"बंद करू",
+ g1:"दोकानक QR कोड स्कैन करू। ई पेज खुजत आ 5 मिनटक टाइमर शुरू होएत।",
+ g2:"चुनू जे की पठाबाक अछि: पासपोर्ट फोटो, आइडी कार्ड वा दस्तावेज (A4)। प्रकार बदलबाक लेल “बदलू” दबाउ।",
+ g3:"फोटो खींचबाक लेल “कैमरासँ फोटो खींचू” दबाउ, वा पहिने सँ रहल फाइल चुनबाक लेल “गैलरी / फाइल चुनू” दबाउ। एके बेर बहुत फाइल चुनि सकैत छी।",
+ g4:"पूर्वावलोकन जाँचू। कोनो फाइल हटाबऽ लेल ओहि पर ✕ दबाउ। आइडी कार्डक लेल जोड़ी मे जोड़ू: आगू, पाछू, आगू, पाछू।",
+ g5:"“दोकान केँ पठाउ” दबाउ आ सफलताक संदेश अएबा धरि प्रतीक्षा करू। तखन दोकानक कंप्यूटर देखू।",
+ g6:"अहाँक फाइल फोन पर एन्क्रिप्ट भऽ जाइत अछि, तेँ मात्र दोकानक कंप्यूटर खोलि सकैत अछि। प्रति फाइल अधिकतम 14 MB आ एक बेर मे 40 फाइल।",
+ g7:"समय समाप्त भेला पर दोकानक QR कोड फेर स्कैन करू। जँ पेज कहय जे लिंक अधूरा अछि तँ दोकानदार सँ QR फेर देखाबऽ कहू।",
+ g8:"ऊपर दहिना कात केर मेनू सँ कखनहुँ भाषा बदलि सकैत छी।"
+};
+L.sa={
+ pv:"पूर्वावलोकनम्",wc:"कॅमेरा",wg:"गॅलरी",
+ hb1:"सुरक्षितम्",hb2:"शीघ्रम्",hb3:"वैयक्तिकम्",ft:"भवतः सञ्चिकाः आपणस्य सङ्गणकं प्रति एव गच्छन्ति।",
+ ttl:"चित्रं / दस्तावेजं प्रेषयतु",
+ sub:"किं प्रेषयितुम् इच्छसि इति चिनोतु। इदं साक्षात् आपणस्य सङ्गणकं गच्छति।",
+ chg:"परिवर्तयतु",pP:"पारपत्रचित्राणि",pI:"परिचयपत्राणि",pD:"दस्तावेजाः (A4)",
+ pkT:"किं प्रेषयितुम् इच्छसि?",pkP:"एकं विकल्पं चिनोतु।",
+ cam:"कॅमेरया गृह्णातु",gP:"गॅलरीतः चिनोतु",gF:"गॅलरी / सञ्चिकां चिनोतु",
+ snd:"आपणं प्रति प्रेषयतु",agn:"अधिकं प्रेषयतु",
+ tm:"QR पञ्च निमेषान् यावत् मान्यम् अस्ति। अवशिष्टः समयः: {t}",tmO:"समयः समाप्तः। उपारोपणं पूर्यते...",
+ exT:"QR समाप्तम्",exP:"एषः QR सङ्केतः स्कॅन् कृतात् पश्चात् पञ्च निमेषान् यावत् मान्यः आसीत्। कृपया आपणस्य QR सङ्केतं पुनः स्कॅन् करोतु।",
+ bad:"अयं QR सम्पर्कः अपूर्णः अस्ति। आपणिकं QR पुनः दर्शयितुं वदतु, ततः स्कॅन् करोतु।",
+ nc:"अयं ब्राउजरः सुरक्षितं प्रेषयितुं न शक्नोति। कृपया इदं पृष्ठं Chrome अथवा Safari मध्ये उद्घाटयतु।",
+ rdy:"सर्वं समीचीनं चेत् “आपणं प्रति प्रेषयतु” नुदतु।",
+ oi:"अत्र चित्राणि एव योजयितुं शक्यन्ते। {n} सञ्चिकाः त्यक्ताः।",
+ sk:"{n} सञ्चिकाः अधिकाः (अधिकतमं {m})",bg:"{n} सञ्चिकाः 14 MB तः महत्यः",
+ pr:"सज्जीक्रियते {i}/{n}...",sg:"प्रेष्यते {i}/{n}...",
+ s1:"{n} सञ्चिका प्रेषिता। इदानीम् आपणस्य सङ्गणकं पश्यतु।",sM:"{n} सञ्चिकाः प्रेषिताः। इदानीम् आपणस्य सङ्गणकं पश्यतु।",
+ fA:"{b} सञ्चिकाः प्रेषयितुं न शक्ताः।",fM:"{s} प्रेषिताः, {b} प्रेषयितुं न शक्ताः।",
+ tb:"सञ्चिका अतीव महती अस्ति।",rt:"सम्प्रति बहवः अनुरोधाः सन्ति। किञ्चित्कालानन्तरं पुनः प्रयतताम्।",
+ nt:"प्रेषयितुं न शक्तम्। अन्तर्जालं परीक्ष्य पुनः प्रयतताम्।",er:"किमपि दोषः जातः। कृपया पुनः प्रयतताम्।",
+ rm:"अपनयतु",
+ hP:"चयनानन्तरं भवतः चित्राणि अत्र दृश्यन्ते।\nमुखं ऋजु स्पष्टं च धारयतु।",
+ hI:"भवतः परिचयपत्रसञ्चिकाः अत्र दृश्यन्ते।\nयुग्मरूपेण चिनोतु: अग्रे, पृष्ठे, अग्रे, पृष्ठे...",
+ hD:"भवता चितानि चित्राणि / सञ्चिकाः अत्र दृश्यन्ते।",
+ nn:"सर्वं भवतः दूरवाण्याम् एव सङ्केतबद्धं (एन्क्रिप्ट्) भवति, अतः आपणस्य सङ्गणकम् एव उद्घाटयितुं शक्नोति। एकस्याः सञ्चिकायाः 14 MB पर्यन्तम्, एकदा 40 सञ्चिकाः।",
+ gd:"उपयोगमार्गदर्शिका",gT:"इदं पृष्ठं कथम् उपयोक्तव्यम्",gC:"पिदधातु",
+ g1:"आपणस्य QR सङ्केतं स्कॅन् करोतु। इदं पृष्ठं उद्घाटितं भविष्यति, पञ्च निमेषाणां घटिका च आरभते।",
+ g2:"किं प्रेषणीयम् इति चिनोतु: पारपत्रचित्राणि, परिचयपत्राणि अथवा दस्तावेजाः (A4)। प्रकारं परिवर्तयितुं “परिवर्तयतु” नुदतु।",
+ g3:"चित्रं ग्रहीतुं “कॅमेरया गृह्णातु” नुदतु, अथवा विद्यमानाः सञ्चिकाः चेतुं “गॅलरी / सञ्चिकां चिनोतु” नुदतु। एकदा बह्वीः सञ्चिकाः चेतुं शक्यते।",
+ g4:"पूर्वावलोकनं परीक्षताम्। सञ्चिकाम् अपनेतुं तस्याः उपरि ✕ नुदतु। परिचयपत्राणां कृते युग्मरूपेण योजयतु: अग्रे, पृष्ठे, अग्रे, पृष्ठे।",
+ g5:"“आपणं प्रति प्रेषयतु” नुदतु, सफलतासन्देशः आगच्छेत् यावत् प्रतीक्षताम्। ततः आपणस्य सङ्गणकं पश्यतु।",
+ g6:"भवतः सञ्चिकाः दूरवाण्याम् एव सङ्केतबद्धाः भवन्ति, अतः आपणस्य सङ्गणकम् एव उद्घाटयितुं शक्नोति। एकस्याः सञ्चिकायाः अधिकतमं 14 MB, एकदा 40 सञ्चिकाः।",
+ g7:"समये समाप्ते आपणस्य QR सङ्केतं पुनः स्कॅन् करोतु। सम्पर्कः अपूर्णः इति पृष्ठं वदति चेत् आपणिकं QR पुनः दर्शयितुं वदतु।",
+ g8:"उपरि दक्षिणतः स्थितात् मेनूतः कदापि भाषां परिवर्तयितुं शक्नोति।"
+};
+L.ne={
+ pv:"पूर्वावलोकन",wc:"क्यामेरा",wg:"ग्यालरी",
+ hb1:"सुरक्षित",hb2:"छिटो",hb3:"निजी",ft:"तपाईंका फाइल पसलको कम्प्युटरमा मात्र जान्छन्।",
+ ttl:"फोटो / कागजात पठाउनुहोस्",
+ sub:"तपाईं के पठाउन चाहनुहुन्छ छनोट गर्नुहोस्। यो सिधै पसलको कम्प्युटरमा जान्छ।",
+ chg:"परिवर्तन",pP:"राहदानी फोटो",pI:"परिचयपत्र",pD:"कागजात (A4)",
+ pkT:"तपाईं के पठाउन चाहनुहुन्छ?",pkP:"एउटा विकल्प छान्नुहोस्।",
+ cam:"क्यामेराबाट खिच्नुहोस्",gP:"ग्यालरीबाट छान्नुहोस्",gF:"ग्यालरी / फाइल छान्नुहोस्",
+ snd:"पसलमा पठाउनुहोस्",agn:"थप पठाउनुहोस्",
+ tm:"QR 5 मिनेटसम्म मान्य छ। बाँकी समय: {t}",tmO:"समय सकियो। अपलोड पूरा गरिँदै छ...",
+ exT:"QR को म्याद सकियो",exP:"यो QR कोड स्क्यान गरेपछि 5 मिनेटसम्म मान्य थियो। कृपया पसलको QR कोड फेरि स्क्यान गर्नुहोस्।",
+ bad:"यो QR लिङ्क अपूर्ण छ। पसलेलाई QR फेरि देखाउन भन्नुहोस् र स्क्यान गर्नुहोस्।",
+ nc:"यो ब्राउजरले सुरक्षित रूपमा पठाउन सक्दैन। कृपया यो पेज Chrome वा Safari मा खोल्नुहोस्।",
+ rdy:"सबै ठीक छ भने “पसलमा पठाउनुहोस्” थिच्नुहोस्।",
+ oi:"यहाँ फोटो मात्र थप्न सकिन्छ। {n} फाइल छोडियो।",
+ sk:"{n} फाइल धेरै भए (अधिकतम {m})",bg:"{n} फाइल 14 MB भन्दा ठुला छन्",
+ pr:"तयार हुँदै छ {i}/{n}...",sg:"पठाउँदै छ {i}/{n}...",
+ s1:"{n} फाइल पठाइयो। अब पसलको कम्प्युटर हेर्नुहोस्।",sM:"{n} फाइल पठाइयो। अब पसलको कम्प्युटर हेर्नुहोस्।",
+ fA:"{b} फाइल पठाउन सकिएन।",fM:"{s} पठाइयो, {b} पठाउन सकिएन।",
+ tb:"फाइल धेरै ठुलो छ।",rt:"अहिले धेरै अनुरोध छन्। केही बेरपछि फेरि प्रयास गर्नुहोस्।",
+ nt:"पठाउन सकिएन। इन्टरनेट जाँच गरेर फेरि प्रयास गर्नुहोस्।",er:"केही गडबड भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+ rm:"हटाउनुहोस्",
+ hP:"छानेपछि तपाईंका फोटो यहाँ देखिनेछन्।\nअनुहार सीधा र स्पष्ट राख्नुहोस्।",
+ hI:"तपाईंका परिचयपत्र फाइल यहाँ देखिनेछन्।\nजोडीमा छान्नुहोस्: अगाडि, पछाडि, अगाडि, पछाडि...",
+ hD:"तपाईंले छानेका फोटो / फाइल यहाँ देखिनेछन्।",
+ nn:"सबै कुरा तपाईंको फोनमै लक (इन्क्रिप्ट) हुन्छ, त्यसैले पसलको कम्प्युटरले मात्र खोल्न सक्छ। प्रति फाइल 14 MB सम्म, एकपटकमा 40 फाइल।",
+ gd:"प्रयोग निर्देशिका",gT:"यो पेज कसरी प्रयोग गर्ने",gC:"बन्द गर्नुहोस्",
+ g1:"पसलको QR कोड स्क्यान गर्नुहोस्। यो पेज खुल्छ र 5 मिनेटको टाइमर सुरु हुन्छ।",
+ g2:"के पठाउने छान्नुहोस्: राहदानी फोटो, परिचयपत्र वा कागजात (A4)। प्रकार बदल्न “परिवर्तन” थिच्नुहोस्।",
+ g3:"फोटो खिच्न “क्यामेराबाट खिच्नुहोस्” थिच्नुहोस्, वा भएका फाइल छान्न “ग्यालरी / फाइल छान्नुहोस्” थिच्नुहोस्। एकैपटक धेरै फाइल छान्न सकिन्छ।",
+ g4:"पूर्वावलोकन जाँच गर्नुहोस्। फाइल हटाउन त्यसमा ✕ थिच्नुहोस्। परिचयपत्रका लागि जोडीमा थप्नुहोस्: अगाडि, पछाडि, अगाडि, पछाडि।",
+ g5:"“पसलमा पठाउनुहोस्” थिच्नुहोस् र सफलताको सन्देश नआउन्जेल पर्खनुहोस्। त्यसपछि पसलको कम्प्युटर हेर्नुहोस्।",
+ g6:"तपाईंका फाइल फोनमै इन्क्रिप्ट हुन्छन्, त्यसैले पसलको कम्प्युटरले मात्र खोल्न सक्छ। प्रति फाइल अधिकतम 14 MB र एकपटकमा 40 फाइल।",
+ g7:"समय सकिएमा पसलको QR कोड फेरि स्क्यान गर्नुहोस्। पेजले लिङ्क अपूर्ण छ भनेमा पसलेलाई QR फेरि देखाउन भन्नुहोस्।",
+ g8:"माथि दायाँको मेनुबाट जुनसुकै बेला भाषा बदल्न सक्नुहुन्छ।"
+};
+L.kok={
+ pv:"पूर्वावलोकन",wc:"कॅमेरा",wg:"गॅलरी",
+ hb1:"सुरक्षीत",hb2:"जलद",hb3:"खाजगी",ft:"तुमच्यो फायली फक्त दुकानाच्या कंप्युटरार वतात.",
+ ttl:"फोटो / दस्तावेज धाडात",
+ sub:"तुमकां कितें धाडपाचें आसा तें वेंचात. तें सरळ दुकानाच्या कंप्युटरार वचतलें.",
+ chg:"बदलात",pP:"पासपोर्ट फोटो",pI:"ओळखपत्रां",pD:"दस्तावेज (A4)",
+ pkT:"तुमकां कितें धाडपाचें आसा?",pkP:"एक पर्याय वेंचात.",
+ cam:"कॅमेऱ्यान काडात",gP:"गॅलरींतल्यान वेंचात",gF:"गॅलरी / फायल वेंचात",
+ snd:"दुकानाक धाडात",agn:"आनीक धाडात",
+ tm:"QR 5 मिनिटां खातीर वैध आसा. उरिल्लो वेळ: {t}",tmO:"वेळ सरलो. अपलोड पुराय जाता...",
+ exT:"QR ची मुदत सरली",exP:"हो QR कोड स्कॅन केल्या उपरांत 5 मिनिटां खातीर वैध आशिल्लो. कृपया दुकानाचो QR कोड परत स्कॅन करात.",
+ bad:"ही QR लिंक अपुरी आसा. दुकानदाराक QR परत दाखोंक सांगात आनी स्कॅन करात.",
+ nc:"हो ब्राउजर सुरक्षीतपणान धाडूंक शकना. कृपया हें पान Chrome वा Safari त उघडात.",
+ rdy:"सगळें बरें आसल्यार “दुकानाक धाडात” दाबात.",
+ oi:"हांगा फक्त फोटो जोडूंक मेळटात. {n} फायल सोडल्यो.",
+ sk:"{n} फायली चड आसात (चडांत चड {m})",bg:"{n} फायली 14 MB परस व्हडल्यो",
+ pr:"तयार जाता {i}/{n}...",sg:"धाडटा {i}/{n}...",
+ s1:"{n} फायल धाडली. आतां दुकानाचो कंप्युटर पळयात.",sM:"{n} फायली धाडल्यो. आतां दुकानाचो कंप्युटर पळयात.",
+ fA:"{b} फायली धाडूंक जाल्यो ना.",fM:"{s} धाडल्यो, {b} धाडूंक जाल्यो ना.",
+ tb:"फायल खूब व्हड आसा.",rt:"आतां खूब विनंत्यो आसात. थोड्या वेळान परत यत्न करात.",
+ nt:"धाडूंक जालें ना. इंटरनेट तपासात आनी परत यत्न करात.",er:"कितेंतरी चुकलें. कृपया परत यत्न करात.",
+ rm:"काडून उडयात",
+ hP:"वेंचिल्या उपरांत तुमचे फोटो हांगा दिसतले.\nतोंड सरळ आनी स्पश्ट दवरात.",
+ hI:"तुमच्यो ओळखपत्रांच्यो फायली हांगा दिसतल्यो.\nजोडयेन वेंचात: मुखार, फाटीं, मुखार, फाटीं...",
+ hD:"तुमी वेंचिल्ले फोटो / फायली हांगा दिसतले.",
+ nn:"सगळें तुमच्या फोनार लॉक (एन्क्रिप्ट) जाता, देखून फक्त दुकानाचो कंप्युटरूच उगडूंक शकता. दरेक फायल 14 MB मेरेन, एकदा 40 फायली.",
+ gd:"वापर मार्गदर्शक",gT:"हें पान कशें वापरपाचें",gC:"बंद करात",
+ g1:"दुकानाचो QR कोड स्कॅन करात. हें पान उघडटलें आनी 5 मिनिटांचो टायमर सुरू जातलो.",
+ g2:"कितें धाडपाचें तें वेंचात: पासपोर्ट फोटो, ओळखपत्रां वा दस्तावेज (A4). प्रकार बदलपाक “बदलात” दाबात.",
+ g3:"फोटो काडपाक “कॅमेऱ्यान काडात” दाबात, वा आसल्यो फायली वेंचपाक “गॅलरी / फायल वेंचात” दाबात. एकदा जायत्यो फायली वेंचूंक येतात.",
+ g4:"पूर्वावलोकन तपासात. फायल काडपाक तिजेर ✕ दाबात. ओळखपत्रां खातीर जोडयेन जोडात: मुखार, फाटीं, मुखार, फाटीं.",
+ g5:"“दुकानाक धाडात” दाबात आनी यशस्वी संदेश येवसर थांबात. उपरांत दुकानाचो कंप्युटर पळयात.",
+ g6:"तुमच्यो फायली फोनार एन्क्रिप्ट जातात, देखून फक्त दुकानाचो कंप्युटरूच उगडूंक शकता. दरेक फायल चडांत चड 14 MB आनी एकदा 40 फायली.",
+ g7:"वेळ सरल्यार दुकानाचो QR कोड परत स्कॅन करात. पानान लिंक अपुरी म्हळ्यार दुकानदाराक QR परत दाखोंक सांगात.",
+ g8:"वयर उजव्या वटेच्या मेनूंतल्यान कदितरी भास बदलूंक शकता."
+};
+L.sd={
+ pv:"ڏيک",wc:"ڪيمرا",wg:"گيلري",
+ hb1:"محفوظ",hb2:"تيز",hb3:"نجي",ft:"توهان جون فائلون رڳو دڪان جي ڪمپيوٽر تي وڃن ٿيون.",
+ ttl:"تصوير / دستاويز موڪليو",
+ sub:"چونڊيو ته توهان ڇا موڪلڻ چاهيو ٿا. اهو سڌو دڪان جي ڪمپيوٽر تي ويندو.",
+ chg:"تبديل ڪريو",pP:"پاسپورٽ تصويرون",pI:"سڃاڻپ ڪارڊ",pD:"دستاويز (A4)",
+ pkT:"توهان ڇا موڪلڻ چاهيو ٿا؟",pkP:"هڪ اختيار چونڊيو.",
+ cam:"ڪيمرا سان ڪڍو",gP:"گيلري مان چونڊيو",gF:"گيلري / فائل چونڊيو",
+ snd:"دڪان ڏانهن موڪليو",agn:"وڌيڪ موڪليو",
+ tm:"QR 5 منٽن لاءِ صحيح آهي. باقي وقت: {t}",tmO:"وقت ختم. اپلوڊ مڪمل ٿي رهيو آهي...",
+ exT:"QR جي مدت ختم",exP:"هي QR ڪوڊ اسڪين ڪرڻ کان پوءِ 5 منٽن لاءِ صحيح هو. مهرباني ڪري دڪان جو QR ڪوڊ ٻيهر اسڪين ڪريو.",
+ bad:"هي QR لنڪ نامڪمل آهي. دڪاندار کي QR ٻيهر ڏيکارڻ لاءِ چئو ۽ اسڪين ڪريو.",
+ nc:"هي برائوزر محفوظ طريقي سان موڪلي نٿو سگهي. مهرباني ڪري هي صفحو Chrome يا Safari ۾ کوليو.",
+ rdy:"جيڪڏهن سڀ ٺيڪ آهي ته “دڪان ڏانهن موڪليو” دٻايو.",
+ oi:"هتي صرف تصويرون شامل ڪري سگهجن ٿيون. {n} فائل ڇڏي ڏنيون ويون.",
+ sk:"{n} فائلون وڌيڪ آهن (وڌ ۾ وڌ {m})",bg:"{n} فائل 14 MB کان وڏيون آهن",
+ pr:"تيار ٿي رهيو آهي {i}/{n}...",sg:"موڪليو پيو وڃي {i}/{n}...",
+ s1:"{n} فائل موڪلي وئي. هاڻي دڪان جو ڪمپيوٽر ڏسو.",sM:"{n} فائلون موڪليون ويون. هاڻي دڪان جو ڪمپيوٽر ڏسو.",
+ fA:"{b} فائل موڪلي نه سگهيون.",fM:"{s} موڪليون ويون، {b} موڪلي نه سگهيون.",
+ tb:"فائل تمام وڏي آهي.",rt:"هن وقت تمام گهڻيون درخواستون آهن. ٿوري دير کان پوءِ ٻيهر ڪوشش ڪريو.",
+ nt:"موڪلي نه سگهياسين. انٽرنيٽ چيڪ ڪريو ۽ ٻيهر ڪوشش ڪريو.",er:"ڪجهه غلط ٿي ويو. مهرباني ڪري ٻيهر ڪوشش ڪريو.",
+ rm:"هٽايو",
+ hP:"چونڊڻ کان پوءِ توهان جون تصويرون هتي ڏيکاريون وينديون.\nچهرو سڌو ۽ صاف رکو.",
+ hI:"توهان جون سڃاڻپ ڪارڊ فائلون هتي ڏيکاريون وينديون.\nجوڙي ۾ چونڊيو: اڳيون، پوئيون، اڳيون، پوئيون...",
+ hD:"توهان جون چونڊيل تصويرون / فائلون هتي ڏيکاريون وينديون.",
+ nn:"سڀ ڪجهه توهان جي فون تي ئي لاڪ (انڪرپٽ) ٿئي ٿو، تنهن ڪري رڳو دڪان جو ڪمپيوٽر ئي کولي سگهي ٿو. في فائل 14 MB تائين، هڪ وقت 40 فائلون.",
+ gd:"استعمال گائيڊ",gT:"هي صفحو ڪيئن استعمال ڪجي",gC:"بند ڪريو",
+ g1:"دڪان جو QR ڪوڊ اسڪين ڪريو. هي صفحو کلندو ۽ 5 منٽن جو ٽائمر شروع ٿيندو.",
+ g2:"چونڊيو ته ڇا موڪلڻو آهي: پاسپورٽ تصويرون، سڃاڻپ ڪارڊ يا دستاويز (A4). قسم بدلائڻ لاءِ “تبديل ڪريو” دٻايو.",
+ g3:"تصوير ڪڍڻ لاءِ “ڪيمرا سان ڪڍو” دٻايو، يا موجود فائلون چونڊڻ لاءِ “گيلري / فائل چونڊيو” دٻايو. هڪ ئي وقت ڪيتريون ئي فائلون چونڊي سگهجن ٿيون.",
+ g4:"ڏيک چيڪ ڪريو. ڪا فائل هٽائڻ لاءِ ان تي ✕ دٻايو. سڃاڻپ ڪارڊ لاءِ جوڙي ۾ شامل ڪريو: اڳيون، پوئيون، اڳيون، پوئيون.",
+ g5:"“دڪان ڏانهن موڪليو” دٻايو ۽ ڪاميابيءَ جو پيغام اچڻ تائين انتظار ڪريو. پوءِ دڪان جو ڪمپيوٽر ڏسو.",
+ g6:"توهان جون فائلون فون تي ئي انڪرپٽ ٿين ٿيون، تنهن ڪري رڳو دڪان جو ڪمپيوٽر ئي کولي سگهي ٿو. في فائل وڌ ۾ وڌ 14 MB ۽ هڪ وقت 40 فائلون.",
+ g7:"وقت ختم ٿي وڃي ته دڪان جو QR ڪوڊ ٻيهر اسڪين ڪريو. جيڪڏهن صفحو چوي ته لنڪ نامڪمل آهي ته دڪاندار کي QR ٻيهر ڏيکارڻ لاءِ چئو.",
+ g8:"توهان مٿي ساڄي پاسي واري مينيو مان ڪنهن به وقت ٻولي بدلائي سگهو ٿا."
+};
+L.sat={
+ pv:"ᱯᱷᱚᱞᱚᱛᱚᱨ",wc:"ᱠᱮᱢᱟᱨᱟ",wg:"ᱜᱮᱞᱟᱨᱤ",
+ ft:"ᱟᱢᱟᱜ ᱨᱮᱫ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱨᱮ ᱜᱮ ᱥᱮᱱᱚᱜᱼᱟ᱾",
+ ttl:"ᱪᱟᱹᱛᱤ / ᱫᱚᱞᱤᱞ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ",
+ sub:"ᱟᱢ ᱪᱮᱫ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱥᱟᱱᱟᱢ ᱵᱟᱪᱷᱟᱣ ᱢᱮ᱾ ᱱᱚᱶᱟ ᱥᱚᱥᱚᱛᱚᱨ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱨᱮ ᱥᱮᱱᱛᱮ᱾",
+ chg:"ᱵᱚᱫᱚᱞ",pP:"ᱯᱟᱥᱯᱚᱨᱴ ᱪᱟᱹᱛᱤ",pI:"ᱟᱭᱰᱤ ᱠᱟᱨᱰ",pD:"ᱫᱚᱞᱤᱞ (A4)",
+ pkT:"ᱟᱢ ᱪᱮᱫ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱥᱟᱱᱟᱢ?",pkP:"ᱢᱤᱫ ᱵᱤᱠᱚᱞᱯᱚ ᱵᱟᱪᱷᱟᱣ ᱢᱮ᱾",
+ cam:"ᱠᱮᱢᱟᱨᱟ ᱠᱷᱚᱱ ᱵᱚᱞᱚᱱ",gP:"ᱜᱮᱞᱟᱨᱤ ᱠᱷᱚᱱ ᱵᱟᱪᱷᱟᱣ",gF:"ᱜᱮᱞᱟᱨᱤ / ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ",
+ snd:"ᱫᱩᱠᱟᱱ ᱨᱮ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ",agn:"ᱟᱨᱡᱚᱢ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ",
+ tm:"QR ᱕ ᱢᱤᱱᱤᱴ ᱞᱟᱹᱜᱤᱫ ᱪᱟᱞᱩ᱾ ᱛᱟᱨᱟᱜ ᱚᱠᱛᱚ: {t}",tmO:"ᱚᱠᱛᱚ ᱪᱟᱵᱟ ᱮᱱᱟ᱾ ᱟᱯᱞᱳᱰ ᱪᱟᱵᱟ ᱠᱟᱱᱟ...",
+ exT:"QR ᱚᱠᱛᱚ ᱪᱟᱵᱟ",exP:"ᱱᱚᱶᱟ QR ᱠᱳᱰ ᱥᱠᱮᱱ ᱚᱠᱛᱮ ᱠᱷᱚᱱ ᱕ ᱢᱤᱱᱤᱴ ᱪᱟᱞᱩ ᱛᱟᱦᱮᱱᱟ᱾ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ QR ᱫᱩᱦᱟᱲ ᱥᱠᱮᱱ ᱢᱮ᱾",
+ bad:"ᱱᱚᱶᱟ QR ᱞᱤᱝᱠ ᱵᱟᱝ ᱯᱩᱨᱟᱹᱣ ᱠᱟᱱᱟ᱾ ᱫᱩᱠᱟᱱ ᱵᱟᱱᱟᱣ ᱠᱚ QR ᱫᱩᱦᱟᱲ ᱫᱮᱠᱷᱟᱣ ᱞᱟᱹᱜᱤᱫ ᱢᱮᱱ ᱢᱮ᱾",
+ nc:"ᱱᱚᱶᱟ ᱵᱨᱟᱣᱡᱟᱨ ᱵᱟᱝ ᱥᱟᱵᱟᱛ ᱞᱮᱠᱟ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾ Chrome ᱵᱟᱝ Safari ᱨᱮ ᱠᱷᱩᱞᱟᱹ ᱢᱮ᱾",
+ rdy:"ᱡᱩᱛ ᱴᱷᱤᱠ ᱨᱮᱭᱟᱜ ᱠᱷᱟᱛᱮ “ᱫᱩᱠᱟᱱ ᱨᱮ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ” ᱚᱛᱟᱭ ᱢᱮ᱾",
+ oi:"ᱱᱚᱸᱰᱮ ᱪᱟᱹᱛᱤ ᱛᱮᱭᱟᱜ ᱥᱟᱵᱟᱭ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾ {n} ᱨᱮᱫ ᱪᱟᱹᱞᱟᱹᱜ ᱮᱱᱟ᱾",
+ sk:"{n} ᱨᱮᱫ ᱟᱹᱰᱤ ᱥᱟᱹᱜᱷᱟ (ᱡᱟᱹᱥᱛᱤ {m})",bg:"{n} ᱨᱮᱫ 14 MB ᱠᱷᱚᱱ ᱢᱟᱨᱟᱝ",
+ pr:"ᱛᱮᱭᱟᱨ ᱠᱟᱱᱟ {i}/{n}...",sg:"ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱠᱟᱱᱟ {i}/{n}...",
+ s1:"{n} ᱨᱮᱫ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱮᱱᱟ᱾ ᱱᱤᱛᱚᱜ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱧᱮᱞ ᱢᱮ᱾",sM:"{n} ᱨᱮᱫ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱮᱱᱟ᱾ ᱱᱤᱛᱚᱜ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱧᱮᱞ ᱢᱮ᱾",
+ fA:"{b} ᱨᱮᱫ ᱵᱟᱝ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾",fM:"{s} ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱮᱱᱟ, {b} ᱵᱟᱝ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾",
+ tb:"ᱨᱮᱫ ᱟᱹᱰᱤ ᱢᱟᱨᱟᱝ ᱠᱟᱱᱟ᱾",rt:"ᱱᱤᱛᱚᱜ ᱟᱹᱰᱤ ᱥᱟᱹᱜᱷᱟ ᱠᱷᱚᱵᱚᱨ ᱢᱮᱱᱟᱜᱼᱟ᱾ ᱠᱷᱟᱹᱜᱮ ᱛᱟᱭᱚᱢ ᱫᱩᱦᱟᱲ ᱠᱩᱨᱩᱢᱩᱴᱩ ᱢᱮ᱾",
+ nt:"ᱵᱟᱝ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱫᱟᱲᱮᱭᱟᱜ ᱠᱟᱱᱟ᱾ ᱤᱱᱴᱟᱨᱱᱮᱴ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱫᱩᱦᱟᱲ ᱠᱩᱨᱩᱢᱩᱴᱩ ᱢᱮ᱾",er:"ᱪᱮᱫ ᱜᱮ ᱵᱟᱝ ᱴᱷᱤᱠ ᱦᱩᱭ ᱮᱱᱟ᱾ ᱫᱩᱦᱟᱲ ᱠᱩᱨᱩᱢᱩᱴᱩ ᱢᱮ᱾",
+ rm:"ᱚᱪᱚᱠ",
+ hP:"ᱵᱟᱪᱷᱟᱣ ᱪᱟᱵᱟ ᱛᱟᱭᱚᱢ ᱟᱢᱟᱜ ᱪᱟᱹᱛᱤ ᱱᱚᱸᱰᱮ ᱧᱮᱞᱚᱜᱼᱟ᱾",
+ hI:"ᱟᱢᱟᱜ ᱟᱭᱰᱤ ᱠᱟᱨᱰ ᱨᱮᱫ ᱱᱚᱸᱰᱮ ᱧᱮᱞᱚᱜᱼᱟ᱾\nᱡᱚᱲᱟ ᱛᱮ ᱵᱟᱪᱷᱟᱣ ᱢᱮ: ᱥᱩᱠᱷᱤ, ᱯᱷᱤᱨᱮ, ᱥᱩᱠᱷᱤ, ᱯᱷᱤᱨᱮ...",
+ hD:"ᱟᱢ ᱵᱟᱪᱷᱟᱣ ᱠᱟᱱ ᱪᱟᱹᱛᱤ / ᱨᱮᱫ ᱱᱚᱸᱰᱮ ᱧᱮᱞᱚᱜᱼᱟ᱾",
+ nn:"ᱡᱩᱛ ᱟᱢᱟᱜ ᱯᱷᱚᱱ ᱨᱮ ᱜᱮ ᱞᱚᱠ (ᱮᱱᱠᱨᱤᱯᱴ) ᱦᱩᱭᱩᱜᱼᱟ, ᱚᱱᱟᱛᱮ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱫᱚ ᱠᱷᱩᱞᱟᱹ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ᱾ ᱨᱮᱫ ᱯᱟᱹᱨᱥᱤ 14 MB ᱦᱟᱛᱟᱣ, ᱢᱤᱫ ᱡᱷᱟᱯ ᱨᱮ 40 ᱨᱮᱫ᱾",
+ gd:"ᱵᱮᱵᱷᱟᱨ ᱜᱟᱭᱤᱰ",gT:"ᱱᱚᱶᱟ ᱥᱟᱦᱴᱟ ᱪᱮᱫ ᱞᱮᱠᱟ ᱵᱮᱵᱷᱟᱨ ᱫᱟᱲᱮᱭᱟᱜ",gC:"ᱵᱚᱸᱫᱚᱭ",
+ g1:"ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ QR ᱠᱳᱰ ᱥᱠᱮᱱ ᱢᱮ᱾ ᱱᱚᱶᱟ ᱥᱟᱦᱴᱟ ᱠᱷᱩᱞᱟᱹᱜᱼᱟ ᱟᱨ ᱕ ᱢᱤᱱᱤᱴ ᱴᱟᱭᱢᱟᱨ ᱥᱟᱞᱟᱜᱼᱟ᱾",
+ g2:"ᱪᱮᱫ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ ᱵᱟᱪᱷᱟᱣ ᱢᱮ: ᱯᱟᱥᱯᱚᱨᱴ ᱪᱟᱹᱛᱤ, ᱟᱭᱰᱤ ᱠᱟᱨᱰ ᱵᱟᱝ ᱫᱚᱞᱤᱞ (A4)᱾ ᱪᱷᱟᱸᱪ ᱵᱚᱫᱚᱞ ᱞᱟᱹᱜᱤᱫ “ᱵᱚᱫᱚᱞ” ᱚᱛᱟᱭ ᱢᱮ᱾",
+ g3:"ᱪᱟᱹᱛᱤ ᱵᱚᱞᱚᱱ ᱞᱟᱹᱜᱤᱫ “ᱠᱮᱢᱟᱨᱟ ᱠᱷᱚᱱ ᱵᱚᱞᱚᱱ” ᱚᱛᱟᱭ ᱢᱮ, ᱵᱟᱝ ᱢᱮᱱᱟᱜ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱞᱟᱹᱜᱤᱫ “ᱜᱮᱞᱟᱨᱤ / ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ” ᱚᱛᱟᱭ ᱢᱮ᱾ ᱢᱤᱫ ᱡᱷᱟᱯ ᱨᱮ ᱟᱹᱰᱤ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ᱾",
+ g4:"ᱯᱷᱚᱞᱚᱛᱚᱨ ᱧᱮᱞ ᱢᱮ᱾ ᱨᱮᱫ ᱚᱪᱚᱠ ᱞᱟᱹᱜᱤᱫ ᱚᱱᱟ ᱪᱷᱚᱴᱚ ✕ ᱚᱛᱟᱭ ᱢᱮ᱾ ᱟᱭᱰᱤ ᱠᱟᱨᱰ ᱞᱟᱹᱜᱤᱫ ᱡᱚᱲᱟ ᱛᱮ ᱥᱟᱵᱟᱭ ᱢᱮ: ᱥᱩᱠᱷᱤ, ᱯᱷᱤᱨᱮ, ᱥᱩᱠᱷᱤ, ᱯᱷᱤᱨᱮ᱾",
+ g5:"“ᱫᱩᱠᱟᱱ ᱨᱮ ᱞᱟᱹᱠᱛᱤᱭᱟᱹ” ᱚᱛᱟᱭ ᱢᱮ ᱟᱨ ᱥᱟᱯᱷᱚᱞ ᱠᱷᱚᱵᱚᱨ ᱵᱟᱝ ᱦᱮᱡ ᱦᱟᱛᱟᱣ ᱴᱟᱱᱟ ᱢᱮ᱾ ᱛᱟᱭᱚᱢ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱧᱮᱞ ᱢᱮ᱾",
+ g6:"ᱟᱢᱟᱜ ᱨᱮᱫ ᱯᱷᱚᱱ ᱨᱮ ᱜᱮ ᱮᱱᱠᱨᱤᱯᱴ ᱦᱩᱭᱩᱜᱼᱟ, ᱚᱱᱟᱛᱮ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ ᱠᱚᱢᱯᱤᱩᱴᱟᱨ ᱫᱚ ᱠᱷᱩᱞᱟᱹ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ᱾ ᱨᱮᱫ ᱯᱟᱹᱨᱥᱤ ᱡᱟᱹᱥᱛᱤ 14 MB, ᱢᱤᱫ ᱡᱷᱟᱯ ᱨᱮ 40 ᱨᱮᱫ᱾",
+ g7:"ᱚᱠᱛᱚ ᱪᱟᱵᱟ ᱠᱷᱟᱛᱮ ᱫᱩᱠᱟᱱ ᱨᱮᱭᱟᱜ QR ᱫᱩᱦᱟᱲ ᱥᱠᱮᱱ ᱢᱮ᱾ ᱞᱤᱝᱠ ᱵᱟᱝ ᱯᱩᱨᱟᱹᱣ ᱢᱮᱱ ᱠᱷᱟᱛᱮ ᱫᱩᱠᱟᱱ ᱵᱟᱱᱟᱣ ᱠᱚ QR ᱫᱩᱦᱟᱲ ᱫᱮᱠᱷᱟᱣ ᱞᱟᱹᱜᱤᱫ ᱢᱮᱱ ᱢᱮ᱾",
+ g8:"ᱪᱮᱛᱟᱱ ᱡᱩᱨ ᱫᱷᱟᱨ ᱨᱮᱭᱟᱜ ᱢᱮᱱᱩ ᱠᱷᱚᱱ ᱛᱤᱥᱟᱨ ᱚᱠᱛᱮ ᱯᱟᱹᱨᱥᱤ ᱵᱚᱫᱚᱞ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ᱾"
+};
+L.ks={
+ pv:"پری ویو",wc:"کیمرہ",wg:"گیلری",
+ hb1:"محفوظ",hb2:"تیز",hb3:"نجی",ft:"توہہِ ہنز فائلہ گژھن صرف دکانک کمپیوٹرس۔",
+ ttl:"فوٹو / دستاویز بھیجیو",
+ sub:"چُنو کیا توہہ کیا بھیجُن چھُو۔ یہ سیدھا دکانک کمپیوٹر پیٹھ گژھِ۔",
+ chg:"بدلاؤ",pP:"پاسپورٹ فوٹو",pI:"شناختی کارڈ",pD:"دستاویز (A4)",
+ pkT:"توہہ کیا بھیجُن چھُو؟",pkP:"اکھ آپشن چُنو۔",
+ cam:"کیمرہ سان کھیٖنچِو",gP:"گیلری منز چُنو",gF:"گیلری / فائل چُنو",
+ snd:"دکانس بھیجیو",agn:"مزید بھیجیو",
+ tm:"QR چھُ 5 منٹن خاطرٕ درُست۔ بقایہ وقت: {t}",tmO:"وقت ختم۔ اپ لوڈ مکمل گژھان چھُ...",
+ exT:"QR ہند میعاد ختم",exP:"یہ QR کوڈ آسہ اسکین کرنہ پتہ 5 منٹن خاطرٕ درُست۔ مہربانی کرِتھ دکانک QR کوڈ دوبارہ اسکین کریو۔",
+ bad:"یہ QR لنک چھُ نامکمل۔ دکاندارس ووننہِ QR دوبارہ ہیوُن تہ اسکین کریو۔",
+ nc:"یہ براؤزر چھُ نہ محفوظ طریقہ سان بھیجِتھ ہیکان۔ مہربانی کرِتھ یہ صفحہ Chrome یا Safari منز کھولو۔",
+ rdy:"اگر سب ٹھیک چھُ تہ “دکانس بھیجیو” دبایو۔",
+ oi:"یتھ ہیکو صرف فوٹو شامل کرتھ۔ {n} فائل چھوڑنہ آیہ۔",
+ sk:"{n} فائل چھِ زیادہ (زیادہ سے زیادہ {m})",bg:"{n} فائل چھِ 14 MB کھوتہ بوڈ",
+ pr:"تیار گژھان چھُ {i}/{n}...",sg:"بھیجنہ چھُ آمُت {i}/{n}...",
+ s1:"{n} فائل بھیجنہ آییہ۔ اتھ دکانک کمپیوٹر وچھو۔",sM:"{n} فائل بھیجنہ آیہ۔ اتھ دکانک کمپیوٹر وچھو۔",
+ fA:"{b} فائل ہیکہ نہ بھیجنہ آتھ۔",fM:"{s} بھیجنہ آیہ، {b} ہیکہ نہ بھیجنہ آتھ۔",
+ tb:"فائل چھِ بہت بوڈ۔",rt:"اتھ چھِ بہت درخواست۔ کُنہِ وقتہ پتہ دوبارہ کوشش کریو۔",
+ nt:"بھیجِتھ ہیکہ نہ۔ انٹرنیٹ چیک کریو تہ دوبارہ کوشش کریو۔",er:"کانہہ گڑبڑ گیہ۔ مہربانی کرِتھ دوبارہ کوشش کریو۔",
+ rm:"ہٹاؤ",
+ hP:"چُننہ پتہ چھِ توہہِ ہند فوٹو یتھ ظاہر گژھان۔\nمُنہ سیدھ تہ صاف تھاوو۔",
+ hI:"توہہِ ہند شناختی کارڈ فائل چھِ یتھ ظاہر گژھان۔\nجوڑی منز چُنو: آگُہ، پتہ، آگُہ، پتہ...",
+ hD:"توہہِ ہند چُنتھ فوٹو / فائل چھِ یتھ ظاہر گژھان۔",
+ nn:"سب کچھ چھُ توہہِ ہندس فونس پیٹھ لاک (انکرپٹ) گژھان، لہذا صرف دکانک کمپیوٹر ہیکہ کھولتھ۔ فی فائل 14 MB تام، اکی وارہ 40 فائل۔",
+ gd:"استعمال گائیڈ",gT:"یہ صفحہ کتھ استعمال کریو",gC:"بند کریو",
+ g1:"دکانک QR کوڈ اسکین کریو۔ یہ صفحہ کھلِ تہ 5 منٹن ٹائمر شروع گژھِ۔",
+ g2:"چُنو کیا بھیجُن چھُ: پاسپورٹ فوٹو، شناختی کارڈ یا دستاویز (A4)۔ قسم بدلُن خاطرٕ “بدلاؤ” دبایو۔",
+ g3:"فوٹو کھیٖنچُن خاطرٕ “کیمرہ سان کھیٖنچِو” دبایو، یا موجود فائل چُنُن خاطرٕ “گیلری / فائل چُنو” دبایو۔ اکی وارہ بہت فائل چُنتھ ہیکو۔",
+ g4:"پری ویو چیک کریو۔ فائل ہٹاونہ خاطرٕ تتھ پیٹھ ✕ دبایو۔ شناختی کارڈ خاطرٕ جوڑی منز شامل کریو: آگُہ، پتہ، آگُہ، پتہ۔",
+ g5:"“دکانس بھیجیو” دبایو تہ کامیابی ہند پیغام یتھ تام ژھاؤ۔ پتہ دکانک کمپیوٹر وچھو۔",
+ g6:"توہہِ ہنزِ فائل چھِ فونس پیٹھ انکرپٹ گژھان، لہذا صرف دکانک کمپیوٹر ہیکہ کھولتھ۔ فی فائل زیادہ از زیادہ 14 MB تہ اکی وارہ 40 فائل۔",
+ g7:"وقت ختم گژھنہ پتہ دکانک QR کوڈ دوبارہ اسکین کریو۔ اگر صفحہ ووننہِ لنک چھُ نامکمل تہ دکاندارس QR دوبارہ ہیوُن ووننہ۔",
+ g8:"توہہ ہیکو اپر دایاں طرفہ مینو پیٹھ کنہِ وقتہ زبان بدلتھ۔"
+};
+L.doi={
+ pv:"पूर्वावलोकन",wc:"कैमरा",wg:"गैलरी",
+ hb1:"सुरक्षित",hb2:"तेज",hb3:"निजी",ft:"तुंदी फाइलां सिर्फ दुकान दे कंप्यूटर उप्पर जंदियां न।",
+ ttl:"फोटो / दस्तावेज भेजो",
+ sub:"चुनो जे तुस केह् भेजना चांह्दे ओ। एह् सिद्धा दुकान दे कंप्यूटर पर जाग।",
+ chg:"बदलो",pP:"पासपोर्ट फोटो",pI:"आइडी कार्ड",pD:"दस्तावेज (A4)",
+ pkT:"तुस केह् भेजना चांह्दे ओ?",pkP:"इक विकल्प चुनो।",
+ cam:"कैमरे कन्नै खिच्चो",gP:"गैलरी चों चुनो",gF:"गैलरी / फाइल चुनो",
+ snd:"दुकान गी भेजो",agn:"होर भेजो",
+ tm:"QR 5 मिंटें लेई मान्य ऐ। बचेआ समां: {t}",tmO:"समां खत्म। अपलोड पूरा कीता जा करदा ऐ...",
+ exT:"QR दी मियाद खत्म",exP:"एह् QR कोड स्कैन करने दे बाद 5 मिंटें तकर मान्य हा। कृपया दुकान दा QR कोड फिरी स्कैन करो।",
+ bad:"एह् QR लिंक अधूरा ऐ। दुकानदार गी QR फिरी दस्सने आस्तै आखो ते स्कैन करो।",
+ nc:"एह् ब्राउजर सुरक्षित ढंगै कन्नै नेईं भेजी सकदा। कृपया एह् पेज Chrome जां Safari च खोह्लो।",
+ rdy:"जेकर सब ठीक ऐ तां “दुकान गी भेजो” दबाओ।",
+ oi:"इत्थें सिर्फ फोटो जोड़ी जा सकदी ऐ। {n} फाइल छोड़ी गेई।",
+ sk:"{n} फाइलां बादे न (बादे थमां बादा {m})",bg:"{n} फाइल 14 MB कोला बड्डी न",
+ pr:"तैयार होआ करदा ऐ {i}/{n}...",sg:"भेजेआ जा करदा ऐ {i}/{n}...",
+ s1:"{n} फाइल भेजी गेई। हुन दुकान दा कंप्यूटर दिक्खो।",sM:"{n} फाइलां भेजी गेइयां। हुन दुकान दा कंप्यूटर दिक्खो।",
+ fA:"{b} फाइल नेईं भेजी जा सकी।",fM:"{s} भेजी गेइयां, {b} नेईं भेजी जा सकियां।",
+ tb:"फाइल बड़ी बड्डी ऐ।",rt:"हुन बड़ियां सारियां दरखास्तां न। थोड़ी देर बाद फिरी कोशश करो।",
+ nt:"भेजी नेईं सके। इंटरनेट चेक करो ते फिरी कोशश करो।",er:"किश गलत होई गेआ। कृपया फिरी कोशश करो।",
+ rm:"हटाओ",
+ hP:"चुनने दे बाद तुंदी फोटो इत्थें दिखग।\nमुहां सिद्धा ते साफ रक्खो।",
+ hI:"तुंदी आइडी कार्ड फाइलां इत्थें दिखगियां।\nजोड़ी च चुनो: अग्गें, पिच्छें, अग्गें, पिच्छें...",
+ hD:"तुंदी चुनी दी फोटो / फाइलां इत्थें दिखगियां।",
+ nn:"सब किश तुंदे फोन उप्पर गै लॉक (एन्क्रिप्ट) होंदा ऐ, इस करी सिर्फ दुकान दा कंप्यूटर गै खोह्ल सकदा ऐ। हर फाइल 14 MB तकर, इक बारी 40 फाइलां।",
+ gd:"इस्तेमाल गाइड",gT:"एह् पेज किय् इस्तेमाल करना ऐ",gC:"बंद करो",
+ g1:"दुकान दा QR कोड स्कैन करो। एह् पेज खुल्लग ते 5 मिंटें दा टाइमर शुरू होग।",
+ g2:"चुनो जे केह् भेजना ऐ: पासपोर्ट फोटो, आइडी कार्ड जां दस्तावेज (A4)। किस्म बदलने लेई “बदलो” दबाओ।",
+ g3:"फोटो खिच्चने लेई “कैमरे कन्नै खिच्चो” दबाओ, जां मौजूद फाइलां चुनने लेई “गैलरी / फाइल चुनो” दबाओ। इक बारी बड़ियां फाइलां चुनी सकदे ओ।",
+ g4:"पूर्वावलोकन चेक करो। कोई फाइल हटाने लेई उदे उप्पर ✕ दबाओ। आइडी कार्ड लेई जोड़ी च जोड़ो: अग्गें, पिच्छें, अग्गें, पिच्छें।",
+ g5:"“दुकान गी भेजो” दबाओ ते सफलता दा संदेश औने तकर रुको। फिरी दुकान दा कंप्यूटर दिक्खो।",
+ g6:"तुंदी फाइलां फोन उप्पर गै एन्क्रिप्ट होंदियां न, इस करी सिर्फ दुकान दा कंप्यूटर गै खोह्ल सकदा ऐ। हर फाइल बादे थमां बादा 14 MB ते इक बारी 40 फाइलां।",
+ g7:"समां खत्म होई जाने उप्पर दुकान दा QR कोड फिरी स्कैन करो। जेकर पेज आखै जे लिंक अधूरा ऐ तां दुकानदार गी QR फिरी दस्सने आस्तै आखो।",
+ g8:"तुस उप्पर सज्जे पास्से दे मेनू चों कदें बी भाषा बदली सकदे ओ।"
+};
+L.mni={
+ pv:"প্রিভিউ",wc:"কেমেরা",wg:"গেলেরী",
+ ft:"নখোয়গী ফাইলশিং শপকীগী কম্পিউটরদা অমত্তা চৎলি।",
+ ttl:"ফোটো / দকুমেন্ট ফংগো",
+ sub:"নখোয়না ফংবা য়ারিবদা চত্থক্লো। মখোয়দা মরুওইনা শপকী কম্পিউটরদা চৎনি।",
+ chg:"শাংখৎও",pP:"পাসপোর্ট ফোটো",pI:"আইডি কার্দ",pD:"দকুমেন্ট (A4)",
+ pkT:"নখোয়না ফংবা য়ারিবদা?",pkP:"অমা চত্থক্লো।",
+ cam:"কেমেরাদগী ফোটো তৌরো",gP:"গেলেরীদগী চত্থক্লো",gF:"গেলেরী / ফাইল চত্থক্লো",
+ snd:"শপকীদা ফংগো",agn:"অসুক ফংগো",
+ tm:"QR ৫ মিনিতকী খুৎনা মপাল চৎনি। ফাওদুনা চংবা: {t}",tmO:"মতম থোরক্লে। আপলোদ তৌবা ওইরি...",
+ exT:"QR কী মতম থোরক্লে",exP:"QR কোদ অসি স্কেন তৌবগী ৫ মিনিতকী খুৎনা মপাল চৎলি। শপকীগী QR কোদ অসি অসুক স্কেন তৌরো।",
+ bad:"QR লিংক অসি মপূদ্রে। শপ মীদা QR অসুক ফংনা য়ারো, মখা স্কেন তৌরো।",
+ nc:"ব্রাউজর অসিনা সুরক্ষিত ওইনা ফংহনবা ঙম্লে। পেজ অসি Chrome নত্ত্রগা Safari দা হাপ্তুনা চত্থক্লো।",
+ rdy:"পুম্বা ফজরগা “শপকীদা ফংগো” নৌ ফংদুনা থক্লো।",
+ oi:"অদোম্দা ফোটো খরা অমত্তা য়েংনি। ফাইল {n} থোরক্লে।",
+ sk:"ফাইল {n} অসুক পাম্বা (মরক্তা {m})",bg:"ফাইল {n} 14 MB তকপা মাঙ",
+ pr:"শিনবা ওইরি {i}/{n}...",sg:"ফংহনরি {i}/{n}...",
+ s1:"ফাইল {n} ফংহনখ্রে। অদুগা শপকীগী কম্পিউটর য়েংশিল্লো।",sM:"ফাইল {n} ফংহনখ্রে। অদুগা শপকীগী কম্পিউটর য়েংশিল্লো।",
+ fA:"ফাইল {b} ফংহনবা ঙম্লে।",fM:"{s} ফংহনখ্রে, {b} ফংহনবা ঙম্লে।",
+ tb:"ফাইল অসি অতোপ্পা মাঙ।",rt:"অদোম্দা অনৌবা য়ুমফম পাম্বা। অহান্বদগী অসুক ফংহনবা শীজিন্নো।",
+ nt:"ফংহনবা ঙম্লে। ইন্টরনেত য়েংদুনা অসুক শীজিন্নো।",er:"করিগুম্বা অমা ফজরে। অসুক শীজিন্নো।",
+ rm:"তাকউ",
+ hP:"চত্থক্লবগী মতাংদা নখোয়গী ফোটো অদোম্দা তৌরি।\nনখোয়গী মায় ইন্দ্রি অমসুং ফুংনা থাবো।",
+ hI:"নখোয়গী আইডি কার্দ ফাইলশিং অদোম্দা তৌরি।\nজোরি অসিনা চত্থক্লো: মমাংদা, মতাংদা, মমাংদা, মতাংদা...",
+ hD:"নখোয়না চত্থক্লবা ফোটো / ফাইলশিং অদোম্দা তৌরি।",
+ nn:"পুম্বা নখোয়গী ফোনদা তৌবা লক (এন্ক্রিপ্ত) তৌরি, অদুনা শপকীগী কম্পিউটরনা অমত্তা হাপ্পা ঙম্বী। ফাইল অমখক 14 MB তকপা, অমা-অমা 40 ফাইল।",
+ gd:"ইস্তেমাল গাইদ",gT:"পেজ অসি করম্না ইস্তেমাল তৌবা",gC:"য়ুম্ফম",
+ g1:"শপকীগী QR কোদ স্কেন তৌরো। পেজ অসি হাপ্পগা ৫ মিনিতকী টাইমর শুরু তৌরি।",
+ g2:"করি ফংবা চত্থক্লো: পাসপোর্ট ফোটো, আইডি কার্দ নত্ত্রগা দকুমেন্ট (A4)। ওইশিংবা শাংখৎনবা “শাংখৎও” নৌ থক্লো।",
+ g3:"ফোটো তৌবা “কেমেরাদগী ফোটো তৌরো” নৌ থক্লো, নত্ত্রগা য়াওবা ফাইল চত্থক্নবা “গেলেরী / ফাইল চত্থক্লো” নৌ থক্লো। অমা-অমাদা ফাইল অনেক চত্থক্কনি।",
+ g4:"প্রিভিউ য়েংশিল্লো। ফাইল তাকপা মখোয়দা ✕ নৌ থক্লো। আইডি কার্দকী নিংতমদা জোরিদা ফংগো: মমাংদা, মতাংদা, মমাংদা, মতাংদা।",
+ g5:"“শপকীদা ফংগো” নৌ থক্লো, অদুগা সফলতাগী মেসেজ ঙক্লবা ফাওবা ঙাইরো। অদুগা শপকীগী কম্পিউটর য়েংশিল্লো।",
+ g6:"নখোয়গী ফাইলশিং ফোনদা এন্ক্রিপ্ত তৌরি, অদুনা শপকীগী কম্পিউটরনা অমত্তা হাপ্পা ঙম্বী। ফাইল অমখক মরক্তা 14 MB অমসুং অমা-অমাদা 40 ফাইল।",
+ g7:"মতম থোরবা শপকীগী QR কোদ অসুক স্কেন তৌরো। পেজনা লিংক মপূদ্রে ফংনবগা শপ মীদা QR অসুক ফংনা য়ারো।",
+ g8:"মখাংদা অনৌবা মেনুদগী মতম করিগুম্বদা মায়েক শাংখৎনা ঙম্বী।"
+};
+L.brx={
+ pv:"प्रिभ्यू",wc:"कैमेरा",wg:"गेलारि",
+ ft:"नोंनि फाइलखौ दोकाननि कम्पिउटारआव जानो गायो।",
+ ttl:"फोथो / दस्तावेज हाबो",
+ sub:"नों मा हाबोनो नाजाफिन्नानै बाछा। बे सोलोंथाइै फेमथाइनि कम्पिउटारआव गायो।",
+ chg:"सोलाय",pP:"पासपोर्ट फोथो",pI:"आइडी कार्ड",pD:"दस्तावेज (A4)",
+ pkT:"नों मा हाबोनो नाजाफिन्नाय?",pkP:"गोजोनै बिकल्प बाछा।",
+ cam:"कैमेराआव फोथो नाय",gP:"गेलारियाव बाछा",gF:"गेलारि / फाइल बाछा",
+ snd:"दोकानआव हाबो",agn:"आरो हाबो",
+ tm:"QR 5 मिनिटनि फोरमायनो बैया। उनाव सोमोय: {t}",tmO:"सोमोय जोबथा। आपलोड जोबथायाव...",
+ exT:"QR-आ सोमोय जोबथा",exP:"बे QR कोड स्केन खालामनायखौ 5 मिनिट फोरमाय बैया। दोकाननि QR कोड गोसो स्केन खालाम।",
+ bad:"बे QR लिंक आ फुरायै गैया। दोकानदारखौ QR गोसो साबाय सोदोब, आरो स्केन खालाम।",
+ nc:"बे ब्राउजारआ निरापदै हाबोनो हायाखै। बे पेजखौ Chrome नाइ Safari आव खेव।",
+ rdy:"सबकिछु थार जायो “दोकानआव हाबो” दाब।",
+ oi:"बेखौनि फोथो जेबो जिरायनो हागोन। फाइल {n} साफायनाय।",
+ sk:"फाइल {n} आरो बेसेनि (बेसेनिखौ {m})",bg:"फाइल {n} 14 MB फारानै गोजोन",
+ pr:"फोरमायाव {i}/{n}...",sg:"हाबोनाय {i}/{n}...",
+ s1:"फाइल {n} हाबोनाय जाबाय। दिनै दोकाननि कम्पिउटार नाय।",sM:"फाइल {n} हाबोनाय जाबाय। दिनै दोकाननि कम्पिउटार नाय।",
+ fA:"फाइल {b} हाबोनो हायाखै।",fM:"{s} हाबोनाय जाबाय, {b} हाबोनो हायाखै।",
+ tb:"फाइलआ बेसेबो गोजोन।",rt:"दिनै बेसेबो आयुदनाय दं। अनजिमा सोमोयनि उनाव गोसो खोनाफिन।",
+ nt:"हाबोनो हायाखै। इन्टारनेट नाया आरो गोसो खोनाफिन।",er:"मोनसे सोलायनाय जाबाय। गोसो खोनाफिन।",
+ rm:"सोराय",
+ hP:"बाछानायनि उनाव नोंनि फोथो बेखौ नायनो हागोन।\nमुखाङा गोजोनै आरो सोरजियै थां।",
+ hI:"नोंनि आइडी कार्ड फाइलखौ बेखौ नायनो हागोन।\nजोरिआव बाछा: गोजोन, उनथि, गोजोन, उनथि...",
+ hD:"नोंनि बाछानाय फोथो / फाइलखौ बेखौ नायनो हागोन।",
+ nn:"गासैबो नोंनि फोनआव लक (इन्क्रिप्ट) जायो, बेखौनि दोकाननि कम्पिउटारआनो खेबनो हागोन। फाइल सोलोंसोलोंनि 14 MB फारि, सोलोंथाइ 40 फाइल।",
+ gd:"बेहेर गाइड",gT:"बे पेजखौ माब्लाबो बेहेर खालामनाय",gC:"खाम",
+ g1:"दोकाननि QR कोड स्केन खालाम। बे पेजआ खेबगोन आरो 5 मिनिटनि टाइमार जागोन।",
+ g2:"मा हाबोनो बाछा: पासपोर्ट फोथो, आइडी कार्ड नाइ दस्तावेज (A4)। बिबादि सोलायनो “सोलाय” दाब।",
+ g3:"फोथो नायनो “कैमेराआव फोथो नाय” दाब, नाइ दं फाइल बाछानो “गेलारि / फाइल बाछा” दाब। सोलोंथाइ बेसेबो फाइल बाछानो हागोन।",
+ g4:"आगाल नाया। फाइल सोरायनो बिनि फिसाव ✕ दाब। आइडी कार्डनि थाखाय जोरिआव जोर: गोजोन, उनथि, गोजोन, उनथि।",
+ g5:"“दोकानआव हाबो” दाब आरो सोलोंथाइै खामानि बिदिन्थि फोरायो सोमोय थां। उनाव दोकाननि कम्पिउटार नाय।",
+ g6:"नोंनि फाइलखौ फोनआवनो एन्क्रिप्ट जायो, बेखौनि दोकाननि कम्पिउटारआनो खेबनो हागोन। फाइल सोलोंसोलोंनि बेसेनि 14 MB आरो सोलोंथाइ 40 फाइल।",
+ g7:"सोमोय जोबथाफिन्नो दोकाननि QR कोड गोसो स्केन खालाम। पेजआ लिंक फुरायै गैया बोलोबो दोकानदारखौ QR गोसो साबायनो सोदोब।",
+ g8:"गेजेर सोलोंथाइनि मेनुनिफ्राय माब्लाबो बिबादि सोलायनो हागोन।"
+};
+/* NOTE: a few rarer languages (Santali, Kashmiri, Manipuri, Bodo, Dogri, Maithili, Konkani, Sanskrit, Sindhi)
+   should be proof-read by a native speaker; any missing text automatically falls back to English. */
+
+var cur='en';
+function t(k,v){var s=(L[cur]&&L[cur][k])||L.en[k]||k;if(v)s=s.replace(/\{(\w+)\}/g,function(_,x){return v[x]});return s}
+
 var KINDS={
-  photo:{tag:'photo',accept:'image/*',imagesOnly:true,gal:'Choose from Gallery',
-    hint:"Your photos will appear here after you choose them.\nKeep your face straight and clear.",
-    note:"Your photos are locked (encrypted) on your phone, so only the shop's computer can open them. You can choose many photos. Up to 14 MB per file, 40 files at a time."},
-  idcard:{tag:'idcard',accept:'image/*,application/pdf',imagesOnly:false,gal:'Choose Gallery / File',
-    hint:"Your ID card files will appear here.\nChoose them in pairs: Front, Back, Front, Back...",
-    note:"Everything is locked (encrypted) on your phone, so only the shop's computer can open it. Up to 14 MB per file, 40 files at a time."},
-  doc:{tag:'doc',accept:'*/*',imagesOnly:false,gal:'Choose Gallery / File',
-    hint:"Your selected photos / files will appear here.",
-    note:"Everything is locked (encrypted) on your phone, so only the shop's computer can open it. Up to 14 MB per file, 40 files at a time."}
+  photo:{tag:'photo',accept:'image/*',imagesOnly:true,gk:'gP',hk:'hP'},
+  idcard:{tag:'idcard',accept:'image/*,application/pdf',imagesOnly:false,gk:'gF',hk:'hI'},
+  doc:{tag:'doc',accept:'*/*',imagesOnly:false,gk:'gF',hk:'hD'}
 };
-function t(k,v){var s=T[k]||k;if(v)s=s.replace(/\{(\w+)\}/g,function(_,x){return v[x]});return s}
 
 var hasCrypto=!!(window.crypto&&crypto.subtle);
 var pair=null,SESS=null,kind=null,busy=false,tickId=null,pendingExp=false;
@@ -194,6 +1161,7 @@ var itemsBy={photo:[],idcard:[],doc:[]},uid=0,lastMsg=null;
 function items(){return itemsBy[kind]||[]}
 
 function say(cls,m){lastMsg={cls:cls,m:m};var el=$('msg');el.className='msg'+(cls?' '+cls:'');el.textContent=!m?'':(typeof m==='function'?m():m)}
+function sayK(cls,k,v){say(cls,function(){return t(k,v)})}
 function bar(p){$('bar').style.width=Math.round(Math.max(0,Math.min(1,p))*100)+'%'}
 function fmt(n){return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
 function extOf(n){var m=/\.([A-Za-z0-9]{1,6})$/.exec(n||'');return m?m[1].toLowerCase():''}
@@ -206,6 +1174,48 @@ function okPair(tp,k){try{
   return{t:tp,k:k,raw:r};
 }catch(e){return null}}
 
+/* ---------- language menu + manual guide ---------- */
+function refreshKindText(){
+  if(!kind){$('galT').textContent=t('gF');return}
+  var K=KINDS[kind];
+  $('hint').textContent=t(K.hk);$('note').textContent=t('nn');$('galT').textContent=t(K.gk);
+}
+function buildGuide(){
+  var ol=$('gl');ol.innerHTML='';
+  for(var i=1;i<=8;i++){var li=document.createElement('li');li.textContent=t('g'+i);ol.appendChild(li)}
+}
+function applyLang(code){
+  if(!L[code])code='en';
+  cur=code;
+  try{localStorage.setItem(LK,code)}catch(e){}
+  var de=document.documentElement;de.lang=code==='mai'||code==='kok'||code==='doi'||code==='brx'||code==='sat'||code==='mni'||code==='ks'||code==='sd'?code:code;
+  de.dir=RTL[code]?'rtl':'ltr';
+  document.title=t('ttl');
+  Array.prototype.forEach.call(document.querySelectorAll('[data-i]'),function(el){el.textContent=t(el.getAttribute('data-i'))});
+  $('lang').value=code;
+  $('expT').textContent=t('exT');$('expP').textContent=t('exP');
+  buildGuide();refreshKindText();
+  if(SESS&&!SESS.exp&&tickId)tick();
+  if(lastMsg)say(lastMsg.cls,lastMsg.m);
+  renderList();
+}
+(function buildMenu(){
+  var s=$('lang');
+  LANGS.forEach(function(l){var o=document.createElement('option');o.value=l[0];o.textContent=l[1];s.appendChild(o)});
+  s.onchange=function(){applyLang(s.value)};
+})();
+function detectLang(){
+  try{var sv=localStorage.getItem(LK);if(sv&&L[sv])return sv}catch(e){}
+  var nl=(navigator.languages&&navigator.languages[0])||navigator.language||'en';
+  nl=String(nl).toLowerCase();
+  if(L[nl])return nl;
+  var b=nl.split('-')[0];
+  return L[b]?b:'en';
+}
+$('gbtn').onclick=function(){$('gm').classList.add('on')};
+$('gclose').onclick=function(){$('gm').classList.remove('on')};
+$('gm').onclick=function(e){if(e.target===$('gm'))$('gm').classList.remove('on')};
+
 /* ---------- 5-minute QR session ---------- */
 function navType(){try{var e=performance.getEntriesByType('navigation')[0];return e?e.type:''}catch(x){return ''}}
 function loadSess(){try{return JSON.parse(sessionStorage.getItem(SK)||'null')}catch(e){return null}}
@@ -216,10 +1226,10 @@ function tick(){
   if(!SESS)return;
   var l=timeLeft();
   if(l<=0){
-    if(busy){pendingExp=true;$('tmTxt').textContent='Time is over. Finishing the upload...';return}
+    if(busy){pendingExp=true;$('tmTxt').textContent=t('tmO');return}
     expire();return;
   }
-  $('tmTxt').textContent='QR is valid for 5 minutes. Time left: '+fmtT(l);
+  $('tmTxt').textContent=t('tm',{t:fmtT(l)});
   $('timer').classList.toggle('low',l<60000);
 }
 function expire(){
@@ -228,7 +1238,8 @@ function expire(){
   pendingExp=false;
   $('timer').hidden=true;
   $('pick').classList.remove('on');
-  $('expP').textContent=t('expired');
+  $('gm').classList.remove('on');
+  $('expT').textContent=t('exT');$('expP').textContent=t('exP');
   $('exp').classList.add('on');
   ui();
 }
@@ -253,7 +1264,7 @@ function applyKind(){
   var K=KINDS[kind];
   Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(b){b.hidden=b.getAttribute('data-k')!==kind});
   $('tabs').hidden=false;$('chg').hidden=false;$('sec').hidden=false;
-  $('hint').textContent=K.hint;$('note').textContent=K.note;$('gal').textContent=K.gal;
+  refreshKindText();
   $('fgal').setAttribute('accept',K.accept);
   $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);say('','');
   ui();
@@ -331,13 +1342,13 @@ function renderList(){
     var sz=document.createElement('span');sz.className='sz';sz.textContent=fmt(it.file.size);
     var st=document.createElement('span');st.className='st';st.textContent=it.state==='ok'?'\u2713':'!';
     d.appendChild(sz);d.appendChild(st);
-    if(!busy){var x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label',t('remove'));x.textContent='\u2715';
+    if(!busy){var x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label',t('rm'));x.textContent='\u2715';
       x.onclick=function(){if(it.url)URL.revokeObjectURL(it.url);itemsBy[kind]=itemsBy[kind].filter(function(q){return q!==it});renderList()};d.appendChild(x)}
     Lst.appendChild(d);
   });
   $('frame').classList.toggle('has',arr.length>0);
   var pend=arr.filter(function(q){return q.state!=='ok'}).length;
-  $('send').textContent=pend?'Send to Shop ('+pend+')':'Send to Shop';
+  $('sendT').textContent=pend?t('snd')+' ('+pend+')':t('snd');
   $('send').disabled=busy||!kind||!pair||!hasCrypto||!pend||!!(SESS&&SESS.exp);
 }
 function addFiles(list){
@@ -351,8 +1362,8 @@ function addFiles(list){
   });
   $('again').style.display='none';$('barwrap').classList.remove('on');bar(0);
   if(skipped||big||notImg){
-    say('err',function(){var m=[];if(notImg)m.push(t('onlyImg',{n:notImg}));if(skipped)m.push(t('skipN',{n:skipped,m:MAXN}));if(big)m.push(t('bigN',{n:big}));return m.join('; ')});
-  }else say('',arr.length?t('ready'):'');
+    say('err',function(){var m=[];if(notImg)m.push(t('oi',{n:notImg}));if(skipped)m.push(t('sk',{n:skipped,m:MAXN}));if(big)m.push(t('bg',{n:big}));return m.join('; ')});
+  }else say('',arr.length?function(){return t('rdy')}:'');
   renderList();
 }
 function pick(inp){var f=inp.files;var a=f?Array.prototype.slice.call(f):[];inp.value='';if(a.length)addFiles(a)}
@@ -384,7 +1395,7 @@ $('send').onclick=async function(){
   try{
     /* 1) prepare all first, so the PC knows how many files are in this batch */
     for(var i=0;i<todo.length;i++){
-      say('',function(){return t('prep',{i:i+1,n:todo.length})});bar(i/todo.length*.3);
+      sayK('','pr',{i:i+1,n:todo.length});bar(i/todo.length*.3);
       try{prepared.push({it:todo[i],p:await prepare(todo[i])})}catch(e){todo[i].state='bad';bad++}
     }
     renderList();
@@ -392,7 +1403,7 @@ $('send').onclick=async function(){
     /* 2) encrypt and send one by one */
     for(var q=0;q<n;q++){
       var P=prepared[q];
-      say('',t('sending',{i:q+1,n:n}));
+      sayK('','sg',{i:q+1,n:n});
       try{
         var body=await seal(pair.raw,{v:3,k:k0,s:SESS.sid,st:SESS.st,sa:sa,b:b,i:q,n:n,name:P.p.name,type:P.p.type},P.p.bytes);
         await upload(pair.t,body,(function(kk){return function(f){bar(.3+.7*((kk+f)/n))}})(q),240000,K.tag);
@@ -401,13 +1412,13 @@ $('send').onclick=async function(){
       P.p=null;renderList();
     }
     bar(1);
-    if(!bad){say('ok',t(sent>1?'sentMany':'sentOne',{n:sent}));$('again').style.display='block'}
+    if(!bad){sayK('ok',sent>1?'sM':'s1',{n:sent});$('again').style.display='flex'}
     else{
-      var s=lastErr&&lastErr.status,rk=s===413?'tooBig':s===429?'rate':'net',sn=sent,bn=bad;
-      say('err',function(){return (sn?t('failMix',{s:sn,b:bn}):t('failAll',{b:bn}))+' '+t(rk)});
+      var s=lastErr&&lastErr.status,rk=s===413?'tb':s===429?'rt':'nt',sn=sent,bn=bad;
+      say('err',function(){return (sn?t('fM',{s:sn,b:bn}):t('fA',{b:bn}))+' '+t(rk)});
     }
   }catch(e){
-    say('err',t('err'));
+    sayK('err','er');
   }finally{
     busy=false;
     /* remove sent files from the list; failed ones stay so they can be retried */
@@ -421,24 +1432,26 @@ $('again').onclick=function(){$('again').style.display='none';$('barwrap').class
 
 /* ---------- start ---------- */
 function init(){
+  applyLang(detectLang());
   var h=new URLSearchParams(location.hash.replace(/^#/,''));
   pair=okPair(h.get('t')||'',h.get('k')||'');
   var old=loadSess(),nt=navType(),resume=(nt==='reload'||nt==='back_forward');
   if(!pair){
     if(old&&old.exp){SESS=old;expire();return}
-    say('err',t('badLink'));$('sec').hidden=false;ui();return;
+    sayK('err','bad');$('sec').hidden=false;ui();return;
   }
   /* a fresh scan starts a new 5-minute session; a page reload keeps the running one */
   if(old&&old.t===pair.t&&resume)SESS=old;
   else SESS={t:pair.t,sid:rid(),st:Date.now(),kind:null,exp:false};
   saveSess();
-  if(!hasCrypto){say('err',t('noCrypto'));$('sec').hidden=false;ui();return}
+  if(!hasCrypto){sayK('err','nc');$('sec').hidden=false;ui();return}
   if(SESS.exp||timeLeft()<=0){expire();return}
   $('timer').hidden=false;tick();tickId=setInterval(tick,1000);
   if(SESS.kind&&KINDS[SESS.kind]){kind=SESS.kind;applyKind()}
   else openPick(false);
   ui();
 }
+(function(){var y=$('yr');if(y)y.textContent=new Date().getFullYear()})();
 init();
 })();
 </script>
